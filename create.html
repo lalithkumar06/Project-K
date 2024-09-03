@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(83, 82, 82, 0.175);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-container {
+            background-color: #0f0101;
+            padding: 20px;
+            height: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ebeeeb;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 30px 0;
+            padding: 10px;
+        }
+
+        .input-container input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .input-row {
+            display: flex;
+            margin: 40px 0px;
+            justify-content: space-between;
+        }
+
+        .input-row .input-container {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 25px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Create Account</h2>
+        <form action="/register" method="POST">
+            <div class="input-row">
+                <div class="input-container">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <div class="input-container">
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+            </div>
+            <div class="input-container">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-container">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="input-container">
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+
+</body>
+</html>
