@@ -7,6 +7,75 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
     <link href="index.css" rel="stylesheet">
+    <style>
+    footer {
+        background-color: #1a252f;
+        color: #fff;
+        padding: 50px 0;
+        position: relative;
+        overflow: hidden; /* Hide the overflow for the curve effect */
+      }
+  
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+  
+      .footer-section {
+        width: 25%;
+        margin-bottom: 30px;
+      }
+  
+      .footer-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
+  
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      .footer-section li {
+        margin-bottom: 10px;
+      }
+  
+      .footer-section a {
+        color: #fff;
+        text-decoration: none;
+      }
+  
+      .footer-section a:hover {
+        text-decoration: underline;
+      }
+  
+      /* Curved design at the top */
+      footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 0 0 50% 50%;
+        transform: translateY(-50%);
+      }
+      .footer-section ul li i{
+          padding: 4px;
+          margin-right: 10px;
+      }
+      .footer-section ul li:hover{
+          scale: 1.05;
+          transition: all ease-in 0.2s;
+      }
+      .footer-section{
+  
+      }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -80,11 +149,43 @@
         </div>
     </main>
 
-    <footer class="bg-light py-4 mt-auto">
-        <div class="container">
-            <p class="m-0 text-center">© 2023 Health Center Connect. All rights reserved.</p>
+    <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Us</h3>
+            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Find a Doctor</a></li>
+              <li><a href="#">Book an Appointment</a></li>
+              <li><a href="#">look for a blood group</a></li>
+              <li><a href="#">Career</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+              <li>Health Connect</li>
+              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
+              
+              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
+              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
+              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us on</h3>
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
+            </ul>
+          </div>
         </div>
-    </footer>
+      </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
