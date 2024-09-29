@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <title>Hospital Inventory Management</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: left;
+            font-size: 1.5rem;
+        }
+
+        header a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: black;
+            font-size: 1rem;
+        }
+
+        .container {
+            display: flex;           
+            flex-direction: column;
+            padding: 20px;
+            height: 3000px;;
+            width: 1500px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .first-aid {
+            height: 5%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fffbe0;
+            padding: 20px;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .first-aid h2 {
+            background-color: #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .first-aid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            font-size: 1rem;
+            margin: 0 20px;
+        }
+
+        .medical-supplies {
+            height: 70%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .supply-item {
+            width: 30%;
+            background-color: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .supply-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .bd{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 15%;
+        }
+
+        .blood-group {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            width: 48%;
+            border: 1px solid rgb(90,95,95);
+           margin-top: 10px;
+            display: inline;
+            margin-left: 10px;
+        }
+
+        .blood-group h2 {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .chart {
+            width: 100%;
+            height: auto;
+        }
+       
+        .donation {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            width:48%;
+            border: 2px solid rgb(95, 89, 89);
+            display: inline;
+        }
+        
+        .donation p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .priority {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .priority span {
+            font-size: 0.9rem;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .high {
+            background-color: #007bff;
+        }
+
+        .medium {
+            background-color: #6c757d;
+        }
+
+        .donate-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .box{
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+@media (max-width: 1024px) {
+    .supply-item {
+        width: 45%;
+    }
+
+    .bd {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .blood-group, .donation {
+        width: 100%;
+        margin: 20px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 1.2rem;
+    }
+
+    header a {
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .supply-item {
+        width: 100%;
+    }
+
+    .first-aid-item p {
+        font-size: 0.9rem;
+    }
+
+    .donate-btn {
+        padding: 8px 16px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        Hospital Inventory
+        <a href="#">Medicines</a>
+        <a href="#">Blood Groups</a>
+    </header>
+
+    <div class="container">
+        <h1>Hospital Inventory Management</h1>
+
+        <div class="first-aid">
+            <h2><i class="bi bi-bandaid me-2"></i>First-Aid Components</h2>
+            <div class="first-aid-item">
+                <i class="bi bi-bandaid fs-2 me-2 text-warning"></i>
+                <p>Bandages<br><small>Various sizes</small></p>
+            </div>
+            <div class="first-aid-item">
+                <i class="bi bi-droplet fs-2 me-2 text-warning"></i>
+                <p>Antiseptic<br><small>Wound cleaning</small></p>
+            </div>
+            <div class="first-aid-item">
+                <i class="bi bi-scissors fs-2 me-2 text-warning"></i>
+                <p>Gauze<br><small>Wound dressing</small></p>
+            </div>
+            <div class="first-aid-item">
+                <i class="bi bi-thermometer fs-2 me-2 text-warning"></i>
+                <p>Thermometer<br><small>Temperature check</small></p>
+            </div>
+        </div>
+
+        <h2>Medical Supplies</h2>
+        <div class="medical-supplies">
+            <div class="supply-item">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Medicine">
+                <p>Paracetamol<br><small>Pain reliever and fever reducer</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med2.jpg" alt="Medical Supply 2">
+                <p>Insulin Injection<br><small>For diabetes management</small></p>
+                <span class="low-stock">Low Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Medicine">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Medicine">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Medicine">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Medicine">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+            <div class="supply-item">
+                <img src="med3.jpg" alt="Medical Supply 3">
+                <p>Cough Syrup<br><small>For relief from cough and cold</small></p>
+                <span class="in-stock">In Stock</span>
+            </div>
+        </div>
+        
+            <div class="box">
+                <div class="donation">
+                    <h1 style="text-align-last: left;">Blood Donation</h1>
+                    <p>We are in urgent need of the following blood groups:</p>
+                    <div class="priority">
+                        <p>O Negative</p>
+                        <span class="high">High Priority</span>
+                    </div>
+                    <div class="priority">
+                        <p>AB Positive</p>
+                        <span class="medium">Medium Priority</span>
+                    </div>
+                    <a href="#" class="donate-btn">Schedule Donation</a>
+                </div>
+            <div class="blood-group">
+                <h2><i class="bi bi-droplet-half me-2"></i>Blood Group Information</h2>
+                <canvas id="bloodGroupChart"></canvas>
+            
+    
+            
+            </div>
+            </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('bloodGroupChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+                    datasets: [{
+                        data: [35, 25, 20, 10, 4, 3, 2, 1],
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                            '#FF9F40', '#9966FF', '#C9CBCF', '#7CFC00'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Blood Group Distribution'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <footer>
+        © 2023 Hospital Inventory System
+    </footer>
+</body>
+</html>
