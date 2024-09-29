@@ -1,0 +1,120 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.navbar-brand, .nav-link {
+    color: #4a4a4a;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #2c3e50;
+}
+
+.bg-image {
+    background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    position: relative;
+}
+
+.bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(44, 62, 80, 0.6);
+}
+
+.bg-image * {
+    position: relative;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    background-color: #e8f4f8;
+}
+
+.previous-visits {
+    background-color: #f0f8ff;
+}
+
+.medical-alerts {
+    background-color: #fff5e6;
+}
+
+.list-group-item {
+    background-color: transparent;
+    border: none;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.alert {
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+@media (max-width: 768px) {
+    .bg-image {
+        height: 200px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card, .alert {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Accessibility */
+a:focus, button:focus {
+    outline: 3px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* Interactive elements */
+.nav-link, .card, .alert {
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .card:hover, .alert:hover {
+    transform: translateY(-2px);
+}
