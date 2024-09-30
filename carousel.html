@@ -1,177 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctors Carousel</title>
-  <style>
-    * {
-  box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors Carousel</title>
+    <style>
+        .slideshow-container {
+            width:97%;
+            position: relative;
+            margin: auto;
+            
+            
+        }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f8f9fa;
-}
+        /* Hide the slides by default */
+        .mySlides {
+            display: none;
+            
+        }
 
-.doctor-carousel {
-  text-align: center;
-  margin: 50px auto;
-}
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: rgb(22, 22, 22);
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
 
-h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
 
-p {
-  color: #007bff;
-  margin-bottom: 20px;
-}
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: wheat;
+        }
 
-.carousel-container {
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-  overflow: hidden;
-}
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
 
-.carousel {
-  display: flex;
-  transition: transform 0.5s ease;
-}
+        /* Dots */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
 
-.carousel-item {
-  min-width: 100%;
-  transition: opacity 1s ease-in-out;
-  opacity: 0;
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
 
-.carousel-item.active {
-  opacity: 1;
-}
+        /* Animation for fading */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
 
-.doctor-info {
-  width: 30%;
-  padding: 10px;
-  text-align: center;
-}
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
 
-button {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
+            to {
+                opacity: 1
+            }
+        }
 
-.prev, .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 24px;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 50%;
-}
+        .mySlides {
+            display: flex;
+            flex-direction: row; /* Align doctor info in a row (horizontally) */
+            justify-content: space-between;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.prev {
-  left: 10px;
-}
-
-.next {
-  right: 10px;
-}
-
-  </style>
+        .doctor-info {
+            text-align: center;
+            padding: 10px;
+            flex: 1;
+            background-color: #f3e7e7;
+            margin-right: 20px;
+            border: 1px solid rgb(180, 172, 172);
+            border-radius: 2px;
+        }
+        .doctor-info h3{
+            color: rgb(69, 69, 217);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        .doctor-info p{
+            color: red;
+        }
+        .doctor-info button{
+            background-color: rgb(172, 219, 219);
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgb(97, 226, 118);
+            font-size: 15px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: black;
+            
+        }
+        .doctor-info button:hover{
+            cursor: pointer;
+            color: white;
+            background-color: rgb(21, 255, 0);
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
+
 <body>
 
-  <section class="doctor-carousel">
-    <h2>OUR DOCTORS</h2>
-    <p>Meet Our Experienced Team</p>
+    <div class="slideshow-container">
 
-    <div class="carousel-container">
-      <div class="carousel">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-          <div class="doctor-info">
-            <h3>Ms Megha Sajidev</h3>
-            <p>Physiotherapy and Rehabilitation</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Nadia Abdul Rafeek</h3>
-            <p>Homeopathy</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Sujith Kumar Kategar</h3>
-            <p>Anaesthesia</p>
-            <button>Book An Appointment</button>
-          </div>
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Ms Megha Sajidev</h3>
+                <p>Physiotherapy and Rehabilitation</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Nadia Abdul Rafeek</h3>
+                <p>Homeopathy</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Sujith Kumar Kategar</h3>
+                <p>Anaesthesia</p>
+                <button>Book An Appointment</button>
+            </div>
         </div>
 
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-          <div class="doctor-info">
-            <h3>Dr Ravi Shankar</h3>
-            <p>Cardiology</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Ayesha Khan</h3>
-            <p>Dermatology</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Rohan Gupta</h3>
-            <p>Pediatrics</p>
-            <button>Book An Appointment</button>
-          </div>
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Dr Ravi Shankar</h3>
+                <p>Cardiology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Ayesha Khan</h3>
+                <p>Dermatology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Rohan Gupta</h3>
+                <p>Pediatrics</p>
+                <button>Book An Appointment</button>
+            </div>
         </div>
 
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-          <div class="doctor-info">
-            <h3>Dr Sara Fernandes</h3>
-            <p>Oncology</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Arvind Rao</h3>
-            <p>Neurology</p>
-            <button>Book An Appointment</button>
-          </div>
-          <div class="doctor-info">
-            <h3>Dr Tina Patel</h3>
-            <p>Gynecology</p>
-            <button>Book An Appointment</button>
-          </div>
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Dr Sara Fernandes</h3>
+                <p>Oncology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Arvind Rao</h3>
+                <p>Neurology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Tina Patel</h3>
+                <p>Gynecology</p>
+                <button>Book An Appointment</button>
+            </div>
         </div>
-      </div>
-
-      <!-- Previous and Next Buttons -->
-      <button class="prev" onclick="prevSlide()">&#10094;</button>
-      <button class="next" onclick="nextSlide()">&#10095;</button>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
-  </section>
 
- <script src="carousel.js"></script>
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  // Hide all slides
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", ""); 
+            }
+            slides[slideIndex - 1].style.display = "flex"; 
+        }
+
+        setInterval(function () {
+            plusSlides(1);
+        }, 3000);  
+    </script>
+
 </body>
+
 </html>

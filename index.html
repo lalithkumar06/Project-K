@@ -7,6 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
     <link href="index.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="icon" href="./img/logoHC.jpeg" type="image/x-icon">
     <style>
       
@@ -78,6 +81,12 @@
         width: 35px;
         height: 35px;
         margin-right: 12px;
+      }
+      iframe{
+        align-self: center;
+        /* background-image: url(./img/doctor-bg.jpg);
+            background-repeat: no-repeat; */
+            scrollbar-width: 0%;
       }
     </style>
 </head>
@@ -153,63 +162,10 @@
             </div>
         </div>
     </main>
-    <div class="doctors">
-      <h2>Our docotors</h2>
-      <p>Meet our experienced team of doctors</p>
-      <div class="slides-container">
-        <div class="slide">
-          <p class="doctor-name"> Dr Akshay Malhotra</p>
-          <p class="doctor-specialization">General Physician</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Priya Menon</p>
-          <p class="doctor-specialization">Gynecology</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Sanjay Desai</p>
-          <p class="doctor-specialization">Psychiatrist</p>
-          <button>Book appointment</button>
-        </div>
-      </div>
-      <div class="slide-containers">
-        <div class="slide"></div>
-          <p class="doctor-name"> Dr ANjali Bharadwaj</p>
-          <p class="doctor-specialization">Dermatologist</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Amitabh Verma</p>
-          <p class="doctor-specialization">Orthopedic Specialist</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Nidhi Sharma</p>
-          <p class="doctor-specialization">Opthalmologist</p>
-          <button>Book appointment</button>
-        </div>
-      </div>
-      <div class="slide-containers">
-        <div class="slide"></div>
-          <p class="doctor-name"> Dr Vikram Gupta</p>
-          <p class="doctor-specialization">Dentist</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Arjun Rao</p>
-          <p class="doctor-specialization">Nutritionist</p>
-          <button>Book appointment</button>
-        </div>
-        <div class="slide">
-          <p class="doctor-name"> Dr Sneha Patel</p>
-          <p class="doctor-specialization">Physiotherapist</p>
-          <button>Book appointment</button>
-        </div>
-      </div>
-      <button class="prev" onclick="prevSlide()">&#10094;</button>
-      <button class="next" onclick="nextSlide()">&#10095;</button>
-    </div>
+    
+    <iframe src="./carousel.html" width="80%" height="240px"></iframe>
+    <p id="whychooseus">Why Choose Us</p>
+    <img src="./img/whyus.png" alt="whychooseus" id="whyus">
     <footer>
         <div class="footer-content">
           <div class="footer-section">
