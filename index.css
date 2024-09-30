@@ -118,3 +118,19 @@ a:focus, button:focus {
 .nav-link:hover, .card:hover, .alert:hover {
     transform: translateY(-2px);
 }
+.doctors{
+    background-color: bisque;
+    width: 80%;
+
+}
+h2{
+    color: orange;
+}
+.doctors p{
+    color: #3498db;
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.slides-container{
+    display: flex;
+}
