@@ -5,18 +5,18 @@ body {
     min-height: 100vh;
 }
 
-.navbar {
+/* .navbar {
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
+} */
 
-.navbar-brand, .nav-link {
+/* .navbar-brand, .nav-link {
     color: #4a4a4a;
     transition: color 0.3s ease;
 }
 
 .navbar-brand:hover, .nav-link:hover {
     color: #2c3e50;
-}
+} */
 
 .bg-image {
     background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
@@ -111,13 +111,13 @@ a:focus, button:focus {
 }
 
 /* Interactive elements */
-.nav-link, .card, .alert {
+/* .nav-link, .card, .alert {
     transition: all 0.3s ease;
 }
 
 .nav-link:hover, .card:hover, .alert:hover {
     transform: translateY(-2px);
-}
+} */
 .doctors{
     background-color: bisque;
     width: 80%;
@@ -134,9 +134,9 @@ h2{
 .slides-container{
     display: flex;
 }
-nav i{
+/* nav i{
     margin-right: 5px;
-}
+} */
 .slideshow-container {
     max-width: 1000px;
     position: relative;

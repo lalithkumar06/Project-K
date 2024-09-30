@@ -6,6 +6,7 @@
   <title>Feature-Rich Table</title>
   <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
   <style>
     * {
@@ -17,47 +18,12 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      padding-top: 20px; /* Space at the top */
     }
 
     .container {
       display: flex;
       flex-direction: column;
       margin: 0 20px;
-    }
-
-    .nav-bar {
-      height: 10%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      background-color: #f8f8f8;
-      color: #333;
-      padding: 10px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-bar h1 {
-      font-size: 18px;
-      font-weight: normal;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      color: #333;
-      text-decoration: none;
-    }
-
-    .nav-links a:hover {
-      color: #007bff;
-      transition: all 0.3s ease;
-      transform: translateY(-2px);
     }
 
     .nav-links i {
@@ -219,36 +185,62 @@
     min-height: 100vh;
 }
 
+
 .navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
-
-.navbar-brand, .nav-link {
-    color: #4a4a4a;
-    transition: color 0.3s ease;
-}
-
-.navbar-brand:hover, .nav-link:hover {
-    color: #2c3e50;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 5px 10px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+        }
+        .nav-links a i {
+            margin-right: 5px;
+        }
+        .nav-links a:hover {
+            transform: translateY(-5px);
+            
+            transition: all 0.3s linear;
+        }
 
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <div class="nav-bar">
-        <h1 style="padding-left: 50px;">Health Center Connect</h1>
-        <div class="nav-links">
-          <a href="#">Available Medicines</a>
-          <a href="#">Blood Donors List</a>
-          <a href="#">Virtual Conference</a>
-          <a href="#">Slot Booking <i class="fas fa-calendar"></i></a>
+    <div class="navbar">
+        <div class="logo">
+            <img id="logo"src="./img/logoHC.jpeg" alt="Health Center Logo">
+            <h1>Health Center Connect</h1>
         </div>
-        <div class="nav-icons">
-          <i class="fas fa-user"></i>
-        </div> 
+        <div class="nav-links">
+            <a href="#"><i class="fas fa-pills"></i>Available Medicines</a>
+            <a href="#"><i class="fas fa-tint"></i>Blood Donors List</a>
+            <a href="#"><i class="fas fa-video"></i>Virtual Conference</a>
+            <a href="#"><i class="fas fa-calendar-alt"></i>Slot Booking</a>
+            <a href="#"><i class="fas fa-user"></i></a>
+        </div>
     </div>
+  <div class="container">
+    
     <div>
       <img src="./img/image.png" alt="Information" width = "1479px">
     </div>
