@@ -5,18 +5,18 @@ body {
     min-height: 100vh;
 }
 
-.navbar {
+/* .navbar {
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
+} */
 
-.navbar-brand, .nav-link {
+/* .navbar-brand, .nav-link {
     color: #4a4a4a;
     transition: color 0.3s ease;
 }
 
 .navbar-brand:hover, .nav-link:hover {
     color: #2c3e50;
-}
+} */
 
 .bg-image {
     background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
@@ -111,10 +111,166 @@ a:focus, button:focus {
 }
 
 /* Interactive elements */
-.nav-link, .card, .alert {
+/* .nav-link, .card, .alert {
     transition: all 0.3s ease;
 }
 
 .nav-link:hover, .card:hover, .alert:hover {
     transform: translateY(-2px);
+} */
+.doctors{
+    background-color: bisque;
+    width: 80%;
+
+}
+h2{
+    color: orange;
+}
+.doctors p{
+    color: #3498db;
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.slides-container{
+    display: flex;
+}
+/* nav i{
+    margin-right: 5px;
+} */
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+/* Hide the slides by default */
+.mySlides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: rgb(22, 22, 22);
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: wheat;
+}
+
+/* Caption text */
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Dots */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+    background-color: #717171;
+}
+
+/* Animation for fading */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.mySlides {
+    display: flex;
+    flex-direction: row; /* Align doctor info in a row (horizontally) */
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+}
+
+.doctor-info {
+    text-align: center;
+    padding: 10px;
+    flex: 1;
+    background-color: #f3e7e7;
+    margin-right: 20px;
+    border: 1px solid rgb(180, 172, 172);
+    border-radius: 2px;
+}
+.doctor-info h3{
+    color: rgb(69, 69, 217);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.doctor-info p{
+    color: red;
+    bottom: 20px;
+}
+.doctor-info button{
+    background-color: rgb(172, 219, 219);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid rgb(97, 226, 118);
+    font-size: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: black;
+    
+}
+.doctor-info button:hover{
+    cursor: pointer;
+    color: white;
+    background-color: rgb(21, 255, 0);
+    transition: all 0.3s ease;
+}
+#whychooseus{
+    color: rgb(69, 171, 206);
+    font-size: 40px;
+    align-self: center;
+    font-family: "Poppins", sans-serif;
+}
+#whyus{
+    width: 100%;
+    align-self: center;
 }
