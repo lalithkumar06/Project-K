@@ -24,9 +24,12 @@ app.listen(3000, () => {
 });
 
 app.get('/', (req, res) => {
+    res.render('dashboard');
+});
+app.get('/loginpage', (req, res) => {
     res.render('loginpage');
 });
-app.post('/', async (req, res) => {
+app.post('/loginpage', async (req, res) => {
     try {
         const username = req.body.username;
         const passwo = req.body.password;
@@ -103,7 +106,68 @@ app.get('/bloodDonors', async (req, res) => {
     }
     
 });
+app.get('/Admin_avamedi', async (req, res) => {
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
 
+    try {
+        await client.connect();
+
+        if (!req.session.person || req.session.person.login !== 'Admin') {
+            return res.status(403).send("Access denied");
+        }
+
+        let medicines = await client.db('Medi').collection('meds').find({}).toArray();
+        console.log('meds:',medicines);
+        if (!medicines) {
+            medicines = []; // Default to an empty array if no data is found
+        }
+        res.render('Admin_avamedi', { person: req.session.person, medicines });
+    } catch (error) {
+        console.error("Error fetching medicines:", error);
+        res.status(500).send("An error occurred while fetching medicines");
+    } finally {
+        await client.close();
+    }
+});
+
+app.post('/updatemedicine', async(req,res)=>{
+    if (!req.session.person || req.session.person.login !== 'Admin') {
+        return res.status(403).send("Access denied");
+    }
+    const { slno, name, type, use, stock } = req.body;
+
+    if (!slno || !name || !type || !use || !stock) {
+        return res.status(400).send("All fields are required");
+    }
+    const useArray = use.split(',').map(item => item.trim());
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    try {
+        const existingMedicine = await client.db('Medi').collection('meds').findOne({ slno });
+
+        if (existingMedicine) {
+            // Update existing medicine
+            await client.db('Medi').collection('meds').updateOne(
+                { slno },
+                { $set: { name, type, use: useArray, stock } }
+            );
+            console.log('Medicine with S.NO ${slno} updated.');
+        } else {
+            // Add new medicine
+            const newMedicine = { slno, name, type, use: useArray, stock };
+            await inserting(client, newMedicine, 'meds');
+            console.log('New medicine with S.NO ${slno} added.');
+        }
+
+        // Redirect back to homeadmin to see the updated list
+        res.redirect('/Admin_avamedi');
+
+    } catch (error) {
+        console.error("Error updating medicine:", error);
+        res.status(500).send("An error occurred while updating medicine");
+    }
+});
 app.get('/signup', (req, res) => {
     res.render('signup');
 });
@@ -228,7 +292,10 @@ app.post('/signup', async (req, res) => {
 
 app.get('/home', (req, res) => {
     const person = req.session.person;
+    if(person.login == "Student")
     res.render('home1', { person });
+    else
+    res.render('homeadmin', { person });
 });
 
 app.get('/logout', (req, res) => {
