@@ -2,8 +2,8 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-
-const { inserting, finding } = require('./demo');
+const path = require('path');
+const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
 
 const app = express();
@@ -63,7 +63,46 @@ app.post('/', async (req, res) => {
         res.status(500).send("An error occurred");
     }
 });
+app.get('/availableMedi', async (req, res) => {
+    try {
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+        const person = req.session.person;
+        let meds = await findall(client, 'meds');
+        await client.close();
+        console.log("Meds fetched:", meds);
+        if (!meds) {
+            meds = [];  // Ensure meds is not null
+        }
 
+        res.render('availableMedi', { person, meds });
+    } catch (err) {
+        console.error("An error occurred in finding:", err);
+        res.status(500).send('An error occurred while fetching data');
+    }
+    
+});
+app.get('/bloodDonors', async (req, res) => {
+    try {
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+        const person = req.session.person;
+        let ppl = await findall(client, 'user');
+        await client.close();
+        console.log("People fetched:", ppl);
+        if (!ppl) {
+            ppl = [];
+        }
+
+        res.render('bloodDonors', { person, ppl });
+    } catch (err) {
+        console.error("An error occurred in finding:", err);
+        res.status(500).send('An error occurred while fetching data');
+    }
+    
+});
 
 app.get('/signup', (req, res) => {
     res.render('signup');

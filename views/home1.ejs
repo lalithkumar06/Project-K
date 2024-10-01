@@ -1,0 +1,1033 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Center Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
+    <link href="index.css" rel="stylesheet">
+    <style>
+    footer {
+        background-color: #1a252f;
+        color: #fff;
+        padding: 50px 0;
+        position: relative;
+        overflow: hidden; /* Hide the overflow for the curve effect */
+      }
+  
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+  
+      .footer-section {
+        width: 25%;
+        margin-bottom: 30px;
+      }
+  
+      .footer-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
+  
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      .footer-section li {
+        margin-bottom: 10px;
+      }
+  
+      .footer-section a {
+        color: #fff;
+        text-decoration: none;
+      }
+  
+      .footer-section a:hover {
+        text-decoration: underline;
+      }
+  
+      /* Curved design at the top */
+      footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 0 0 50% 50%;
+        transform: translateY(-50%);
+      }
+      .footer-section ul li i{
+          padding: 4px;
+          margin-right: 10px;
+      }
+      .footer-section ul li:hover{
+          scale: 1.05;
+          transition: all ease-in 0.2s;
+      }
+      .footer-section{
+  
+      }
+
+
+      body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #4a4a4a;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover, .nav-link:hover {
+            color: #2c3e50;
+        }
+
+        .bg-image {
+            background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .bg-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(44, 62, 80, 0.6);
+        }
+
+        .bg-image * {
+            position: relative;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            background-color: #e8f4f8;
+        }
+
+        .previous-visits {
+            background-color: #f0f8ff;
+        }
+
+        .medical-alerts {
+            background-color: #fff5e6;
+        }
+
+        .list-group-item {
+            background-color: transparent;
+            border: none;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .bg-image {
+                height: 200px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card, .alert {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Accessibility */
+        a:focus, button:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        /* Interactive elements */
+        .nav-link, .card, .alert {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .card:hover, .alert:hover {
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Health Center Connect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/availableMedi">Available Medicines</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bloodDonors">Blood Donors List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Virtual Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-table-cells-row-unlock"></i>Slot Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i id="profile" class="fa-solid fa-user"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-image py-5">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-12">
+                    <h1 class="display-4 text-white mt-5 mb-2">Welcome to Health Connect</h1>
+                    <p class="lead mb-5 text-white-50">Connecting college students with health resources</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card user-info h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">User Information</h5>
+                        <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
+                        <p class="card-text">Age: <%= person.age %></p>
+                        <p class="card-text">Blood Group: <%= person.blood %></p>
+                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 mb-4">
+                <div class="card previous-visits h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Previous Visits</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
+                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
+                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card medical-alerts">
+                    <div class="card-body">
+                        <h5 class="card-title">Medical Alerts</h5>
+                        <div class="alert alert-info" role="alert">
+                            Remember to schedule your annual checkup this month.
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            Allergy season is approaching. Consult with your doctor about preventive measures.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Us</h3>
+            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Find a Doctor</a></li>
+              <li><a href="#">Book an Appointment</a></li>
+              <li><a href="#">look for a blood group</a></li>
+              <li><a href="#">Career</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+              <li>Health Connect</li>
+              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
+              
+              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
+              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
+              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us on</h3>
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Center Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
+    <link href="index.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/logoHC.jpeg" type="image/x-icon">
+    <style>
+      
+    footer {
+        background-color: #1a252f;
+        color: #fff;
+        padding: 50px 0;
+        position: relative;
+        overflow: hidden; /* Hide the overflow for the curve effect */
+      }
+  
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+  
+      .footer-section {
+        width: 25%;
+        margin-bottom: 30px;
+      }
+  
+      .footer-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
+  
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      .footer-section li {
+        margin-bottom: 10px;
+      }
+  
+      .footer-section a {
+        color: #fff;
+        text-decoration: none;
+      }
+  
+      .footer-section a:hover {
+        text-decoration: underline;
+      }
+  
+      /* Curved design at the top */
+      footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background-color: #ffffff;
+        border-radius: 0 0 50% 50%;
+        transform: translateY(-50%);
+      }
+      .footer-section ul li i{
+          padding: 4px;
+          margin-right: 10px;
+      }
+      .footer-section ul li:hover{
+          scale: 1.05;
+          transition: all ease-in 0.2s;
+      }
+      #logo{
+        width: 35px;
+        height: 35px;
+        margin-right: 12px;
+      }
+      iframe{
+        align-self: center;
+        /* background-image: url(./img/doctor-bg.jpg);
+            background-repeat: no-repeat; */
+            scrollbar-width: 0%;
+      }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #4a4a4a;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover, .nav-link:hover {
+            color: #2c3e50;
+        }
+
+        .bg-image {
+            background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .bg-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(44, 62, 80, 0.6);
+        }
+
+        .bg-image * {
+            position: relative;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            background-color: #e8f4f8;
+        }
+
+        .previous-visits {
+            background-color: #f0f8ff;
+        }
+
+        .medical-alerts {
+            background-color: #fff5e6;
+        }
+
+        .list-group-item {
+            background-color: transparent;
+            border: none;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .bg-image {
+                height: 200px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card, .alert {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Accessibility */
+        a:focus, button:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        /* Interactive elements */
+        .nav-link, .card, .alert {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .card:hover, .alert:hover {
+            transform: translateY(-2px);
+        }
+        .doctors{
+            background-color: bisque;
+            width: 80%;
+
+        }
+        h2{
+            color: orange;
+        }
+        .doctors p{
+            color: #3498db;
+            font-size: medium;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .slides-container{
+            display: flex;
+        }
+        nav i{
+            margin-right: 5px;
+        }
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Hide the slides by default */
+        .mySlides {
+            display: none;
+        }
+
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: rgb(22, 22, 22);
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: wheat;
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Dots */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Animation for fading */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .mySlides {
+            display: flex;
+            flex-direction: row; /* Align doctor info in a row (horizontally) */
+            justify-content: space-between;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+
+        .doctor-info {
+            text-align: center;
+            padding: 10px;
+            flex: 1;
+            background-color: #f3e7e7;
+            margin-right: 20px;
+            border: 1px solid rgb(180, 172, 172);
+            border-radius: 2px;
+        }
+        .doctor-info h3{
+            color: rgb(69, 69, 217);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        .doctor-info p{
+            color: red;
+            bottom: 20px;
+        }
+        .doctor-info button{
+            background-color: rgb(172, 219, 219);
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgb(97, 226, 118);
+            font-size: 15px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: black;
+            
+        }
+        .doctor-info button:hover{
+            cursor: pointer;
+            color: white;
+            background-color: rgb(21, 255, 0);
+            transition: all 0.3s ease;
+        }
+        #whychooseus{
+            color: rgb(69, 171, 206);
+            font-size: 40px;
+            align-self: center;
+            font-family: "Poppins", sans-serif;
+        }
+        #whyus{
+            width: 100%;
+            align-self: center;
+        }
+        /*carosuel styles*/
+        .slideshow-container {
+            width:97%;
+            position: relative;
+            margin: auto;
+            
+            
+        }
+
+        /* Hide the slides by default */
+        .mySlides {
+            display: none;
+            
+        }
+
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: rgb(22, 22, 22);
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: wheat;
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Dots */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Animation for fading */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .mySlides {
+            display: flex;
+            flex-direction: row; /* Align doctor info in a row (horizontally) */
+            justify-content: space-between;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-info {
+            text-align: center;
+            padding: 10px;
+            flex: 1;
+            background-color: #f3e7e7;
+            margin-right: 20px;
+            border: 1px solid rgb(180, 172, 172);
+            border-radius: 2px;
+        }
+        .doctor-info h3{
+            color: rgb(69, 69, 217);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        .doctor-info p{
+            color: red;
+        }
+        .doctor-info button{
+            background-color: rgb(172, 219, 219);
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgb(97, 226, 118);
+            font-size: 15px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: black;
+            
+        }
+        .doctor-info button:hover{
+            cursor: pointer;
+            color: white;
+            background-color: rgb(21, 255, 0);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container">
+            <img id="logo"src="logoHC.jpeg" alt="logo">
+            <a class="navbar-brand" href="#">Health Center Connect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/availableMedi"><i class="fa-solid fa-capsules"></i>Available Medicines</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bloodDonors"><i class="fa-solid fa-droplet"></i>Blood Donors List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-video"></i>Virtual Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-table-cells-row-unlock"></i>Slot Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i id="profile" class="fa-solid fa-user"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-image py-5">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-12">
+                    <h1 class="display-4 text-white mt-5 mb-2">Welcome to Health Connect</h1>
+                    <p class="lead mb-5 text-white-50">Connecting college students with health resources</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card user-info h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">User Information</h5>
+                        <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
+                        <p class="card-text">Age: <%= person.age %></p>
+                        <p class="card-text">Blood Group: <%= person.blood %></p>
+                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 mb-4">
+                <div class="card previous-visits h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Previous Visits</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
+                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
+                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card medical-alerts">
+                    <div class="card-body">
+                        <h5 class="card-title">Medical Alerts</h5>
+                        <div class="alert alert-info" role="alert">
+                            Remember to schedule your annual checkup this month.
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            Allergy season is approaching. Consult with your doctor about preventive measures.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Ms Megha Sajidev</h3>
+                <p>Physiotherapy and Rehabilitation</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Nadia Abdul Rafeek</h3>
+                <p>Homeopathy</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Sujith Kumar Kategar</h3>
+                <p>Anaesthesia</p>
+                <button>Book An Appointment</button>
+            </div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Dr Ravi Shankar</h3>
+                <p>Cardiology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Ayesha Khan</h3>
+                <p>Dermatology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Rohan Gupta</h3>
+                <p>Pediatrics</p>
+                <button>Book An Appointment</button>
+            </div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="doctor-info">
+                <h3>Dr Sara Fernandes</h3>
+                <p>Oncology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Arvind Rao</h3>
+                <p>Neurology</p>
+                <button>Book An Appointment</button>
+            </div>
+            <div class="doctor-info">
+                <h3>Dr Tina Patel</h3>
+                <p>Gynecology</p>
+                <button>Book An Appointment</button>
+            </div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  // Hide all slides
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", ""); 
+            }
+            slides[slideIndex - 1].style.display = "flex"; 
+        }
+
+        setInterval(function () {
+            plusSlides(1);
+        }, 3000);  
+    </script>
+    <p id="whychooseus">Why Choose Us</p>
+    <img src="whyus.png" alt="whychooseus" id="whyus">
+    <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Us</h3>
+            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Find a Doctor</a></li>
+              <li><a href="#">Book an Appointment</a></li>
+              <li><a href="#">look for a blood group</a></li>
+              <li><a href="#">Career</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+              <li>Health Connect</li>
+              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
+              
+              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
+              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
+              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us on</h3>
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
