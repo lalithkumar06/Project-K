@@ -42,6 +42,22 @@ async function finding(client, data, coll) {
         throw error; // Re-throw the error to handle it in the calling function
     }
 }
+async function findall(client, coll) {
+    try {
+        const cursor = client.db("Medi").collection(coll).find({});
+        const results = await cursor.toArray();
+        if (results.length > 0) {
+            return results; // Return the results if found
+        } else {
+            console.log("No data found.");
+            return null; // Explicitly return null when no data is found
+        }
+    } catch (error) {
+        console.error("An error occurred in finding:", error);
+        throw error; // Re-throw the error to handle it in the calling function
+    }
+}
+
 
 async function inserting(client, newListing, coll) {
     try {
@@ -54,4 +70,4 @@ async function inserting(client, newListing, coll) {
     }
 }
 
-module.exports = { inserting, finding };
+module.exports = { inserting, finding ,findall};

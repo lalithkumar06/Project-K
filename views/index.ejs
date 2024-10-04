@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Inventory</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Medicine Inventory</h1>
+
+    <input type="text" id="searchInput" placeholder="Search by name or type" onkeyup="filterTable()">
+    
+    <table id="medicineTable">
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Medicine Name</th>
+                <th>Type</th>
+                <th>Availability</th>
+                <th>Features</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% medicines.forEach(medicine => { %>
+            <tr>
+                <td><%= medicine.serialNumber %></td>
+                <td><%= medicine.name %></td>
+                <td><%= medicine.type %></td>
+                <td><%= medicine.availability %></td>
+                <td><%= medicine.features %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const table = document.getElementById("medicineTable");
+            const rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                const medicineName = row.getElementsByTagName("td")[1].textContent.toLowerCase();
+                const type = row.getElementsByTagName("td")[2].textContent.toLowerCase();
+                if (medicineName.includes(input) || type.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
