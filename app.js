@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
-require('dotenv').config()
+require('dotenv').config();
 const app = express();
 
 app.use(session({

@@ -6,6 +6,7 @@
   <title>Blood Donors List</title>
   <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="logoHC.jpeg" type="image/x-icon">
 
   <style>
     * {
@@ -17,13 +18,12 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      padding-top: 20px; /* Space at the top */
+      overflow-x: hidden;
     }
 
     .container {
       display: flex;
       flex-direction: column;
-      margin: 0 20px;
     }
 
     .nav-bar {
@@ -237,20 +237,9 @@
 <body>
 
   <div class="container">
-    <div class="nav-bar">
-        <h1 style="padding-left: 50px;">Health Center Connect</h1>
-        <div class="nav-links">
-          <a href="/availableMedi">Available Medicines</a>
-          <a href="/bloodDonors">Blood Donors List</a>
-          <a href="#">Virtual Conference</a>
-          <a href="#">Slot Booking <i class="fas fa-calendar"></i></a>
-        </div>
-        <div class="nav-icons">
-          <a href="/home"><i class="fas fa-user"></i></a>
-        </div> 
-    </div>
+    <%-include('navbarfin')%>
     <div>
-      <img src="./img/image.png" alt="Information" width = "1479px">
+      <img src="image.png" alt="Information" width = "100%">
     </div>
     <br>
     <br>
@@ -324,9 +313,7 @@
       </div>
     </div>
     <br><br>
-    <footer>
-      <!-- Footer content -->
-    </footer>
+    <%-include('footer')%>
   </div>
 
   <script>
