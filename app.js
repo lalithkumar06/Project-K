@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
-
+require('dotenv').config()
 const app = express();
 
 app.use(session({
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('local host on port 3000');
 });
 
@@ -35,8 +35,8 @@ app.post('/loginpage', async (req, res) => {
         const passwo = req.body.password;
         const data = { "username": username };
 
-        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-        const client = new MongoClient(uri);
+        
+        const client = new MongoClient(process.env.URI);
         await client.connect();
 
         const person = await finding(client, data, 'user');
