@@ -36,7 +36,8 @@ app.post('/loginpage', async (req, res) => {
         const data = { "username": username };
 
         
-        const client = new MongoClient(process.env.URI);
+        const uri =  "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
         await client.connect();
 
         const person = await finding(client, data, 'user');
