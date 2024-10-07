@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-app.listen(process.env.PORT, () => {
+app.listen(3000, () => {
     console.log('local host on port 3000');
 });
 
