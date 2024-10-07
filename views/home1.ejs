@@ -318,21 +318,29 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Health Center Connect</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
-    <link href="index.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" href="logoHC.jpeg" type="image/x-icon">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/d70dca505b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="index.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" href="logoHC.jpeg" type="image/x-icon" />
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      
-    /* footer {
+      /* footer {
         background-color: #1a252f;
         color: #fff;
         padding: 50px 0;
@@ -395,106 +403,149 @@
           scale: 1.05;
           transition: all ease-in 0.2s;
       } */
-      
-      
-        
 
-        
+      .bg-image {
+        background-image: url("https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80");
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        position: relative;
+      }
 
+      .bg-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(44, 62, 80, 0.6);
+      }
+
+      .bg-image * {
+        position: relative;
+      }
+
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-title {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .user-info {
+        background-color: #e8f4f8;
+      }
+
+      .previous-visits {
+        background-color: #f0f8ff;
+      }
+
+      .medical-alerts {
+        background-color: #fff5e6;
+      }
+
+      .list-group-item {
+        background-color: transparent;
+        border: none;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      }
+
+      .alert {
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      footer {
+        background-color: #f8f9fa;
+        color: #6c757d;
+      }
+
+      @media (max-width: 768px) {
         .bg-image {
-            background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            position: relative;
+          height: 200px;
         }
+      }
 
-        .bg-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(44, 62, 80, 0.6);
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-
-        .bg-image * {
-            position: relative;
+        to {
+          opacity: 1;
         }
+      }
 
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+      .card,
+      .alert {
+        animation: fadeIn 0.5s ease-out;
+      }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+      /* Accessibility */
+      a:focus,
+      button:focus {
+        outline: 3px solid #3498db;
+        outline-offset: 2px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        padding: 60px;
+        height: 3100px;
+        width: 1500px;
+      }
 
-        .card-title {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
 
-        .user-info {
-            background-color: #e8f4f8;
-        }
+      .first-aid {
+        height: 5%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fffbe0;
+        padding: 20px;
+        border: 1px solid #f0f0f0;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
 
-        .previous-visits {
-            background-color: #f0f8ff;
-        }
+      .first-aid h2 {
+        background-color: #ffc107;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-right: 10px;
+      }
 
-        .medical-alerts {
-            background-color: #fff5e6;
-        }
-
-        .list-group-item {
-            background-color: transparent;
-            border: none;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,.125);
-        }
-
-        .alert {
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            background-color: #f8f9fa;
-            color: #6c757d;
-        }
-
-        @media (max-width: 768px) {
-            .bg-image {
-                height: 200px;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .card, .alert {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Accessibility */
-        a:focus, button:focus {
-            outline: 3px solid #3498db;
-            outline-offset: 2px;
-        }
-
-        /* Interactive elements */
-        /* .nav-link, .card, .alert {
+      .first-aid-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        font-size: 1rem;
+        margin: 0 20px;
+      }
+      /* Interactive elements */
+      /* .nav-link, .card, .alert {
             transition: all 0.3s ease;
         }
 
@@ -647,18 +698,87 @@
             background-color: rgb(21, 255, 0);
             transition: all 0.3s ease;
         } */
-        #whychooseus{
-            color: rgb(69, 171, 206);
-            font-size: 40px;
-            margin-left: 620px;
-            font-family: "Poppins", sans-serif;
-        }
-        #whyus{
-            width: 100%;
-            align-self: center;
-        }
-        /*carosuel styles*/
-        /* .slideshow-container {
+      #whychooseus {
+        color: rgb(69, 171, 206);
+        font-size: 40px;
+        margin-left: 620px;
+        font-family: "Poppins", sans-serif;
+      }
+      #whyus {
+        width: 100%;
+        align-self: center;
+      }
+      .blood-group {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        width: 48%;
+        border: 1px solid rgb(90, 95, 95);
+        margin-top: 10px;
+        display: inline;
+        margin-left: 10px;
+      }
+
+      .blood-group h2 {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .chart {
+        width: 100%;
+        height: auto;
+      }
+
+      .donation {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        width: 48%;
+        border: 2px solid rgb(95, 89, 89);
+        display: inline;
+      }
+
+      .donation p {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+
+      .priority {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .priority span {
+        font-size: 0.9rem;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 20px;
+      }
+
+      .high {
+        background-color: #007bff;
+      }
+
+      .medium {
+        background-color: #6c757d;
+      }
+
+      .donate-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      /*carosuel styles*/
+      /* .slideshow-container {
             width:97%;
             position: relative;
             margin: auto;
@@ -787,69 +907,118 @@
             transition: all 0.3s ease;
         } */
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <%-include('navbarfin')%>
 
     <header class="bg-image py-5">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-lg-12">
-                    <h1 class="display-4 text-white mt-5 mb-2">Welcome to Health Connect</h1>
-                    <p class="lead mb-5 text-white-50">Connecting college students with health resources</p>
-                </div>
-            </div>
+      <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <div class="col-lg-12">
+            <h1 class="display-4 text-white mt-5 mb-2">
+              Welcome to Health Connect
+            </h1>
+            <p class="lead mb-5 text-white-50">
+              Connecting college students with health resources
+            </p>
+          </div>
         </div>
+      </div>
     </header>
 
     <main class="container my-5">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card user-info h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">User Information</h5>
-                        <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
-                        <p class="card-text">Age: <%= person.age %></p>
-                        <p class="card-text">Blood Group: <%= person.blood %></p>
-                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card user-info h-100">
+            <div class="card-body">
+              <h5 class="card-title">User Information</h5>
+              <p class="card-text">
+                Name: <%= person.first_name %> <%= person.last_name %>
+              </p>
+              <p class="card-text">Age: <%= person.age %></p>
+              <p class="card-text">Blood Group: <%= person.blood %></p>
+              <p class="card-text">
+                Current Conditions: Allergic to <%= person.allergies %>
+              </p>
             </div>
-            <div class="col-md-8 mb-4">
-                <div class="card previous-visits h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Previous Visits</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
-                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
-                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card medical-alerts">
-                    <div class="card-body">
-                        <h5 class="card-title">Medical Alerts</h5>
-                        <div class="alert alert-info" role="alert">
-                            Remember to schedule your annual checkup this month.
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            Allergy season is approaching. Consult with your doctor about preventive measures.
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-8 mb-4">
+          <div class="card previous-visits h-100">
+            <div class="card-body">
+              <h5 class="card-title">Previous Visits</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
+                <li class="list-group-item">March 3, 2023 - Flu Shot</li>
+                <li class="list-group-item">
+                  January 10, 2023 - Allergy Consultation
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card medical-alerts">
+            <div class="card-body">
+              <h5 class="card-title">Medical Alerts</h5>
+              <div class="alert alert-info" role="alert">
+                Remember to schedule your annual checkup this month.
+              </div>
+              <div class="alert alert-warning" role="alert">
+                Allergy season is approaching. Consult with your doctor about
+                preventive measures.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-  <%-include('slide')%>;
-    <br>
+    <%-include('slide')%>;
+    
+      <div class="donation">
+        <h1 style="text-align-last: left">Blood Donation</h1>
+        <p>We are in urgent need of the following blood groups:</p>
+        <div class="priority">
+          <p>O Negative</p>
+          <span class="high">High Priority</span>
+        </div>
+        <div class="priority">
+          <p>AB Positive</p>
+          <span class="medium">Medium Priority</span>
+        </div>
+        <a href="#" class="donate-btn">Schedule Donation</a>
+      </div>
+      
+    
+
+    <br />
     <p id="whychooseus">Why Choose Us</p>
-    <img src="whyus.png" alt="whychooseus" id="whyus">
+    <img src="whyus.png" alt="whychooseus" id="whyus" />
+    <h1>Hospital Inventory Management</h1>
+    <div class="first-aid">
+      <h2><i class="bi bi-bandaid me-2"></i>First-Aid Components</h2>
+      <div class="first-aid-item">
+        <i class="bi bi-bandaid fs-2 me-2 text-warning"></i>
+        <p>Bandages<br /><small>Various sizes</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-droplet fs-2 me-2 text-warning"></i>
+        <p>Antiseptic<br /><small>Wound cleaning</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-scissors fs-2 me-2 text-warning"></i>
+        <p>Gauze<br /><small>Wound dressing</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-thermometer fs-2 me-2 text-warning"></i>
+        <p>Thermometer<br /><small>Temperature check</small></p>
+      </div>
+    </div>
     <%-include('footer')%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

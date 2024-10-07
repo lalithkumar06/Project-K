@@ -1,374 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blood Donors List</title>
-  <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" href="logoHC.jpeg" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Donors List</title>
+    <script
+      src="https://kit.fontawesome.com/d70dca505b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="icon" href="logoHC.jpeg" type="image/x-icon" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      overflow-x: hidden;
-    }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        overflow-x: hidden;
+      }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-    }
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
 
-    .nav-bar {
-      height: 10%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      background-color: #f8f8f8;
-      color: #333;
-      padding: 10px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+      .nav-bar {
+        height: 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background-color: #f8f8f8;
+        color: #333;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
 
-    .nav-bar h1 {
-      font-size: 18px;
-      font-weight: normal;
-    }
+      .nav-bar h1 {
+        font-size: 18px;
+        font-weight: normal;
+      }
 
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 14px;
-    }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+      }
 
-    .nav-links a {
-      color: #333;
-      text-decoration: none;
-    }
+      .nav-links a {
+        color: #333;
+        text-decoration: none;
+      }
 
-    .nav-links a:hover {
-      color: #007bff;
-      transition: all 0.3s ease;
-      transform: translateY(-2px);
-    }
+      .nav-links a:hover {
+        color: #007bff;
+        transition: all 0.3s ease;
+        transform: translateY(-2px);
+      }
 
-    .nav-links i {
-      margin-left: 5px;
-    }
+      .nav-links i {
+        margin-left: 5px;
+      }
 
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+      .nav-icons {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
 
-    .nav-icons i {
-      font-size: 18px;
-      cursor: pointer;
-      color: #333;
-    }
-    
+      .nav-icons i {
+        font-size: 18px;
+        cursor: pointer;
+        color: #333;
+      }
 
-    .main-content {
-      flex-grow: 1;
-      margin-left: 20px;
-      padding-left: 100px;
-      padding-right: 100px;
-      width: 100%;
-      height: 75%;
-    }
+      .main-content {
+        flex-grow: 1;
+        margin-left: 20px;
+        padding-left: 100px;
+        padding-right: 100px;
+        width: 100%;
+        height: 75%;
+      }
 
-    .search-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
+      .search-bar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
 
-    .search-bar input[type="text"] {
-      padding: 10px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+      .search-bar input[type="text"] {
+        padding: 10px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
 
-    .search-bar select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-left: 10px;
-    }
+      .search-bar select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-left: 10px;
+      }
 
-    .table-container {
-      max-height: 500px; 
-      overflow-y: auto; 
-      border: 1px solid #ddd; 
-      margin-bottom: 20px;
-    }
+      .table-container {
+        max-height: 500px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+      }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: white;
-    }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+      }
 
-    table, th, td {
-      border: 1px solid #ddd;
-      text-align: left;
-    }
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+        text-align: left;
+      }
 
-    th, td {
-      padding: 12px;
-    }
+      th,
+      td {
+        padding: 12px;
+      }
 
-    th {
-      background-color: #f4f4f4;
-    }
+      th {
+        background-color: #f4f4f4;
+      }
 
-    tbody tr:nth-child(odd) {
-      background-color: #f9f9f9;
-    }
+      tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+      }
 
-    tbody tr:nth-child(even) {
-      background-color: #f1f1f1;
-    }
+      tbody tr:nth-child(even) {
+        background-color: #f1f1f1;
+      }
 
-    footer {
-      background-color: #1a252f;
-      color: #fff;
-      padding: 50px 0;
-      position: relative;
-      overflow: hidden; 
-      height: 20%;
-      width: 100%;
-    }
+      footer {
+        background-color: #1a252f;
+        color: #fff;
+        padding: 50px 0;
+        position: relative;
+        overflow: hidden;
+        height: 20%;
+        width: 100%;
+      }
 
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
 
-    .footer-section {
-      width: 25%;
-      margin-bottom: 30px;
-    }
+      .footer-section {
+        width: 25%;
+        margin-bottom: 30px;
+      }
 
-    .footer-section h3 {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
+      .footer-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
 
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
 
-    .footer-section li {
-      margin-bottom: 10px;
-    }
+      .footer-section li {
+        margin-bottom: 10px;
+      }
 
-    .footer-section a {
-      color: #fff;
-      text-decoration: none;
-    }
+      .footer-section a {
+        color: #fff;
+        text-decoration: none;
+      }
 
-    .footer-section a:hover {
-      text-decoration: underline;
-    }
+      .footer-section a:hover {
+        text-decoration: underline;
+      }
 
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background-color: #fff;
-      border-radius: 0 0 50% 50%;
-      transform: translateY(-50%);
-    }
-    
-    .footer-section ul li i {
-      padding: 4px;
-      margin-right: 10px;
-    }
-    
-    .footer-section ul li:hover {
-      scale: 1.05;
-      transition: all ease-in 0.2s;
-    }
-    
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
-    body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 0 0 50% 50%;
+        transform: translateY(-50%);
+      }
 
-.navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
+      .footer-section ul li i {
+        padding: 4px;
+        margin-right: 10px;
+      }
 
-.navbar-brand, .nav-link {
-    color: #4a4a4a;
-    transition: color 0.3s ease;
-}
+      .footer-section ul li:hover {
+        scale: 1.05;
+        transition: all ease-in 0.2s;
+      }
 
-.navbar-brand:hover, .nav-link:hover {
-    color: #2c3e50;
-}
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+      body {
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
 
-  </style>
-</head>
-<body>
+      .navbar {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-  <div class="container">
-    <%-include('navbarfin')%>
-    <div>
-      <img src="image.png" alt="Information" width = "100%">
-    </div>
-    <br>
-    <br>
-    
-    <div class="main-content">
-      
+      .navbar-brand,
+      .nav-link {
+        color: #4a4a4a;
+        transition: color 0.3s ease;
+      }
+
+      .navbar-brand:hover,
+      .nav-link:hover {
+        color: #2c3e50;
+      }
+      .blood-group {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        width: 48%;
+        border: 1px solid rgb(90, 95, 95);
+        margin-top: 10px;
+        display: inline;
+        margin-left: 10px;
+      }
+
+      .blood-group h2 {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .chart {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <%-include('navbarfin')%>
+      <div>
+        <img src="image.png" alt="Information" width="100%" />
+      </div>
+      <br />
+      <br />
+
+      <div class="main-content">
         <h2>Blood Donors List</h2>
-        <br><br>
-      <div class="search-bar">
-          <input type="text" id="searchName" placeholder="Search by Name">
+        <br /><br />
+        <div class="search-bar">
+          <input type="text" id="searchName" placeholder="Search by Name" />
         </div>
-      <!-- Feature-Rich Table with Scrollable Content -->
-      <div class="table-container">
-        <table id="medTable">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Phone Number</th>
-              <th>Blood Group Type</th>
-              <th>Last given Blood</th>
-              <th>Availability of Donation</th>
-              <th>Email</th>
+        <!-- Feature-Rich Table with Scrollable Content -->
+        <div class="table-container">
+          <table id="medTable">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Blood Group Type</th>
+                <th>Last given Blood</th>
+                <th>Availability of Donation</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (ppl && ppl.length > 0) { %> <% ppl.forEach(x => { %>
+              <tr>
+                <td><%= x.first_name %> <%= x.last_name %></td>
+                <td><%= x.phone %></td>
+                <td><%= x.blood %></td>
+                <td><%= x.last_don %></td>
+                <td>
+                  <% // Function to convert DD-MM-YYYY to YYYY-MM-DD function
+                  convertDateFormat(dateStr) { const parts = dateStr.split('-');
+                  return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD }
+                  const currentDate = new Date(); let lastDonDate; if
+                  (x.last_don && typeof x.last_don === 'string') { lastDonDate =
+                  new Date(convertDateFormat(x.last_don)); // Convert and create
+                  Date object } else { lastDonDate = null; // Assign null if
+                  last_don is undefined or not a string } const daysDiff =
+                  lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) /
+                  (1000 * 60 * 60 * 24)) : null; if (daysDiff !== null &&
+                  daysDiff > 90) { %>Yes<% } else { %>No<% } %>
+                </td>
+                <td><%= x.email %></td>
+              </tr>
 
-            </tr>
-          </thead>
-          <tbody>
-            <% if (ppl && ppl.length > 0) { %>
-              <% ppl.forEach(x => { %>
-                <tr>
-                    <td><%= x.first_name %> <%= x.last_name %></td>
-                    <td><%= x.phone %></td>
-                    <td><%= x.blood %></td>
-                    <td><%= x.last_don %></td>
-                    <td>
-                      <% 
-                        // Function to convert DD-MM-YYYY to YYYY-MM-DD
-                        function convertDateFormat(dateStr) {
-                          const parts = dateStr.split('-');
-                          return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
-                        }
-                  
-                        const currentDate = new Date();
-                        let lastDonDate;
-                  
-                        if (x.last_don && typeof x.last_don === 'string') {
-                          lastDonDate = new Date(convertDateFormat(x.last_don)); // Convert and create Date object
-                        } else {
-                          lastDonDate = null; // Assign null if last_don is undefined or not a string
-                        }
-                  
-                        const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null;
-                  
-                        if (daysDiff !== null && daysDiff > 90) { 
-                          %>Yes<%
-                        } else { 
-                          %>No<%
-                        } 
-                      %>
-                    </td>
-                    <td><%= x.email %></td>
-                  </tr>
-                  
-              <% }) %>
-            <% } else { %>
+              <% }) %> <% } else { %>
               <tr>
                 <td colspan="4">No data found.</td>
               </tr>
-            <% } %>
-          </tbody>
-        </table>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <br /><br />
+
+      <div class="blood-group">
+        <h2><i class="bi bi-droplet-half me-2"></i>Blood Group Information</h2>
+        <canvas id="bloodGroupChart"></canvas>
+      </div>
+      <%-include('footer')%>
     </div>
-    <br><br>
-    <%-include('footer')%>
-  </div>
 
-  <script>
-    const searchNameInput = document.getElementById('searchName');
-    const filterTypeSelect = document.getElementById('filterType');
-    const filterTabletTypeSelect = document.getElementById('filterTabletType');
-    const filterInjectionTypeSelect = document.getElementById('filterInjectionType');
-    const table = document.getElementById('medTable');
-    const tbody = table.querySelector('tbody');
+    <script>
+      const searchNameInput = document.getElementById("searchName");
+      const filterTypeSelect = document.getElementById("filterType");
+      const filterTabletTypeSelect =
+        document.getElementById("filterTabletType");
+      const filterInjectionTypeSelect = document.getElementById(
+        "filterInjectionType"
+      );
+      const table = document.getElementById("medTable");
+      const tbody = table.querySelector("tbody");
 
-    // Function to filter and search the table
-    function filterTable() {
-      const searchName = searchNameInput.value.toLowerCase();
-      const filterType = filterTypeSelect.value;
-      const filterTabletType = filterTabletTypeSelect.value;
-      const filterInjectionType = filterInjectionTypeSelect.value;
+      // Function to filter and search the table
+      function filterTable() {
+        const searchName = searchNameInput.value.toLowerCase();
+        const filterType = filterTypeSelect.value;
+        const filterTabletType = filterTabletTypeSelect.value;
+        const filterInjectionType = filterInjectionTypeSelect.value;
 
-      const rows = tbody.querySelectorAll('tr');
+        const rows = tbody.querySelectorAll("tr");
 
-      rows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        const type = row.cells[2].textContent;
+        rows.forEach((row) => {
+          const name = row.cells[1].textContent.toLowerCase();
+          const type = row.cells[2].textContent;
 
-        let isVisible = true;
+          let isVisible = true;
 
-        // Search by name
-        if (searchName && !name.includes(searchName)) {
-          isVisible = false;
-        }
+          // Search by name
+          if (searchName && !name.includes(searchName)) {
+            isVisible = false;
+          }
 
-        // Filter by type
-        if (filterType && !type.includes(filterType)) {
-          isVisible = false;
-        }
+          // Filter by type
+          if (filterType && !type.includes(filterType)) {
+            isVisible = false;
+          }
 
-        // Filter by tablet type if selected
-        if (filterTabletType && filterType === 'Tablets' && !type.includes(filterTabletType)) {
-          isVisible = false;
-        }
+          // Filter by tablet type if selected
+          if (
+            filterTabletType &&
+            filterType === "Tablets" &&
+            !type.includes(filterTabletType)
+          ) {
+            isVisible = false;
+          }
 
-        // Filter by injection type if selected
-        if (filterInjectionType && filterType === 'Injection' && !type.includes(filterInjectionType)) {
-          isVisible = false;
-        }
+          // Filter by injection type if selected
+          if (
+            filterInjectionType &&
+            filterType === "Injection" &&
+            !type.includes(filterInjectionType)
+          ) {
+            isVisible = false;
+          }
 
-        // Show or hide the row
-        row.style.display = isVisible ? '' : 'none';
+          // Show or hide the row
+          row.style.display = isVisible ? "" : "none";
+        });
+      }
+
+      // Add event listeners
+      searchNameInput.addEventListener("input", filterTable);
+      filterTypeSelect.addEventListener("change", filterTable);
+      filterTabletTypeSelect.addEventListener("change", filterTable);
+      filterInjectionTypeSelect.addEventListener("change", filterTable);
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var ctx = document.getElementById('bloodGroupChart').getContext('2d');
+          var myChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                  labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+                  datasets: [{
+                      data: [35, 25, 20, 10, 4, 3, 2, 1],
+                      backgroundColor: [
+                          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                          '#FF9F40', '#9966FF', '#C9CBCF', '#7CFC00'
+                      ]
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'right',
+                      },
+                      title: {
+                          display: true,
+                          text: 'Blood Group Distribution'
+                      }
+                  }
+              }
+          });
       });
-    }
-
-    // Add event listeners
-    searchNameInput.addEventListener('input', filterTable);
-    filterTypeSelect.addEventListener('change', filterTable);
-    filterTabletTypeSelect.addEventListener('change', filterTable);
-    filterInjectionTypeSelect.addEventListener('change', filterTable);
   </script>
-</body>
+  </body>
 </html>
