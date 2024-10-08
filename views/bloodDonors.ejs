@@ -282,6 +282,18 @@
         <br /><br />
         <div class="search-bar">
           <input type="text" id="searchName" placeholder="Search by Name" />
+          <!-- Blood Group Filter Dropdown -->
+          <select id="bloodGroupFilter">
+            <option value="">Filter by Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
         </div>
         <!-- Feature-Rich Table with Scrollable Content -->
         <div class="table-container">
@@ -304,24 +316,41 @@
                 <td><%= x.blood %></td>
                 <td><%= x.last_don %></td>
                 <td>
-                  <% // Function to convert DD-MM-YYYY to YYYY-MM-DD function
-                  convertDateFormat(dateStr) { const parts = dateStr.split('-');
-                  return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD }
-                  const currentDate = new Date(); let lastDonDate; if
-                  (x.last_don && typeof x.last_don === 'string') { lastDonDate =
-                  new Date(convertDateFormat(x.last_don)); // Convert and create
-                  Date object } else { lastDonDate = null; // Assign null if
-                  last_don is undefined or not a string } const daysDiff =
-                  lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) /
-                  (1000 * 60 * 60 * 24)) : null; if (daysDiff !== null &&
-                  daysDiff > 90) { %>Yes<% } else { %>No<% } %>
+                  <% 
+                  // Function to convert DD-MM-YYYY to YYYY-MM-DD
+                  function convertDateFormat(dateStr) {
+                    const parts = dateStr.split('-');
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`; // Use template literals properly here
+                  }                  
+
+                  const currentDate = new Date(); 
+                  let lastDonDate; 
+
+                  if (x.last_don && typeof x.last_don === 'string') { 
+                    lastDonDate = new Date(convertDateFormat(x.last_don)); // Convert and create Date object
+                  } else { 
+                    lastDonDate = null; // Assign null if last_don is undefined or not a string
+                  } 
+
+                  const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null; 
+
+                  if (daysDiff !== null && daysDiff > 90) { 
+                  %>
+                    Yes
+                  <% 
+                  } else { 
+                  %>
+                    No
+                  <% 
+                  } 
+                  %>
+
                 </td>
                 <td><%= x.email %></td>
               </tr>
-
               <% }) %> <% } else { %>
               <tr>
-                <td colspan="4">No data found.</td>
+                <td colspan="6">No data found.</td>
               </tr>
               <% } %>
             </tbody>
@@ -336,101 +365,42 @@
       </div>
       <%-include('footer')%>
     </div>
+    
+      <script>
+        const searchNameInput = document.getElementById("searchName");
+        const bloodGroupFilter = document.getElementById("bloodGroupFilter");
+        const table = document.getElementById("medTable");
+        const tbody = table.querySelector("tbody");
 
-    <script>
-      const searchNameInput = document.getElementById("searchName");
-      const filterTypeSelect = document.getElementById("filterType");
-      const filterTabletTypeSelect =
-        document.getElementById("filterTabletType");
-      const filterInjectionTypeSelect = document.getElementById(
-        "filterInjectionType"
-      );
-      const table = document.getElementById("medTable");
-      const tbody = table.querySelector("tbody");
+        // Function to filter and search the table
+        function filterTable() {
+          const searchName = searchNameInput.value.toLowerCase();
+          const selectedBloodGroup = bloodGroupFilter.value;
+          const rows = tbody.querySelectorAll("tr");
 
-      // Function to filter and search the table
-      function filterTable() {
-        const searchName = searchNameInput.value.toLowerCase();
-        const filterType = filterTypeSelect.value;
-        const filterTabletType = filterTabletTypeSelect.value;
-        const filterInjectionType = filterInjectionTypeSelect.value;
+          rows.forEach((row) => {
+            const name = row.cells[0].textContent.toLowerCase(); // Full Name
+            const bloodGroup = row.cells[2].textContent; // Blood Group
+            let isVisible = true;
 
-        const rows = tbody.querySelectorAll("tr");
+            // Search by name
+            if (searchName && !name.includes(searchName)) {
+              isVisible = false;
+            }
 
-        rows.forEach((row) => {
-          const name = row.cells[1].textContent.toLowerCase();
-          const type = row.cells[2].textContent;
+            // Filter by blood group
+            if (selectedBloodGroup && bloodGroup !== selectedBloodGroup) {
+              isVisible = false;
+            }
 
-          let isVisible = true;
-
-          // Search by name
-          if (searchName && !name.includes(searchName)) {
-            isVisible = false;
-          }
-
-          // Filter by type
-          if (filterType && !type.includes(filterType)) {
-            isVisible = false;
-          }
-
-          // Filter by tablet type if selected
-          if (
-            filterTabletType &&
-            filterType === "Tablets" &&
-            !type.includes(filterTabletType)
-          ) {
-            isVisible = false;
-          }
-
-          // Filter by injection type if selected
-          if (
-            filterInjectionType &&
-            filterType === "Injection" &&
-            !type.includes(filterInjectionType)
-          ) {
-            isVisible = false;
-          }
-
-          // Show or hide the row
-          row.style.display = isVisible ? "" : "none";
-        });
-      }
-
-      // Add event listeners
-      searchNameInput.addEventListener("input", filterTable);
-      filterTypeSelect.addEventListener("change", filterTable);
-      filterTabletTypeSelect.addEventListener("change", filterTable);
-      filterInjectionTypeSelect.addEventListener("change", filterTable);
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          var ctx = document.getElementById('bloodGroupChart').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'pie',
-              data: {
-                  labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
-                  datasets: [{
-                      data: [35, 25, 20, 10, 4, 3, 2, 1],
-                      backgroundColor: [
-                          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                          '#FF9F40', '#9966FF', '#C9CBCF', '#7CFC00'
-                      ]
-                  }]
-              },
-              options: {
-                  responsive: true,
-                  plugins: {
-                      legend: {
-                          position: 'right',
-                      },
-                      title: {
-                          display: true,
-                          text: 'Blood Group Distribution'
-                      }
-                  }
-              }
+            // Show or hide the row
+            row.style.display = isVisible ? "" : "none";
           });
-      });
-  </script>
+        }
+
+        // Add event listeners for search and filter
+        searchNameInput.addEventListener("input", filterTable);
+        bloodGroupFilter.addEventListener("change", filterTable);
+      </script>
   </body>
 </html>
