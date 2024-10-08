@@ -19,14 +19,12 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      
       overflow-x: hidden;
     }
 
     .container {
       display: flex;
       flex-direction: column;
-      /* margin: 0 20px; */
     }
     #logo{
 
@@ -101,7 +99,7 @@
 <body>
   <%- include('navbarfin') %>
     <div>
-      <img src="image.png" alt="Information" width = "100%">
+      <img src="image.png" alt="Information" width="100%">
     </div>
     <br>
     <br>
@@ -110,25 +108,12 @@
       <br><br>
       <div class="search-bar">
         <input type="text" id="searchName" placeholder="Search by Name">
-        <select id="filterType">
-          <option value="">Filter by Type</option>
-          <option value="Tablets">Tablets</option>
-          <option value="Injection">Injection</option>
-          <option value="Tonic">Tonic</option>
-        </select>
-        <select id="filterTabletType">
-          <option value="">Filter by Tablet Type</option>
-          <option value="Painkillers">Painkillers</option>
-          <option value="Antibiotics">Antibiotics</option>
-          <option value="Antipyretics">Antipyretics</option>
-          <option value="Antacids">Antacids</option>
-        </select>
-        <select id="filterInjectionType">
-          <option value="">Filter by Injection Type</option>
-          <option value="Antibiotics">Antibiotics</option>
-          <option value="Antiseptic">Antiseptic</option>
-          <option value="Intramuscular">Intramuscular</option>
-          <option value="Intrathecal">Intrathecal</option>
+        <select id="filterUsedFor">
+          <option value="">Filter by "Used For"</option>
+          <option value="Fever">Fever</option>
+          <option value="Cold">Cold</option>
+          <option value="Headache">Headache</option>
+          <option value="Pain">Pain</option>
         </select>
       </div>
 
@@ -168,24 +153,20 @@
 
   <script>
     const searchNameInput = document.getElementById('searchName');
-    const filterTypeSelect = document.getElementById('filterType');
-    const filterTabletTypeSelect = document.getElementById('filterTabletType');
-    const filterInjectionTypeSelect = document.getElementById('filterInjectionType');
+    const filterUsedForSelect = document.getElementById('filterUsedFor');
     const table = document.getElementById('medTable');
     const tbody = table.querySelector('tbody');
 
     // Function to filter and search the table
     function filterTable() {
       const searchName = searchNameInput.value.toLowerCase();
-      const filterType = filterTypeSelect.value;
-      const filterTabletType = filterTabletTypeSelect.value;
-      const filterInjectionType = filterInjectionTypeSelect.value;
+      const filterUsedFor = filterUsedForSelect.value.toLowerCase();
 
       const rows = tbody.querySelectorAll('tr');
 
       rows.forEach(row => {
         const name = row.cells[1].textContent.toLowerCase();
-        const type = row.cells[2].textContent;
+        const usedFor = row.cells[2].textContent.toLowerCase();
 
         let isVisible = true;
 
@@ -194,18 +175,8 @@
           isVisible = false;
         }
 
-        // Filter by type
-        if (filterType && !type.includes(filterType)) {
-          isVisible = false;
-        }
-
-        // Filter by tablet type if selected
-        if (filterTabletType && filterType === 'Tablets' && !type.includes(filterTabletType)) {
-          isVisible = false;
-        }
-
-        // Filter by injection type if selected
-        if (filterInjectionType && filterType === 'Injection' && !type.includes(filterInjectionType)) {
+        // Filter by "Used For"
+        if (filterUsedFor && !usedFor.includes(filterUsedFor)) {
           isVisible = false;
         }
 
@@ -216,9 +187,7 @@
 
     // Add event listeners
     searchNameInput.addEventListener('input', filterTable);
-    filterTypeSelect.addEventListener('change', filterTable);
-    filterTabletTypeSelect.addEventListener('change', filterTable);
-    filterInjectionTypeSelect.addEventListener('change', filterTable);
+    filterUsedForSelect.addEventListener('change', filterTable);
   </script>
 </body>
 </html>
