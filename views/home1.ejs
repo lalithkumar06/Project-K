@@ -1,321 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Center Connect</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
-    <link href="index.css" rel="stylesheet">
-    <style>
-    footer {
-        background-color: #1a252f;
-        color: #fff;
-        padding: 50px 0;
-        position: relative;
-        overflow: hidden; /* Hide the overflow for the curve effect */
-      }
-  
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-  
-      .footer-section {
-        width: 25%;
-        margin-bottom: 30px;
-      }
-  
-      .footer-section h3 {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-      }
-  
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-  
-      .footer-section li {
-        margin-bottom: 10px;
-      }
-  
-      .footer-section a {
-        color: #fff;
-        text-decoration: none;
-      }
-  
-      .footer-section a:hover {
-        text-decoration: underline;
-      }
-  
-      /* Curved design at the top */
-      footer::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        background-color: #fff;
-        border-radius: 0 0 50% 50%;
-        transform: translateY(-50%);
-      }
-      .footer-section ul li i{
-          padding: 4px;
-          margin-right: 10px;
-      }
-      .footer-section ul li:hover{
-          scale: 1.05;
-          transition: all ease-in 0.2s;
-      }
-      .footer-section{
-  
-      }
-
-
-      body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-
-        .navbar-brand, .nav-link {
-            color: #4a4a4a;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-brand:hover, .nav-link:hover {
-            color: #2c3e50;
-        }
-
-        .bg-image {
-            background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            position: relative;
-        }
-
-        .bg-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(44, 62, 80, 0.6);
-        }
-
-        .bg-image * {
-            position: relative;
-        }
-
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-title {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .user-info {
-            background-color: #e8f4f8;
-        }
-
-        .previous-visits {
-            background-color: #f0f8ff;
-        }
-
-        .medical-alerts {
-            background-color: #fff5e6;
-        }
-
-        .list-group-item {
-            background-color: transparent;
-            border: none;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,.125);
-        }
-
-        .alert {
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            background-color: #f8f9fa;
-            color: #6c757d;
-        }
-
-        @media (max-width: 768px) {
-            .bg-image {
-                height: 200px;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .card, .alert {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Accessibility */
-        a:focus, button:focus {
-            outline: 3px solid #3498db;
-            outline-offset: 2px;
-        }
-
-        /* Interactive elements */
-        .nav-link, .card, .alert {
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover, .card:hover, .alert:hover {
-            transform: translateY(-2px);
-        }
-
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Health Center Connect</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/availableMedi">Available Medicines</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/bloodDonors">Blood Donors List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Virtual Conference</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-table-cells-row-unlock"></i>Slot Booking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i id="profile" class="fa-solid fa-user"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-image py-5">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-lg-12">
-                    <h1 class="display-4 text-white mt-5 mb-2">Welcome to Health Connect</h1>
-                    <p class="lead mb-5 text-white-50">Connecting college students with health resources</p>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container my-5">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card user-info h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">User Information</h5>
-                        <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
-                        <p class="card-text">Age: <%= person.age %></p>
-                        <p class="card-text">Blood Group: <%= person.blood %></p>
-                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 mb-4">
-                <div class="card previous-visits h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Previous Visits</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
-                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
-                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card medical-alerts">
-                    <div class="card-body">
-                        <h5 class="card-title">Medical Alerts</h5>
-                        <div class="alert alert-info" role="alert">
-                            Remember to schedule your annual checkup this month.
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            Allergy season is approaching. Consult with your doctor about preventive measures.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>About Us</h3>
-            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
-          </div>
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Find a Doctor</a></li>
-              <li><a href="#">Book an Appointment</a></li>
-              <li><a href="#">look for a blood group</a></li>
-              <li><a href="#">Career</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <ul>
-              <li>Health Connect</li>
-              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
-              
-              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
-              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
-              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Follow Us on</h3>
-            <ul>
-              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
-              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
-              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -326,6 +8,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
     <script
       src="https://kit.fontawesome.com/d70dca505b.js"
       crossorigin="anonymous"
@@ -340,70 +24,6 @@
       rel="stylesheet"
     />
     <style>
-      /* footer {
-        background-color: #1a252f;
-        color: #fff;
-        padding: 50px 0;
-        position: relative;
-        overflow: hidden;
-      }
-  
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-  
-      .footer-section {
-        width: 25%;
-        margin-bottom: 30px;
-      }
-  
-      .footer-section h3 {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-      }
-  
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-  
-      .footer-section li {
-        margin-bottom: 10px;
-      }
-  
-      .footer-section a {
-        color: #fff;
-        text-decoration: none;
-      }
-  
-      .footer-section a:hover {
-        text-decoration: underline;
-      }
-  
-      footer::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        background-color: #ffffff;
-        border-radius: 0 0 50% 50%;
-        transform: translateY(-50%);
-      }
-      .footer-section ul li i{
-          padding: 4px;
-          margin-right: 10px;
-      }
-      .footer-section ul li:hover{
-          scale: 1.05;
-          transition: all ease-in 0.2s;
-      } */
-
       .bg-image {
         background-image: url("https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80");
         background-size: cover;
@@ -514,16 +134,19 @@
       }
 
       .first-aid {
-        height: 5%;
-        width: 100%;
+        height: 4%;
+        width: 80%;
         display: flex;
+        position: relative;
+        margin: auto;
         justify-content: center;
         align-items: center;
         background-color: #fffbe0;
-        padding: 20px;
+        
         border: 1px solid #f0f0f0;
         border-radius: 10px;
         margin-bottom: 20px;
+        
       }
 
       .first-aid h2 {
@@ -542,160 +165,9 @@
         font-size: 1rem;
         margin: 0 20px;
       }
-      /* Interactive elements */
-      /* .nav-link, .card, .alert {
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover, .card:hover, .alert:hover {
-            transform: translateY(-2px);
-        }
-        .doctors{
-            background-color: bisque;
-            width: 80%;
-
-        }
-        h2{
-            color: orange;
-        }
-        .doctors p{
-            color: #3498db;
-            font-size: medium;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        }
-        .slides-container{
-            display: flex;
-        }
-        nav i{
-            margin-right: 5px;
-        }
-        .slideshow-container {
-            max-width: 1000px;
-            position: relative;
-            margin: auto;
-        }
-
-        
-        .mySlides {
-            display: none;
-        }
-
-        
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: rgb(22, 22, 22);
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: wheat;
-        }
-
-        
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-
-        
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .mySlides {
-            display: flex;
-            flex-direction: row; 
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-        }
-
-        .doctor-info {
-            text-align: center;
-            padding: 10px;
-            flex: 1;
-            background-color: #f3e7e7;
-            margin-right: 20px;
-            border: 1px solid rgb(180, 172, 172);
-            border-radius: 2px;
-        }
-        .doctor-info h3{
-            color: rgb(69, 69, 217);
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-        }
-        .doctor-info p{
-            color: red;
-            bottom: 20px;
-        }
-        .doctor-info button{
-            background-color: rgb(172, 219, 219);
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgb(97, 226, 118);
-            font-size: 15px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            color: black;
-            
-        }
-        .doctor-info button:hover{
-            cursor: pointer;
-            color: white;
-            background-color: rgb(21, 255, 0);
-            transition: all 0.3s ease;
-        } */
+      .first-aid-item i{
+        width: 10px;
+      }
       #whychooseus {
         color: rgb(69, 171, 206);
         font-size: 40px;
@@ -735,37 +207,50 @@
       .donation {
         background-color: white;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 15px;
         margin-bottom: 20px;
-        max-width: 60%;
-        border: 2px solid rgb(95, 89, 89);
-        display: inline;
+        width: 60%; /* Set width to 60% */
+        margin: 20px auto; /* Center the container */
+        border: 1px solid rgb(95, 89, 89);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better appearance */
+        text-align: left; /* Ensure text aligns left */
+      }
+
+      .donation h1 {
+        font-size: 1.8rem;
+        color: #007bff;
+        margin-bottom: 10px;
       }
 
       .donation p {
         font-size: 1.2rem;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
 
       .priority {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .priority p {
+        font-size: 1.1rem;
       }
 
       .priority span {
-        font-size: 0.9rem;
-        color: #fff;
-        padding: 5px 10px;
+        padding: 8px 12px;
         border-radius: 20px;
+        color: white;
+        font-size: 0.9rem;
       }
 
       .high {
-        background-color: #007bff;
+        background-color: #dc3545; /* Red for high priority */
       }
 
       .medium {
-        background-color: #6c757d;
+        background-color: #ffc107; /* Yellow for medium priority */
       }
 
       .donate-btn {
@@ -774,136 +259,14 @@
         color: white;
         text-decoration: none;
         border-radius: 5px;
+        font-size: 1.1rem;
+        display: inline-block;
+        transition: background-color 0.3s ease;
       }
-      /*carosuel styles*/
-      /* .slideshow-container {
-            width:97%;
-            position: relative;
-            margin: auto;
-            
-            
-        }
 
-        
-        .mySlides {
-            display: none;
-            
-        }
-
-        
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: rgb(22, 22, 22);
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: wheat;
-        }
-
-        
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-
-        
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .mySlides {
-            display: flex;
-            flex-direction: row; 
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .doctor-info {
-            text-align: center;
-            padding: 10px;
-            flex: 1;
-            background-color: #f3e7e7;
-            margin-right: 20px;
-            border: 1px solid rgb(180, 172, 172);
-            border-radius: 2px;
-        }
-        .doctor-info h3{
-            color: rgb(69, 69, 217);
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-        }
-        .doctor-info p{
-            color: red;
-        }
-        .doctor-info button{
-            background-color: rgb(172, 219, 219);
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgb(97, 226, 118);
-            font-size: 15px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            color: black;
-            
-        }
-        .doctor-info button:hover{
-            cursor: pointer;
-            color: white;
-            background-color: rgb(21, 255, 0);
-            transition: all 0.3s ease;
-        } */
+      .donate-btn:hover {
+        background-color: #0056b3;
+      }
     </style>
   </head>
   <body>
@@ -923,6 +286,28 @@
         </div>
       </div>
     </header>
+    <br>
+    <br>
+    <h1>Hospital Inventory Management</h1>
+    <div class="first-aid">
+      <h2><i class="bi bi-bandaid me-2"></i>First-Aid Components</h2>
+      <div class="first-aid-item">
+        <i class="bi bi-bandaid fs-2 me-2 text-warning"></i>
+        <p>Bandages<br /><small>Various sizes</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-droplet fs-2 me-2 text-warning"></i>
+        <p>Antiseptic<br /><small>Wound cleaning</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-scissors fs-2 me-2 text-warning"></i>
+        <p>Gauze<br /><small>Wound dressing</small></p>
+      </div>
+      <div class="first-aid-item">
+        <i class="bi bi-thermometer fs-2 me-2 text-warning"></i>
+        <p>Thermometer<br /><small>Temperature check</small></p>
+      </div>
+    </div>
 
     <main class="container my-5">
       <div class="row">
@@ -973,47 +358,28 @@
         </div>
       </div>
     </main>
-    <%-include('slide')%>;
-    
-      <div class="donation">
-        <h1 style="text-align-last: left">Blood Donation</h1>
-        <p>We are in urgent need of the following blood groups:</p>
-        <div class="priority">
-          <p>O Negative</p>
-          <span class="high">High Priority</span>
-        </div>
-        <div class="priority">
-          <p>AB Positive</p>
-          <span class="medium">Medium Priority</span>
-        </div>
-        <a href="#" class="donate-btn">Schedule Donation</a>
+    <div class="donation">
+      <h1 style="text-align-last: left">Blood Donation</h1>
+      <p>We are in urgent need of the following blood groups:</p>
+      <div class="priority">
+        <p>O Negative</p>
+        <span class="high">High Priority</span>
       </div>
-      
+      <div class="priority">
+        <p>AB Positive</p>
+        <span class="medium">Medium Priority</span>
+      </div>
+      <a href="#" class="donate-btn">Schedule Donation</a>
+    </div>
+    
+    <%-include('slide')%>;
+
     
 
     <br />
     <p id="whychooseus">Why Choose Us</p>
     <img src="whyus.png" alt="whychooseus" id="whyus" />
-    <h1>Hospital Inventory Management</h1>
-    <div class="first-aid">
-      <h2><i class="bi bi-bandaid me-2"></i>First-Aid Components</h2>
-      <div class="first-aid-item">
-        <i class="bi bi-bandaid fs-2 me-2 text-warning"></i>
-        <p>Bandages<br /><small>Various sizes</small></p>
-      </div>
-      <div class="first-aid-item">
-        <i class="bi bi-droplet fs-2 me-2 text-warning"></i>
-        <p>Antiseptic<br /><small>Wound cleaning</small></p>
-      </div>
-      <div class="first-aid-item">
-        <i class="bi bi-scissors fs-2 me-2 text-warning"></i>
-        <p>Gauze<br /><small>Wound dressing</small></p>
-      </div>
-      <div class="first-aid-item">
-        <i class="bi bi-thermometer fs-2 me-2 text-warning"></i>
-        <p>Thermometer<br /><small>Temperature check</small></p>
-      </div>
-    </div>
+
     <%-include('footer')%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
