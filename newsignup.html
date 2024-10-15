@@ -3,16 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>Create Account</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <script
-      src="https://kit.fontawesome.com/d70dca505b.js"
-      crossorigin="anonymous"
-    ></script>
     <style>
+      /* General body styling */
       body {
         font-family: Arial, sans-serif;
         background-color: rgba(83, 82, 82, 0.175);
@@ -24,14 +21,15 @@
         overflow-y: hidden;
       }
 
+      /* Container styling for the form */
       .container {
         display: flex;
         width: 100%;
-        height: 100vh; /* Make container take the full height */
+        height: 100vh; /* Full height */
         margin: 0 auto;
       }
 
-      .login-container {
+      .register-container {
         background-color: rgba(255, 255, 255, 0.8); /* White with opacity */
         padding: 20px;
         border-radius: 10px;
@@ -49,6 +47,7 @@
         color: #333;
       }
 
+      /* Input container styling */
       .input-container {
         display: flex;
         align-items: center;
@@ -73,8 +72,8 @@
         font-size: 16px;
       }
 
-      button,
-      .create-account-button {
+      /* Button styling */
+      button {
         width: 80%;
         padding: 10px;
         background-color: #0911ffd3;
@@ -85,44 +84,26 @@
         font-size: 16px;
         text-align: center;
         margin: 10px 0;
+        margin-left: 38px;
       }
 
-      button:hover,
-      .create-account-button:hover {
-        background-color: #5947fb;
+      button:hover {
+        background-color: #5d27ff;
       }
 
-      .forgot-password {
-        text-align: center;
-        margin-top: 10px;
-      }
-
-      .forgot-password a {
-        color: #5947fb;
-        text-decoration: none;
-      }
-
-      .forgot-password a:hover {
-        text-decoration: underline;
-      }
-
-      #buttonlink {
-        text-decoration: none;
-        color: white;
-      }
-
+      /* Right container with image */
       .right-container {
         flex-grow: 3; /* 3 parts of the ratio */
         background: url("https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
           no-repeat center center;
         background-size: cover;
-        transition: transform 10s ease; /* Slow transition */
+        transition: transform 10s ease;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         padding: 20px;
-        height: 100%; /* Make the container take the full height */
+        height: 100%;
       }
 
       .right-container h1 {
@@ -134,48 +115,36 @@
         font-size: 18px;
         text-align: center;
       }
-
-      #logologin {
-        width: 40px;
-        margin-right: 20px;
-      }
-
-      .logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-      }
-      /* Styling for the larger user icon */
-      #user {
-        font-size: 80px; /* Make the icon larger */
-        color: rgba(
-          109,
-          103,
-          129,
-          0.727
-        ); /* A soft green color for the user icon */
-        display: block;
-        margin: 0 auto 20px auto; /* Center the icon horizontally and add margin at the bottom */
-        filter: blur(2px) drop-shadow(0 0 10px rgba(89, 0, 255, 0.799)); /* Add blur and glow effect */
-        transition: filter 0.3s ease; /* Smooth transition for hover effect */
-      }
-
-      #user {
-        filter: blur(0) drop-shadow(0 0 15px rgb(129, 134, 129)); /* Remove blur and increase glow on hover */
-      }
-      .btn {
-        margin-left: 38px;
-      }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- Login container -->
-      <div class="login-container">
-        <h2>Health Connect</h2>
-        <i id="user" class="fa-solid fa-user"></i>
-        <form action="/loginpage" method="POST">
+      <!-- Left container with the registration form -->
+      <div class="register-container">
+        <h2>Create Account</h2>
+        <form action="/signup" method="POST">
+          <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Last Name"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
           <div class="input-container">
             <i class="fas fa-user"></i>
             <input
@@ -194,28 +163,26 @@
               required
             />
           </div>
-          <button class="btn" type="submit">Login</button>
-          <button class="btn">
-            <a href="/forgotpass" id="buttonlink">Forgot Password?</a>
-          </button>
-          <h1 class="btn" style="color: #333; font-size: small">
-            _________________________________________
-          </h1>
-          <br />
-          <button class="btn">
-            <a href="/signup" id="buttonlink">Create Account</a>
-          </button>
+          <div class="input-container">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="confirm_password"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          <button type="submit">Create Account</button>
         </form>
       </div>
 
       <!-- Right container with background image and text -->
       <div class="right-container">
         <div>
-          <h1>Welcome to Health Connect</h1>
+          <h1>Join Health Connect</h1>
           <p>
-            A seamless platform that bridges the gap between college health
-            centers and students, offering easy access to medical appointments,
-            records, and health resources.
+            Experience a unified platform designed to connect you with essential
+            health services at your college.
           </p>
         </div>
       </div>
