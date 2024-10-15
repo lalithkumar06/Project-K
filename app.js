@@ -107,6 +107,89 @@ app.get('/bloodDonors', async (req, res) => {
     }
     
 });
+
+app.get('/Admin_bloodDonors', async (req, res) => {
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+
+        if (!req.session.person || req.session.person.login !== 'Admin') {
+            return res.status(403).send("Access denied");
+        }
+
+        let ppl = await client.db('Medi').collection('user').find({}).toArray();
+        console.log('donors:', ppl);
+        if (!ppl) {
+            ppl = []; // Default to an empty array if no data is found
+        }
+        res.render('Admin_bloodDonors', { person: req.session.person, ppl });
+    } catch (error) {
+        console.error("Error fetching donors:", error);
+        res.status(500).send("An error occurred while fetching donors");
+    } finally {
+        await client.close();
+    }
+});
+
+// Route to handle updating a donor
+app.post('/updatedonor', async (req, res) => {
+    if (!req.session.person || req.session.person.login !== 'Admin') {
+        return res.status(403).send("Access denied");
+    }
+
+    const { email, last_don } = req.body;
+
+    if (!email || !last_don) { // Ensure both fields are present
+        return res.status(400).send("All fields are required");
+    }
+
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+
+        const existingDonor = await client.db('Medi').collection('user').findOne({ email });
+
+        if (existingDonor) {
+            // Calculate the difference between the new date and the last_don
+            const newDonDate = new Date(last_don);
+            const previousDonDate = existingDonor.last_don ? new Date(existingDonor.last_don) : null;
+
+            if (previousDonDate) {
+                const diffTime = Math.abs(newDonDate - previousDonDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays < 90) {
+                    // If the difference is less than 90 days, send an error response
+                    return res.status(400).send("The last donated date must be at least 90 days apart.");
+                }
+            }
+
+            // Update existing donor
+            await client.db('Medi').collection('user').updateOne(
+                { email },
+                { $set: { last_don } }
+            );
+
+            console.log(`Donor with email ${email} updated.`);
+        } else {
+            return res.status(404).send("Donor not found.");
+        }
+
+        // Redirect back to Admin_bloodDonors to see the updated list
+        res.redirect('/Admin_bloodDonors');
+
+    } catch (error) {
+        console.error("Error updating donor:", error);
+        res.status(500).send("An error occurred while updating the donor");
+    } finally {
+        await client.close();
+    }
+});
+
 app.get('/Admin_avamedi', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
@@ -298,6 +381,32 @@ app.get('/home', (req, res) => {
     else
     res.render('homeadmin', { person });
 });
+
+app.get('/homeadmin', async (req, res) => {
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+
+        if (!req.session.person || req.session.person.login !== 'Admin') {
+            return res.status(403).send("Access denied");
+        }
+
+        let alerts = await client.db('Medi').collection('alerts').find({}).toArray();
+        console.log('Alerts:', alerts);
+        if (!alerts) {
+            alerts = []; // Default to an empty array if no data is found
+        }
+        res.render('homeadmin', { person: req.session.person, alerts });
+    } catch (error) {
+        console.error("Error fetching alerts:", error);
+        res.status(500).send("An error occurred while fetching alerts");
+    } finally {
+        await client.close();
+    }
+});
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy();

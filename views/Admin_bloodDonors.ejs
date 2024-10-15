@@ -231,6 +231,157 @@
 .navbar-brand:hover, .nav-link:hover {
     color: #2c3e50;
 }
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px;
+  border-radius: 5px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.modal-form input, .modal-form select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.modal-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-form button:hover {
+  background-color: #0056b3;
+}
+
+/* General modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.4); /* Black with opacity for background overlay */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #1b0b06; /* Dark background similar to the login form */
+    margin: 15% auto; /* Center the modal */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px; /* Adjust the width as needed */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    color: white;
+    position: relative;
+}
+
+/* Close button */
+.close {
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+}
+
+/* Modal form styling */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content label {
+    margin: 10px 0 5px;
+    font-size: 16px;
+}
+
+.modal-content input[type="text"],
+.modal-content select {
+    padding: 10px;
+    margin: 5px 0 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 100%;
+}
+
+/* Submit button */
+.modal-content button {
+    background-color: #28a745; /* Green button color */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modal-content button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Additional styles for better layout */
+.modal-content select {
+    background-color: white;
+    color: #333;
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+    }
+}
 
   </style>
 </head>
@@ -259,6 +410,21 @@
       
         <h2>Blood Donors List</h2>
         <br><br>
+        <div id="donorModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add / Update Donors</h3>
+            <form id="donorForm" method="POST" action="/updatedonor">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required readonly>
+        
+              <label for="last_don">Recent Donated Date:</label>
+              <input type="date" id="last_don" name="last_don" required>
+        
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>  
       <div class="search-bar">
           <input type="text" id="searchName" placeholder="Search by Name">
         </div>
@@ -273,7 +439,7 @@
               <th>Last given Blood</th>
               <th>Availability of Donation</th>
               <th>Email</th>
-
+              <th>Update</th>
             </tr>
           </thead>
           <tbody>
@@ -303,7 +469,7 @@
                   
                         const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null;
                   
-                        if (daysDiff !== null && daysDiff > 30) { 
+                        if (daysDiff !== null && daysDiff > 90) { 
                           %>Yes<%
                         } else { 
                           %>No<%
@@ -311,12 +477,19 @@
                       %>
                     </td>
                     <td><%= x.email %></td>
-                  </tr>
+                    <td>
+                      <% if (daysDiff !== null && daysDiff > 90) { %>
+                        <button class="updatedonorBtn" data-email="<%= x.email %>" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+                      <% } else { %>
+                        <span style="color: red;">Cannot Update</span>
+                      <% } %>
+                    </td>
+                      </tr>
                   
               <% }) %>
             <% } else { %>
               <tr>
-                <td colspan="4">No data found.</td>
+                <td colspan="7">No data found.</td>
               </tr>
             <% } %>
           </tbody>
@@ -330,6 +503,52 @@
   </div>
 
   <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+  const donorModal = document.getElementById("donorModal");
+  const donorForm = document.getElementById("donorForm");
+  const closeBtn = document.querySelector(".close");
+
+  // Function to attach event listeners to update buttons
+  function attachUpdateButtonListeners() {
+    const updateButtons = document.querySelectorAll(".updatedonorBtn");
+    updateButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const email = this.getAttribute('data-email');
+        const row = this.closest('tr');
+        const lastDon = row.cells[3].textContent.trim(); // Assuming last_don is in the 4th cell
+
+        // Set the email in the form
+        donorForm.email.value = email;
+
+        // Set the current last_don in the form
+        donorForm.last_don.value = lastDon ? new Date(lastDon.split('-').join('-')).toISOString().split('T')[0] : '';
+
+        // Show the modal
+        donorModal.style.display = "block";
+      });
+    });
+  }
+
+  // Initial call to attach listeners when DOM content loads
+  attachUpdateButtonListeners();
+
+  // Close the modal when the close button is clicked
+  closeBtn.onclick = function () {
+    donorModal.style.display = "none";
+    donorForm.reset();
+  };
+
+  // Close the modal when clicking outside of the modal content
+  window.onclick = function (event) {
+    if (event.target === donorModal) {
+      donorModal.style.display = "none";
+      donorForm.reset();
+    }
+  };
+});
+
+ 
     const searchNameInput = document.getElementById('searchName');
     const filterTypeSelect = document.getElementById('filterType');
     const filterTabletTypeSelect = document.getElementById('filterTabletType');

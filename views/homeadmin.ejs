@@ -1,321 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Center Connect</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/d70dca505b.js" crossorigin="anonymous"></script>
-    <link href="index.css" rel="stylesheet">
-    <style>
-    footer {
-        background-color: #1a252f;
-        color: #fff;
-        padding: 50px 0;
-        position: relative;
-        overflow: hidden; /* Hide the overflow for the curve effect */
-      }
-  
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-  
-      .footer-section {
-        width: 25%;
-        margin-bottom: 30px;
-      }
-  
-      .footer-section h3 {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-      }
-  
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-  
-      .footer-section li {
-        margin-bottom: 10px;
-      }
-  
-      .footer-section a {
-        color: #fff;
-        text-decoration: none;
-      }
-  
-      .footer-section a:hover {
-        text-decoration: underline;
-      }
-  
-      /* Curved design at the top */
-      footer::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        background-color: #fff;
-        border-radius: 0 0 50% 50%;
-        transform: translateY(-50%);
-      }
-      .footer-section ul li i{
-          padding: 4px;
-          margin-right: 10px;
-      }
-      .footer-section ul li:hover{
-          scale: 1.05;
-          transition: all ease-in 0.2s;
-      }
-      .footer-section{
-  
-      }
-
-
-      body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-
-        .navbar-brand, .nav-link {
-            color: #4a4a4a;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-brand:hover, .nav-link:hover {
-            color: #2c3e50;
-        }
-
-        .bg-image {
-            background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            position: relative;
-        }
-
-        .bg-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(44, 62, 80, 0.6);
-        }
-
-        .bg-image * {
-            position: relative;
-        }
-
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-title {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .user-info {
-            background-color: #e8f4f8;
-        }
-
-        .previous-visits {
-            background-color: #f0f8ff;
-        }
-
-        .medical-alerts {
-            background-color: #fff5e6;
-        }
-
-        .list-group-item {
-            background-color: transparent;
-            border: none;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,.125);
-        }
-
-        .alert {
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            background-color: #f8f9fa;
-            color: #6c757d;
-        }
-
-        @media (max-width: 768px) {
-            .bg-image {
-                height: 200px;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .card, .alert {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Accessibility */
-        a:focus, button:focus {
-            outline: 3px solid #3498db;
-            outline-offset: 2px;
-        }
-
-        /* Interactive elements */
-        .nav-link, .card, .alert {
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover, .card:hover, .alert:hover {
-            transform: translateY(-2px);
-        }
-
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Health Center Connect</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/availableMedi">Available Medicines</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/bloodDonors">Blood Donors List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Virtual Conference</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-table-cells-row-unlock"></i>Slot Booking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i id="profile" class="fa-solid fa-user"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-image py-5">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-lg-12">
-                    <h1 class="display-4 text-white mt-5 mb-2">Welcome to Health Connect</h1>
-                    <p class="lead mb-5 text-white-50">Connecting college students with health resources</p>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container my-5">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card user-info h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">User Information</h5>
-                        <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
-                        <p class="card-text">Age: <%= person.age %></p>
-                        <p class="card-text">Blood Group: <%= person.blood %></p>
-                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 mb-4">
-                <div class="card previous-visits h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Previous Visits</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
-                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
-                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card medical-alerts">
-                    <div class="card-body">
-                        <h5 class="card-title">Medical Alerts</h5>
-                        <div class="alert alert-info" role="alert">
-                            Remember to schedule your annual checkup this month.
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            Allergy season is approaching. Consult with your doctor about preventive measures.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>About Us</h3>
-            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
-          </div>
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Find a Doctor</a></li>
-              <li><a href="#">Book an Appointment</a></li>
-              <li><a href="#">look for a blood group</a></li>
-              <li><a href="#">Career</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <ul>
-              <li>Health Connect</li>
-              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
-              
-              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
-              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
-              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Follow Us on</h3>
-            <ul>
-              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
-              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
-              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -811,7 +493,8 @@
             color: white;
             background-color: rgb(21, 255, 0);
             transition: all 0.3s ease;
-        }
+        }   
+              
     </style>
 </head>
 <body>
@@ -851,24 +534,11 @@
             <div class="col-md-4 mb-4">
                 <div class="card user-info h-100">
                     <div class="card-body">
-                        <h5 class="card-title">User Information</h5>
+                        <h5 class="card-title">Admin Information</h5>
                         <p class="card-text">Name: <%= person.first_name %> <%= person.last_name %></p>
                         <p class="card-text">Age: <%= person.age %></p>
-                        <p class="card-text">Blood Group: <%= person.blood %></p>
-                        <p class="card-text">Current Conditions: Allergic to <%= person.allergies %></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 mb-4">
-                <div class="card previous-visits h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Previous Visits</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">May 15, 2023 - Regular Checkup</li>
-                            <li class="list-group-item">March 3, 2023 - Flu Shot</li>
-                            <li class="list-group-item">January 10, 2023 - Allergy Consultation</li>
-                        </ul>
-                    </div>
+                        <p class="login_time">Login-Time: <span id="loginTime"></span></p>
+                     </div>
                 </div>
             </div>
         </div>
@@ -877,12 +547,21 @@
                 <div class="card medical-alerts">
                     <div class="card-body">
                         <h5 class="card-title">Medical Alerts</h5>
-                        <div class="alert alert-info" role="alert">
-                            Remember to schedule your annual checkup this month.
+                        
+                        <% alerts.forEach(function(alert) { %> <!-- Changed alertt to alert -->
+                            <div class="alert alert-info" role="alert">
+                                <%= alert.alert %> <!-- Assuming the field is 'alert' -->
+                                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>
+                            </div>
+                        <% }) %>                        
+                        
+                        <button id="editBtn" class="btn btn-primary mt-3" onclick="toggleEdit()">Edit Alerts</button>
+                        
+                        <div id="alertForm" style="display:none;">
+                            <input type="text" id="newAlert" class="form-control mb-2" placeholder="Enter new alert">
+                            <button class="btn btn-success" onclick="addAlert()">Add Alert</button>
                         </div>
-                        <div class="alert alert-warning" role="alert">
-                            Allergy season is approaching. Consult with your doctor about preventive measures.
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -957,6 +636,34 @@
     </div>
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginTime = new Date(); // Get the current date and time
+            document.getElementById("loginTime").textContent = loginTime.toLocaleString(); // Display in readable format
+        });
+
+
+        function toggleEdit() {
+        const form = document.getElementById('alertForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function addAlert() {
+        const alertContainer = document.getElementById('alertContainer');
+        const newAlertText = document.getElementById('newAlert').value;
+        if (newAlertText.trim() !== "") {
+            const newAlert = document.createElement('div');
+            newAlert.className = 'alert alert-info';
+            newAlert.role = 'alert';
+newAlert.innerHTML = `${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>`;
+            alertContainer.appendChild(newAlert);
+            document.getElementById('newAlert').value = ''; // Clear the input field
+        }
+    }
+
+    function deleteAlert(button) {
+        button.parentElement.remove(); // Remove the alert div
+    }
         let slideIndex = 1;
         showSlides(slideIndex);
 
