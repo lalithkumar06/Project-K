@@ -483,25 +483,27 @@
                     <div class="card-body">
                         <h5 class="card-title">Medical Alerts</h5>
                         
-                        <% if (alertss && alertss.length > 0) { %>
-                            <% alertss.forEach(function(alertii) { %>
-                                <div class="alert alert-info" role="alert">
-                                    <%= alertii.alerti %> <!-- Assuming the field name in your database is 'alert' -->
-                                    <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>
-                                </div>
-                            <% }); %>
-                        <% } else { %>
-                            <p>No alerts available.</p>
-                        <% } %>
-                                               
-                        
+                        <div id="alertContainer">
+                            <div class="alert alert-info" role="alert">
+                                <% if (alertss && alertss.length > 0) { %>
+                                    <% alertss.forEach(function(a) { %>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><%= a.alerti %></span>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteAlert('<%= a._id %>')">Delete</button>
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <p>No alerts found.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                
                         <button id="editBtn" class="btn btn-primary mt-3" onclick="toggleEdit()">Edit Alerts</button>
                         
                         <div id="alertForm" style="display:none;">
                             <input type="text" id="newAlert" class="form-control mb-2" placeholder="Enter new alert">
                             <button class="btn btn-success" onclick="addAlert()">Add Alert</button>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -588,22 +590,53 @@
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
 
-    function addAlert() {
-        const alertContainer = document.getElementById('alertContainer');
-        const newAlertText = document.getElementById('newAlert').value;
-        if (newAlertText.trim() !== "") {
+    // Function to add a new alert
+function addAlert() {
+    const alertContainer = document.getElementById('alertContainer');
+    const newAlertText = document.getElementById('newAlert').value;
+    
+    if (newAlertText.trim() !== "") {
+        // Send alert to the backend
+        fetch('/addAlert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ alerti: newAlertText })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);  // Success message from backend
+
+            // Add new alert to the DOM
             const newAlert = document.createElement('div');
             newAlert.className = 'alert alert-info';
             newAlert.role = 'alert';
-newAlert.innerHTML = `${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>`;
+            newAlert.innerHTML = `
+                ${newAlertText}
+                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert('${newAlertText}', this)">Delete</button>
+            `;
             alertContainer.appendChild(newAlert);
             document.getElementById('newAlert').value = ''; // Clear the input field
-        }
+        })
+        .catch(error => console.error('Error adding alert:', error));
     }
+}
 
-    function deleteAlert(button) {
-        button.parentElement.remove(); // Remove the alert div
-    }
+// Function to delete an alert
+function deleteAlert(alertId, button) {
+    // Send request to the backend to delete alert
+    fetch(`/deleteAlert/${alertId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);  // Success message from backend
+        button.parentElement.remove();  // Remove alert from DOM
+    })
+    .catch(error => console.error('Error deleting alert:', error));
+}
+
         let slideIndex = 1;
         showSlides(slideIndex);
 
@@ -636,7 +669,44 @@ newAlert.innerHTML = `${newAlertText} <button class="btn btn-danger btn-sm float
     </script>
     <p id="whychooseus">Why Choose Us</p>
     <img src="whyus.png" alt="whychooseus" id="whyus">
-    <%-include('footer')%>
+    <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Us</h3>
+            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Find a Doctor</a></li>
+              <li><a href="#">Book an Appointment</a></li>
+              <li><a href="#">look for a blood group</a></li>
+              <li><a href="#">Career</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+              <li>Health Connect</li>
+              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
+              
+              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
+              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
+              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us on</h3>
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

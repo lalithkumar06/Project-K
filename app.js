@@ -40,8 +40,12 @@ app.post('/loginpage', async (req, res) => {
         await client.connect();
 
         const person = await finding(client, data, 'user');
-        
+
+        console.log("Data:", data);
+        console.log("Person found:", person);
+
         if (person == null) {
+            await client.close();
             res.render('signup');
         } else {
             console.log("Stored password:", person[0].pass);
@@ -49,35 +53,73 @@ app.post('/loginpage', async (req, res) => {
 
             if (person[0].pass === passwo) {
                 req.session.person = person[0];
-                
-                if(person[0].login === 'Student') {
+                console.log(person[0].login);
+
+                if (person[0].login == 'Student') {
+                    await client.close();
                     res.render('home1', { person: person[0] });
                 } else {
-                    // Fetch the alerts collection for the admin
-                    const collection = await client.db('Medi').collection('ale');
-                    const alertsCursor = collection.find({});
-                    const alertss = await alertsCursor.toArray();
-
+                    // Do not close the client before fetching alerts
+                    let alertss = await client.db('Medi').collection('ale').find({}).toArray();
                     console.log('Alerts:', alertss);
-
-                    if (!alertss || alertss.length === 0) {
+                    
+                    if (!alertss) {
                         alertss = []; // Default to an empty array if no data is found
                     }
                     
-                    res.render('homeadmin', { person: person[0], alertss: alertss });
+                    await client.close();  // Close connection after all queries
+                    res.render('homeadmin', { person: person[0], alertss });
                 }
             } else {
                 console.log("Password incorrect.");
+                await client.close();
                 res.status(401).send("Password incorrect.");
             }
         }
-
-        await client.close();
     } catch (error) {
         console.error("An error occurred:", error);
         res.status(500).send("An error occurred");
     }
 });
+
+// Add new alert
+app.post('/addAlert', async (req, res) => {
+    try {
+        const newAlert = req.body.alerti;  // Alert content from the request body
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const newAlertDoc = { alerti: newAlert };
+        await client.db('Medi').collection('ale').insertOne(newAlertDoc);  // Insert new alert
+
+        await client.close();
+        res.status(200).send('Alert added successfully');
+    } catch (error) {
+        console.error("Error adding alert:", error);
+        res.status(500).send('Error adding alert');
+    }
+});
+
+// Delete an alert
+app.delete('/deleteAlert/:id', async (req, res) => {
+    try {
+        const alertId = req.params.id;  // ID of the alert to delete
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const ObjectId = require('mongodb').ObjectId;
+        await client.db('Medi').collection('ale').deleteOne({ _id: new ObjectId(alertId) });  // Delete alert by ID
+
+        await client.close();
+        res.status(200).send('Alert deleted successfully');
+    } catch (error) {
+        console.error("Error deleting alert:", error);
+        res.status(500).send('Error deleting alert');
+    }
+});
+
 
 app.get('/availableMedi', async (req, res) => {
     try {
