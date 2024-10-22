@@ -228,7 +228,6 @@
                   // Function to convert DD-MM-YYYY to YYYY-MM-DD
                   function convertDateFormat(dateStr) {
                     const parts = dateStr.split('-');
-<<<<<<< HEAD
                     return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
                   }
 
@@ -241,22 +240,6 @@
                   }
 
                   const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null;
-=======
-                    return `${parts[2]}-${parts[1]}-${parts[0]}`; // Use template literals properly here
-                  }                  
-
-                  const currentDate = new Date(); 
-                  let lastDonDate; 
-
-                  if (x.last_don && typeof x.last_don === 'string') { 
-                    lastDonDate = new Date(convertDateFormat(x.last_don)); // Convert and create Date object
-                  } else { 
-                    lastDonDate = null; // Assign null if last_don is undefined or not a string
-                  } 
-
-                  const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null; 
-
->>>>>>> 311a5cdf7dd4abfeeb8de4946990a94d513158b8
                   if (daysDiff !== null && daysDiff > 90) { 
                   %>
                     Yes

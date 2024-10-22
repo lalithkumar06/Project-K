@@ -18,7 +18,7 @@
         color: #fff;
         padding: 50px 0;
         position: relative;
-        overflow: hidden; /* Hide the overflow for the curve effect */
+        overflow: hidden;
       }
   
       .footer-content {
@@ -365,7 +365,7 @@
             width: 100%;
             align-self: center;
         }
-        /*carosuel styles*/
+        /carosuel styles/
         .slideshow-container {
             width:97%;
             position: relative;
@@ -548,12 +548,19 @@
                     <div class="card-body">
                         <h5 class="card-title">Medical Alerts</h5>
                         
-                        <% alerts.forEach(function(alert) { %> <!-- Changed alertt to alert -->
-                            <div class="alert alert-info" role="alert">
-                                <%= alert.alert %> <!-- Assuming the field is 'alert' -->
-                                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>
+                        <% if (a && a.length > 0) { %>
+                            <% a.forEach(function(x) { %>
+                                <div class="alert alert-info" >
+                                    <%= x.alerti %> <!-- Make sure 'alert' is the correct field -->
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="alert alert-warning" >
+                                No alerts available.
                             </div>
-                        <% }) %>                        
+                        <% } %>
+                        
+                                               
                         
                         <button id="editBtn" class="btn btn-primary mt-3" onclick="toggleEdit()">Edit Alerts</button>
                         
@@ -655,7 +662,7 @@
             const newAlert = document.createElement('div');
             newAlert.className = 'alert alert-info';
             newAlert.role = 'alert';
-newAlert.innerHTML = `${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>`;
+newAlert.innerHTML = ${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>;
             alertContainer.appendChild(newAlert);
             document.getElementById('newAlert').value = ''; // Clear the input field
         }

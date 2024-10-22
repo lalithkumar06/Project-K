@@ -56,7 +56,33 @@ app.post('/loginpage', async (req, res) => {
                 req.session.person = person[0];
                 console.log(person[0].login)
                 if(person[0].login=='Student'){res.render('home1', { person: person[0] });}
-                else res.render('homeadmin', { person: person[0] });
+                else {
+                    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+                    const client = new MongoClient(uri);
+                    
+                    try {
+                        await client.connect();
+                        console.log("Connected to the database");
+                        
+                        const person = req.session.person;
+                        let al = await findall(client, 'ale');
+                        
+                        // Log alerts to check what is being fetched
+                        console.log('Alerts:', al);
+                        
+                        // Ensure alerts is always an array
+                        if (!al) {
+                            al = []; // If `null` or `undefined`, set to an empty array
+                        }
+                        
+                        res.render('homeadmin', { person: req.session.person ,a:al});
+                    } catch (error) {
+                        console.error("Error fetching alerts:", error);
+                        res.status(500).send("An error occurred while fetching alerts");
+                    } finally {
+                        await client.close();
+                    }
+                }
             } else {
                 console.log("Password incorrect.");
                 res.status(401).send("Password incorrect.");
@@ -382,23 +408,54 @@ app.get('/home', (req, res) => {
     res.render('homeadmin', { person });
 });
 
+// app.get('/homeadmin', async (req, res) => {
+    
+//     try {
+//         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+//         const client = new MongoClient(uri);
+//         try {
+//             await client.connect();
+//             console.log("Connected to the database");
+//         } catch (error) {
+//             console.error("Failed to connect to the database:", error);
+//         }
+//         const person = req.session.person;
+//         let alerts = await findall(client, 'alerts');
+        
+//         console.log('Alerts:', alerts);
+//         if (!alerts) {
+//             alerts = []; // Ensure alerts is always an array
+//         }
+        
+//         res.render('homeadmin', { person, alerts });
+//     } catch (error) {
+//         console.error("Error fetching alerts:", error);
+//         res.status(500).send("An error occurred while fetching alerts");
+//     } finally {
+//         await client.close();
+//     }
+// });
+
 app.get('/homeadmin', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
-
+    
     try {
         await client.connect();
-
-        if (!req.session.person || req.session.person.login !== 'Admin') {
-            return res.status(403).send("Access denied");
+        console.log("Connected to the database");
+        
+        const person = req.session.person;
+        let al = await findall(client, 'ale');
+        
+        // Log alerts to check what is being fetched
+        console.log('Alerts:', al);
+        
+        // Ensure alerts is always an array
+        if (!al) {
+            al = []; // If `null` or `undefined`, set to an empty array
         }
-
-        let alerts = await client.db('Medi').collection('alerts').find({}).toArray();
-        console.log('Alerts:', alerts);
-        if (!alerts) {
-            alerts = []; // Default to an empty array if no data is found
-        }
-        res.render('homeadmin', { person: req.session.person, alerts });
+        
+        res.render('homeadmin', { person, a:al });
     } catch (error) {
         console.error("Error fetching alerts:", error);
         res.status(500).send("An error occurred while fetching alerts");
