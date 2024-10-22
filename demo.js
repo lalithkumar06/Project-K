@@ -57,7 +57,21 @@ async function findall(client, coll) {
         throw error; // Re-throw the error to handle it in the calling function
     }
 }
-
+async function deleting(client, alertId, coll) {
+    try {
+        const result = await client.db("Medi").collection(coll).deleteOne({ _id: new ObjectId(alertId) });
+        if (result.deletedCount === 1) {
+            console.log(`Successfully deleted alert with id: ${alertId}`);
+            return true;
+        } else {
+            console.log(`No alert found with id: ${alertId}`);
+            return false;
+        }
+    } catch (error) {
+        console.error("An error occurred in deleting:", error);
+        throw error; // Re-throw the error for handling in the calling function
+    }
+}
 
 async function inserting(client, newListing, coll) {
     try {
@@ -70,4 +84,4 @@ async function inserting(client, newListing, coll) {
     }
 }
 
-module.exports = { inserting, finding ,findall};
+module.exports = { inserting, finding ,findall,deleting};

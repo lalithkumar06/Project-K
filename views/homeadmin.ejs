@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="icon" href="./img/logoHC.jpeg" type="image/x-icon">
     <style>
+<<<<<<< HEAD
       
     footer {
         background-color: #1a252f;
@@ -77,6 +78,8 @@
           scale: 1.05;
           transition: all ease-in 0.2s;
       }
+=======
+>>>>>>> 1fb5f948619c69b0d8cae0f81c2688f2f6acb961
       #logo{
         width: 35px;
         height: 35px;
@@ -548,6 +551,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Medical Alerts</h5>
                         
+<<<<<<< HEAD
                         <% if (a && a.length > 0) { %>
                             <% a.forEach(function(x) { %>
                                 <div class="alert alert-info" >
@@ -562,13 +566,29 @@
                         
                                                
                         
+=======
+                        <div id="alertContainer">
+                            <div class="alert alert-info" role="alert">
+                                <% if (alertss && alertss.length > 0) { %>
+                                    <% alertss.forEach(function(a) { %>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><%= a.alerti %></span>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteAlert('<%= a._id %>')">Delete</button>
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <p>No alerts found.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                
+>>>>>>> 1fb5f948619c69b0d8cae0f81c2688f2f6acb961
                         <button id="editBtn" class="btn btn-primary mt-3" onclick="toggleEdit()">Edit Alerts</button>
                         
                         <div id="alertForm" style="display:none;">
                             <input type="text" id="newAlert" class="form-control mb-2" placeholder="Enter new alert">
                             <button class="btn btn-success" onclick="addAlert()">Add Alert</button>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -655,22 +675,57 @@
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
 
-    function addAlert() {
-        const alertContainer = document.getElementById('alertContainer');
-        const newAlertText = document.getElementById('newAlert').value;
-        if (newAlertText.trim() !== "") {
+    // Function to add a new alert
+function addAlert() {
+    const alertContainer = document.getElementById('alertContainer');
+    const newAlertText = document.getElementById('newAlert').value;
+    
+    if (newAlertText.trim() !== "") {
+        // Send alert to the backend
+        fetch('/addAlert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ alerti: newAlertText })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);  // Success message from backend
+
+            // Add new alert to the DOM
             const newAlert = document.createElement('div');
             newAlert.className = 'alert alert-info';
             newAlert.role = 'alert';
+<<<<<<< HEAD
 newAlert.innerHTML = ${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>;
+=======
+            newAlert.innerHTML = `
+                ${newAlertText}
+                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert('${newAlertText}', this)">Delete</button>
+            `;
+>>>>>>> 1fb5f948619c69b0d8cae0f81c2688f2f6acb961
             alertContainer.appendChild(newAlert);
             document.getElementById('newAlert').value = ''; // Clear the input field
-        }
+        })
+        .catch(error => console.error('Error adding alert:', error));
     }
+}
 
-    function deleteAlert(button) {
-        button.parentElement.remove(); // Remove the alert div
-    }
+// Function to delete an alert
+function deleteAlert(alertId, button) {
+    // Send request to the backend to delete alert
+    fetch(`/deleteAlert/${alertId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);  // Success message from backend
+        button.parentElement.remove();  // Remove alert from DOM
+    })
+    .catch(error => console.error('Error deleting alert:', error));
+}
+
         let slideIndex = 1;
         showSlides(slideIndex);
 
