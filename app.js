@@ -3,10 +3,12 @@ const { MongoClient } = require('mongodb');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const path = require('path');
+const bodyParser = require('body-parser');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
 require('dotenv').config();
 const app = express();
+app.use(bodyParser.json()); 
 
 app.use(session({
     secret: 'your-secret-key',
@@ -56,8 +58,15 @@ app.post('/loginpage', async (req, res) => {
                 console.log(person[0].login);
 
                 if (person[0].login == 'Student') {
-                    await client.close();
-                    res.render('home1', { person: person[0] });
+                    let alertss = await client.db('Medi').collection('ale').find({}).toArray();
+                    console.log('Alerts:', alertss);
+                    
+                    if (!alertss) {
+                        alertss = []; // Default to an empty array if no data is found
+                    }
+                    
+                    await client.close();  // Close connection after all queries
+                    res.render('home1', { person: person[0],alertss });
                 } else {
                     // Do not close the client before fetching alerts
                     let alertss = await client.db('Medi').collection('ale').find({}).toArray();
@@ -82,10 +91,34 @@ app.post('/loginpage', async (req, res) => {
     }
 });
 
+app.get('/getAlerts', async (req, res) => {
+    try {
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const alerts = await client.db('Medi').collection('ale').find({}).toArray();  // Fetch all alerts
+
+        await client.close();
+
+        // Send alerts to the client
+        res.status(200).json(alerts);
+    } catch (error) {
+        console.error("Error fetching alerts:", error);
+        res.status(500).send('Error fetching alerts');
+    }
+});
+
 // Add new alert
 app.post('/addAlert', async (req, res) => {
     try {
-        const newAlert = req.body.alerti;  // Alert content from the request body
+        const newAlert = req.body.alerti;
+
+        // Check if the alert is not null or empty
+        if (!newAlert || newAlert.trim() === "") {
+            return res.status(400).send('Alert cannot be empty or null');  // Send an error response if the alert is invalid
+        }
+
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
         const client = new MongoClient(uri);
         await client.connect();
@@ -100,6 +133,8 @@ app.post('/addAlert', async (req, res) => {
         res.status(500).send('Error adding alert');
     }
 });
+
+
 
 // Delete an alert
 app.delete('/deleteAlert/:id', async (req, res) => {
