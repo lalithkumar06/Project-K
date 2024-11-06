@@ -12,71 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="icon" href="./img/logoHC.jpeg" type="image/x-icon">
     <style>
-      
-    footer {
-        background-color: #1a252f;
-        color: #fff;
-        padding: 50px 0;
-        position: relative;
-        overflow: hidden; /* Hide the overflow for the curve effect */
-      }
-  
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-  
-      .footer-section {
-        width: 25%;
-        margin-bottom: 30px;
-      }
-  
-      .footer-section h3 {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-      }
-  
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-  
-      .footer-section li {
-        margin-bottom: 10px;
-      }
-  
-      .footer-section a {
-        color: #fff;
-        text-decoration: none;
-      }
-  
-      .footer-section a:hover {
-        text-decoration: underline;
-      }
-  
-      /* Curved design at the top */
-      footer::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        background-color: #ffffff;
-        border-radius: 0 0 50% 50%;
-        transform: translateY(-50%);
-      }
-      .footer-section ul li i{
-          padding: 4px;
-          margin-right: 10px;
-      }
-      .footer-section ul li:hover{
-          scale: 1.05;
-          transition: all ease-in 0.2s;
-      }
       #logo{
         width: 35px;
         height: 35px;
@@ -202,299 +137,7 @@
         }
 
         /* Interactive elements */
-        .nav-link, .card, .alert {
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover, .card:hover, .alert:hover {
-            transform: translateY(-2px);
-        }
-        .doctors{
-            background-color: bisque;
-            width: 80%;
-
-        }
-        h2{
-            color: orange;
-        }
-        .doctors p{
-            color: #3498db;
-            font-size: medium;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        }
-        .slides-container{
-            display: flex;
-        }
-        nav i{
-            margin-right: 5px;
-        }
-        .slideshow-container {
-            max-width: 1000px;
-            position: relative;
-            margin: auto;
-        }
-
-        /* Hide the slides by default */
-        .mySlides {
-            display: none;
-        }
-
-        /* Next & previous buttons */
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: rgb(22, 22, 22);
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: wheat;
-        }
-
-        /* Caption text */
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Dots */
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-
-        /* Animation for fading */
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .mySlides {
-            display: flex;
-            flex-direction: row; /* Align doctor info in a row (horizontally) */
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-        }
-
-        .doctor-info {
-            text-align: center;
-            padding: 10px;
-            flex: 1;
-            background-color: #f3e7e7;
-            margin-right: 20px;
-            border: 1px solid rgb(180, 172, 172);
-            border-radius: 2px;
-        }
-        .doctor-info h3{
-            color: rgb(69, 69, 217);
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-        }
-        .doctor-info p{
-            color: red;
-            bottom: 20px;
-        }
-        .doctor-info button{
-            background-color: rgb(172, 219, 219);
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgb(97, 226, 118);
-            font-size: 15px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            color: black;
-            
-        }
-        .doctor-info button:hover{
-            cursor: pointer;
-            color: white;
-            background-color: rgb(21, 255, 0);
-            transition: all 0.3s ease;
-        }
-        #whychooseus{
-            color: rgb(69, 171, 206);
-            font-size: 40px;
-            align-self: center;
-            font-family: "Poppins", sans-serif;
-        }
-        #whyus{
-            width: 100%;
-            align-self: center;
-        }
-        /*carosuel styles*/
-        .slideshow-container {
-            width:97%;
-            position: relative;
-            margin: auto;
-            
-            
-        }
-
-        /* Hide the slides by default */
-        .mySlides {
-            display: none;
-            
-        }
-
-        /* Next & previous buttons */
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: rgb(22, 22, 22);
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: wheat;
-        }
-
-        /* Caption text */
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Dots */
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-
-        /* Animation for fading */
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .mySlides {
-            display: flex;
-            flex-direction: row; /* Align doctor info in a row (horizontally) */
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .doctor-info {
-            text-align: center;
-            padding: 10px;
-            flex: 1;
-            background-color: #f3e7e7;
-            margin-right: 20px;
-            border: 1px solid rgb(180, 172, 172);
-            border-radius: 2px;
-        }
-        .doctor-info h3{
-            color: rgb(69, 69, 217);
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-        }
-        .doctor-info p{
-            color: red;
-        }
-        .doctor-info button{
-            background-color: rgb(172, 219, 219);
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgb(97, 226, 118);
-            font-size: 15px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            color: black;
-            
-        }
-        .doctor-info button:hover{
-            cursor: pointer;
-            color: white;
-            background-color: rgb(21, 255, 0);
-            transition: all 0.3s ease;
-        }   
-              
+         
     </style>
 </head>
 <body>
@@ -548,92 +191,41 @@
                     <div class="card-body">
                         <h5 class="card-title">Medical Alerts</h5>
                         
-                        <% alerts.forEach(function(alert) { %> <!-- Changed alertt to alert -->
+                        <div id="alertContainer">
                             <div class="alert alert-info" role="alert">
-                                <%= alert.alert %> <!-- Assuming the field is 'alert' -->
-                                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>
+                                <% if (alertss && alertss.length > 0) { %>
+                                    <% alertss.forEach(function(a) { %>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><%= a.alerti %></span>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteAlert('<%= a._id %>')">Delete</button>
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <p>No alerts found.</p>
+                                <% } %>
                             </div>
-                        <% }) %>                        
-                        
+                        </div>
+                
                         <button id="editBtn" class="btn btn-primary mt-3" onclick="toggleEdit()">Edit Alerts</button>
                         
                         <div id="alertForm" style="display:none;">
                             <input type="text" id="newAlert" class="form-control mb-2" placeholder="Enter new alert">
                             <button class="btn btn-success" onclick="addAlert()">Add Alert</button>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
     </main>
     
-    <div class="slideshow-container">
+    <%-include('slide')%>;
+    <br />
+    <p id="whychooseus">Why Choose Us</p>
+    <img src="whyus.png" alt="whychooseus" id="whyus" />
 
-        <div class="mySlides fade">
-            <div class="doctor-info">
-                <h3>Ms Megha Sajidev</h3>
-                <p>Physiotherapy and Rehabilitation</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Nadia Abdul Rafeek</h3>
-                <p>Homeopathy</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Sujith Kumar Kategar</h3>
-                <p>Anaesthesia</p>
-                <button>Book An Appointment</button>
-            </div>
-        </div>
-
-        <div class="mySlides fade">
-            <div class="doctor-info">
-                <h3>Dr Ravi Shankar</h3>
-                <p>Cardiology</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Ayesha Khan</h3>
-                <p>Dermatology</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Rohan Gupta</h3>
-                <p>Pediatrics</p>
-                <button>Book An Appointment</button>
-            </div>
-        </div>
-
-        <div class="mySlides fade">
-            <div class="doctor-info">
-                <h3>Dr Sara Fernandes</h3>
-                <p>Oncology</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Arvind Rao</h3>
-                <p>Neurology</p>
-                <button>Book An Appointment</button>
-            </div>
-            <div class="doctor-info">
-                <h3>Dr Tina Patel</h3>
-                <p>Gynecology</p>
-                <button>Book An Appointment</button>
-            </div>
-        </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
+    <%-include('footer')%>
 
     <br>
-
-    <div style="text-align:center">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
 
     <script>
 
@@ -648,92 +240,72 @@
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
 
-    function addAlert() {
-        const alertContainer = document.getElementById('alertContainer');
-        const newAlertText = document.getElementById('newAlert').value;
-        if (newAlertText.trim() !== "") {
+    // Function to add a new alert
+// Function to add a new alert
+// Function to add a new alert
+function addAlert() {
+    const newAlertText = document.getElementById('newAlert').value.trim();
+    
+    console.log('New Alert Text:', newAlertText); // Debugging: check if the value is captured
+
+    if (newAlertText !== "") {
+        fetch('/addAlert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ alerti: newAlertText })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(errMsg => { throw new Error(errMsg) });
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log(data);  // Success message from backend
+
+            // Add new alert to the DOM
+            const alertContainer = document.getElementById('alertContainer');
             const newAlert = document.createElement('div');
             newAlert.className = 'alert alert-info';
             newAlert.role = 'alert';
-newAlert.innerHTML = `${newAlertText} <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert(this)">Delete</button>`;
+            newAlert.innerHTML = `
+                ${newAlertText}
+                <button class="btn btn-danger btn-sm float-end" onclick="deleteAlert('${newAlertText}', this)">Delete</button>
+            `;
             alertContainer.appendChild(newAlert);
             document.getElementById('newAlert').value = ''; // Clear the input field
-        }
+        })
+        .catch(error => {
+            console.error('Error adding alert:', error);
+            alert("Failed to add alert: " + error.message);  // Display error in a pop-up alert
+        });
+    } else {
+        alert('Alert text cannot be empty');  // Show error if the input is empty
     }
+}
 
-    function deleteAlert(button) {
-        button.parentElement.remove(); // Remove the alert div
-    }
-        let slideIndex = 1;
-        showSlides(slideIndex);
 
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
 
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
 
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("mySlides");
-            let dots = document.getElementsByClassName("dot");
-            if (n > slides.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = slides.length }
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  // Hide all slides
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", ""); 
-            }
-            slides[slideIndex - 1].style.display = "flex"; 
-        }
+// Function to delete an alert
+function deleteAlert(alertId, button) {
+    // Send request to the backend to delete alert
+    fetch(`/deleteAlert/${alertId}`, {
+        method: 'DELETE'
+    })
 
-        setInterval(function () {
-            plusSlides(1);
-        }, 3000);  
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);  // Success message from backend
+        button.parentElement.remove();  // Remove alert from DOM
+    })
+    .catch(error => console.error('Error deleting alert:', error));
+}
     </script>
-    <p id="whychooseus">Why Choose Us</p>
-    <img src="whyus.png" alt="whychooseus" id="whyus">
-    <footer>
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>About Us</h3>
-            <p>We are here to connect you with our qualified doctors present at the health centre in our college.</p>
-          </div>
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Find a Doctor</a></li>
-              <li><a href="#">Book an Appointment</a></li>
-              <li><a href="#">look for a blood group</a></li>
-              <li><a href="#">Career</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <ul>
-              <li>Health Connect</li>
-              <li><i class="fa-solid fa-location-dot"></i>IIITA , admin block</li>
-              
-              <li><i class="fa-solid fa-phone"></i>888-2-666</li>
-              <li><i class="fa-solid fa-envelope"></i>healthconnect@iiita.ac.in</li>
-              <li><i class="fa-solid fa-envelope"></i>project-k@iiiita.ac.in</li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Follow Us on</h3>
-            <ul>
-              <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
-              <li><a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
-              <li><a href="#"><i class="fa-brands fa-linkedin"></i>LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

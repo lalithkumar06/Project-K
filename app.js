@@ -3,10 +3,12 @@ const { MongoClient } = require('mongodb');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const path = require('path');
+const bodyParser = require('body-parser');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
 require('dotenv').config();
 const app = express();
+app.use(bodyParser.json()); 
 
 app.use(session({
     secret: 'your-secret-key',
@@ -35,18 +37,17 @@ app.post('/loginpage', async (req, res) => {
         const passwo = req.body.password;
         const data = { "username": username };
 
-        
-        const uri =  "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
         const client = new MongoClient(uri);
         await client.connect();
 
         const person = await finding(client, data, 'user');
-        await client.close();
 
         console.log("Data:", data);
         console.log("Person found:", person);
 
         if (person == null) {
+            await client.close();
             res.render('signup');
         } else {
             console.log("Stored password:", person[0].pass);
@@ -54,11 +55,49 @@ app.post('/loginpage', async (req, res) => {
 
             if (person[0].pass === passwo) {
                 req.session.person = person[0];
-                console.log(person[0].login)
-                if(person[0].login=='Student'){res.render('home1', { person: person[0] });}
-                else res.render('homeadmin', { person: person[0] });
+                console.log(person[0].login);
+
+                if (person[0].login == 'Student') {
+                    let alertss = await client.db('Medi').collection('ale').find({}).toArray();
+                    console.log('Alerts:', alertss);
+                    
+                    if (!alertss) {
+                        alertss = []; // Default to an empty array if no data is found
+                    }
+                    
+                    await client.close();  // Close connection after all queries
+                    res.render('home1', { person: person[0],alertss });
+                } else {
+                    // Do not close the client before fetching alerts
+                    let alertss = await client.db('Medi').collection('ale').find({}).toArray();
+                    console.log('Alerts:', alertss);
+                    
+                    try {
+                        await client.connect();
+                        console.log("Connected to the database");
+                        
+                        const person = req.session.person;
+                        let alertss = await findall(client, 'ale');
+                        
+                        // Log alerts to check what is being fetched
+                        console.log('Alerts:', alertss);
+                        
+                        // Ensure alerts is always an array
+                        if (!alertss) {
+                            alertss = []; // If `null` or `undefined`, set to an empty array
+                        }
+                        
+                        res.render('homeadmin', { person: req.session.person ,alertss});
+                    } catch (error) {
+                        console.error("Error fetching alerts:", error);
+                        res.status(500).send("An error occurred while fetching alerts");
+                    } finally {
+                        await client.close();
+                    }
+                }
             } else {
                 console.log("Password incorrect.");
+                await client.close();
                 res.status(401).send("Password incorrect.");
             }
         }
@@ -67,6 +106,72 @@ app.post('/loginpage', async (req, res) => {
         res.status(500).send("An error occurred");
     }
 });
+
+app.get('/getAlerts', async (req, res) => {
+    try {
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const alerts = await client.db('Medi').collection('ale').find({}).toArray();  // Fetch all alerts
+
+        await client.close();
+
+        // Send alerts to the client
+        res.status(200).json(alerts);
+    } catch (error) {
+        console.error("Error fetching alerts:", error);
+        res.status(500).send('Error fetching alerts');
+    }
+});
+
+// Add new alert
+app.post('/addAlert', async (req, res) => {
+    try {
+        const newAlert = req.body.alerti;
+
+        // Check if the alert is not null or empty
+        if (!newAlert || newAlert.trim() === "") {
+            return res.status(400).send('Alert cannot be empty or null');  // Send an error response if the alert is invalid
+        }
+
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const newAlertDoc = { alerti: newAlert };
+        await client.db('Medi').collection('ale').insertOne(newAlertDoc);  // Insert new alert
+
+        await client.close();
+        res.status(200).send('Alert added successfully');
+    } catch (error) {
+        console.error("Error adding alert:", error);
+        res.status(500).send('Error adding alert');
+    }
+});
+
+
+
+// Delete an alert
+app.delete('/deleteAlert/:id', async (req, res) => {
+    try {
+        const alertId = req.params.id;  // ID of the alert to delete
+        const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+        const client = new MongoClient(uri);
+        await client.connect();
+
+        const ObjectId = require('mongodb').ObjectId;
+        await client.db('Medi').collection('ale').deleteOne({ _id: new ObjectId(alertId) });  // Delete alert by ID
+
+        await client.close();
+        res.status(200).send('Alert deleted successfully');
+    } catch (error) {
+        console.error("Error deleting alert:", error);
+        res.status(500).send('Error deleting alert');
+    }
+});
+
+
 app.get('/availableMedi', async (req, res) => {
     try {
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -382,23 +487,54 @@ app.get('/home', (req, res) => {
     res.render('homeadmin', { person });
 });
 
+// app.get('/homeadmin', async (req, res) => {
+    
+//     try {
+//         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+//         const client = new MongoClient(uri);
+//         try {
+//             await client.connect();
+//             console.log("Connected to the database");
+//         } catch (error) {
+//             console.error("Failed to connect to the database:", error);
+//         }
+//         const person = req.session.person;
+//         let alerts = await findall(client, 'alerts');
+        
+//         console.log('Alerts:', alerts);
+//         if (!alerts) {
+//             alerts = []; // Ensure alerts is always an array
+//         }
+        
+//         res.render('homeadmin', { person, alerts });
+//     } catch (error) {
+//         console.error("Error fetching alerts:", error);
+//         res.status(500).send("An error occurred while fetching alerts");
+//     } finally {
+//         await client.close();
+//     }
+// });
+
 app.get('/homeadmin', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
-
+    
     try {
         await client.connect();
-
-        if (!req.session.person || req.session.person.login !== 'Admin') {
-            return res.status(403).send("Access denied");
+        console.log("Connected to the database");
+        
+        const person = req.session.person;
+        let al = await findall(client, 'ale');
+        
+        // Log alerts to check what is being fetched
+        console.log('Alerts:', al);
+        
+        // Ensure alerts is always an array
+        if (!al) {
+            al = []; // If `null` or `undefined`, set to an empty array
         }
-
-        let alerts = await client.db('Medi').collection('alerts').find({}).toArray();
-        console.log('Alerts:', alerts);
-        if (!alerts) {
-            alerts = []; // Default to an empty array if no data is found
-        }
-        res.render('homeadmin', { person: req.session.person, alerts });
+        
+        res.render('homeadmin', { person, a:al });
     } catch (error) {
         console.error("Error fetching alerts:", error);
         res.status(500).send("An error occurred while fetching alerts");
