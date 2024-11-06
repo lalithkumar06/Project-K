@@ -228,7 +228,6 @@
                   // Function to convert DD-MM-YYYY to YYYY-MM-DD
                   function convertDateFormat(dateStr) {
                     const parts = dateStr.split('-');
-<<<<<<< HEAD
                     return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
                   }
 
@@ -241,22 +240,6 @@
                   }
 
                   const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null;
-=======
-                    return `${parts[2]}-${parts[1]}-${parts[0]}`; // Use template literals properly here
-                  }                  
-
-                  const currentDate = new Date(); 
-                  let lastDonDate; 
-
-                  if (x.last_don && typeof x.last_don === 'string') { 
-                    lastDonDate = new Date(convertDateFormat(x.last_don)); // Convert and create Date object
-                  } else { 
-                    lastDonDate = null; // Assign null if last_don is undefined or not a string
-                  } 
-
-                  const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null; 
-
->>>>>>> 311a5cdf7dd4abfeeb8de4946990a94d513158b8
                   if (daysDiff !== null && daysDiff > 90) { 
                   %>
                     Yes
@@ -290,6 +273,34 @@
     </div>
     
       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('bloodGroupChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+                    datasets: [{
+                        data: [35, 25, 20, 10, 4, 3, 2, 1],
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                            '#FF9F40', '#9966FF', '#C9CBCF', '#7CFC00'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Blood Group Distribution'
+                        }
+                    }
+                }
+            });
+        });
         const searchNameInput = document.getElementById("searchName");
         const bloodGroupFilter = document.getElementById("bloodGroupFilter");
         const table = document.getElementById("medTable");
