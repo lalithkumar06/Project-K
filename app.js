@@ -517,34 +517,6 @@ app.get('/home', async (req, res) => {
     }
 });
 
-// app.get('/homeadmin', async (req, res) => {
-    
-//     try {
-//         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-//         const client = new MongoClient(uri);
-//         try {
-//             await client.connect();
-//             console.log("Connected to the database");
-//         } catch (error) {
-//             console.error("Failed to connect to the database:", error);
-//         }
-//         const person = req.session.person;
-//         let alerts = await findall(client, 'alerts');
-        
-//         console.log('Alerts:', alerts);
-//         if (!alerts) {
-//             alerts = []; // Ensure alerts is always an array
-//         }
-        
-//         res.render('homeadmin', { person, alerts });
-//     } catch (error) {
-//         console.error("Error fetching alerts:", error);
-//         res.status(500).send("An error occurred while fetching alerts");
-//     } finally {
-//         await client.close();
-//     }
-// });
-
 app.get('/homeadmin', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
@@ -568,6 +540,76 @@ app.get('/homeadmin', async (req, res) => {
     } catch (error) {
         console.error("Error fetching alerts:", error);
         res.status(500).send("An error occurred while fetching alerts");
+    } finally {
+        await client.close();
+    }
+});
+
+// MongoDB connection URI
+const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+// GET route to display the slot booking page
+app.get('/slotbooking', async (req, res) => {
+    const client = new MongoClient(uri);
+    try {
+        await client.connect();
+        const db = client.db('Medi');
+        const doctors = await db.collection('user').find({login: "Doctor"}).toArray();
+        console.log("Doctors fetched:", doctors); // Add this line
+        const loggedInUser = req.session.person;
+        res.render('slotbooking', { doctors, loggedInUser });
+    } finally {
+        await client.close();
+    }
+});
+
+// POST route to book a slot
+app.post('/bookslot', async (req, res) => {
+    const { doctorName, slotTime, userName } = req.body;
+    const client = new MongoClient(uri);
+    try {
+        await client.connect();
+        const db = client.db('Medi');
+        
+        // Update doctor's appointment slot
+        const doctorUpdate = await db.collection('doctors').updateOne(
+            { "first_name": doctorName, [`appointments.${slotTime}`]: "" },
+            { $set: { [`appointments.${slotTime}`]: userName } }
+        );
+        
+        // Update user's appointment with the doctor
+        const userUpdate = await db.collection('users').updateOne(
+            { "username": userName },
+            { $set: { [`appointments.${slotTime}`]: doctorName } }
+        );
+
+        res.redirect('/slotbooking');
+    } finally {
+        await client.close();
+    }
+});
+
+// POST route to cancel a slot
+app.post('/cancelSlot', async (req, res) => {
+    const { doctorName, slotTime } = req.body;
+    const client = new MongoClient(uri);
+    try {
+        await client.connect();
+        const db = client.db('Medi');
+        
+        // Remove appointment from doctor's slot
+        await db.collection('doctors').updateOne(
+            { "first_name": doctorName, [`appointments.${slotTime}`]: req.session.person.username },
+            { $set: { [`appointments.${slotTime}`]: "" } }
+        );
+
+        // Remove appointment from user's schedule
+        await db.collection('users').updateOne(
+            { "username": req.session.person.username },
+            { $unset: { [`appointments.${slotTime}`]: "" } }
+        );
+
+        res.redirect('/slotbooking');
     } finally {
         await client.close();
     }
