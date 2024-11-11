@@ -228,7 +228,11 @@
                   // Function to convert DD-MM-YYYY to YYYY-MM-DD
                   function convertDateFormat(dateStr) {
                     const parts = dateStr.split('-');
+<<<<<<< HEAD
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD format
+=======
                     return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
+>>>>>>> 607f52a91a8ae9ccfbe9d672ac82b0ffa226a2d3
                   }
 
                   const currentDate = new Date();
@@ -240,6 +244,10 @@
                   }
 
                   const daysDiff = lastDonDate ? Math.ceil(Math.abs(currentDate - lastDonDate) / (1000 * 60 * 60 * 24)) : null;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 607f52a91a8ae9ccfbe9d672ac82b0ffa226a2d3
                   if (daysDiff !== null && daysDiff > 90) { 
                   %>
                     Yes
@@ -250,7 +258,6 @@
                   <% 
                   } 
                   %>
-
                 </td>
                 <td><%= x.email %></td>
               </tr>
@@ -271,42 +278,41 @@
       </div>
       <%-include('footer')%>
     </div>
-    
-      <script>
-        const searchNameInput = document.getElementById("searchName");
-        const bloodGroupFilter = document.getElementById("bloodGroupFilter");
-        const table = document.getElementById("medTable");
-        const tbody = table.querySelector("tbody");
 
-        // Function to filter and search the table
-        function filterTable() {
-          const searchName = searchNameInput.value.toLowerCase();
-          const selectedBloodGroup = bloodGroupFilter.value;
-          const rows = tbody.querySelectorAll("tr");
+    <script>
+      const searchNameInput = document.getElementById("searchName");
+      const bloodGroupFilter = document.getElementById("bloodGroupFilter");
+      const table = document.getElementById("medTable");
+      const tbody = table.querySelector("tbody");
 
-          rows.forEach((row) => {
-            const name = row.cells[0].textContent.toLowerCase(); // Full Name
-            const bloodGroup = row.cells[2].textContent; // Blood Group
-            let isVisible = true;
+      // Function to filter and search the table
+      function filterTable() {
+        const searchName = searchNameInput.value.toLowerCase();
+        const selectedBloodGroup = bloodGroupFilter.value;
+        const rows = tbody.querySelectorAll("tr");
 
-            // Search by name
-            if (searchName && !name.includes(searchName)) {
-              isVisible = false;
-            }
+        rows.forEach((row) => {
+          const name = row.cells[0].textContent.toLowerCase(); // Full Name
+          const bloodGroup = row.cells[2].textContent; // Blood Group
+          let isVisible = true;
 
-            // Filter by blood group
-            if (selectedBloodGroup && bloodGroup !== selectedBloodGroup) {
-              isVisible = false;
-            }
+          // Search by name
+          if (searchName && !name.includes(searchName)) {
+            isVisible = false;
+          }
 
-            // Show or hide the row
-            row.style.display = isVisible ? "" : "none";
-          });
-        }
+          // Filter by blood group
+          if (selectedBloodGroup && bloodGroup !== selectedBloodGroup) {
+            isVisible = false;
+          }
 
-        // Add event listeners for search and filter
-        searchNameInput.addEventListener("input", filterTable);
-        bloodGroupFilter.addEventListener("change", filterTable);
-      </script>
+          // Show or hide the row
+          row.style.display = isVisible ? "" : "none";
+        });
+      }
+
+      searchNameInput.addEventListener("input", filterTable);
+      bloodGroupFilter.addEventListener("change", filterTable);
+    </script>
   </body>
 </html>

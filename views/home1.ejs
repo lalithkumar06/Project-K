@@ -343,20 +343,27 @@
       </div>
       <div class="row mt-4">
         <div class="col-12">
-          <div class="card medical-alerts">
-            <div class="card-body">
-              <h5 class="card-title">Medical Alerts</h5>
-              <div class="alert alert-info" role="alert">
-                Remember to schedule your annual checkup this month.
-              </div>
-              <div class="alert alert-warning" role="alert">
-                Allergy season is approaching. Consult with your doctor about
-                preventive measures.
-              </div>
+            <div class="card medical-alerts">
+                <div class="card-body">
+                    <h5 class="card-title">Medical Alerts</h5>
+                    
+                    <div id="alertContainer">
+                      <% if (alertss && alertss.length > 0) { %>
+                          <% alertss.forEach(function(a) { %>
+                              <div class="alert alert-info" role="alert">
+                                  <span><%= a.alerti %></span>
+                              </div>
+                          <% }) %>
+                      <% } else { %>
+                          <p>No alerts found.</p>
+                      <% } %>
+                  </div>
+                  
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
     </main>
     <div class="donation">
       <h1 style="text-align-last: left">Blood Donation</h1>
