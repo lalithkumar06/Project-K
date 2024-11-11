@@ -67,7 +67,11 @@ app.post('/loginpage', async (req, res) => {
                     
                     await client.close();  // Close connection after all queries
                     res.render('home1', { person: person[0],alertss });
-                } else {
+                } 
+                else if(person[0].login == 'Doctor') {
+                    res.render('homedoc', { person:person[0] });
+                }
+                else {
                     // Do not close the client before fetching alerts
                     let alertss = await client.db('Medi').collection('ale').find({}).toArray();
                     console.log('Alerts:', alertss);
@@ -479,12 +483,38 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-app.get('/home', (req, res) => {
+app.get('/home', async (req, res) => {
     const person = req.session.person;
-    if(person.login == "Student")
-    res.render('home1', { person });
-    else
-    res.render('homeadmin', { person });
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    
+    let alertss;
+
+    try {
+        await client.connect();
+        
+        // Fetch `alertss` based on the role of the person
+        if(person.login == "Student" || person.login == "Admin") {
+            alertss = await client.db('Medi').collection('ale').find({}).toArray();
+            if (!alertss) {
+                alertss = []; // Default to an empty array if no data is found
+            }
+        }
+
+        if(person.login == "Student") {
+            res.render('home1', { person, alertss });
+        }
+        else if(person.login == "Doctor") {
+            res.render('homedoc', { person, alertss });
+        } else {
+            res.render('homeadmin', { person, alertss });
+        }
+    } catch (error) {
+        console.error("Error fetching alerts:", error);
+        res.status(500).send("An error occurred while fetching alerts");
+    } finally {
+        await client.close();
+    }
 });
 
 // app.get('/homeadmin', async (req, res) => {
@@ -524,17 +554,17 @@ app.get('/homeadmin', async (req, res) => {
         console.log("Connected to the database");
         
         const person = req.session.person;
-        let al = await findall(client, 'ale');
+        let alertss = await findall(client, 'ale');
         
         // Log alerts to check what is being fetched
-        console.log('Alerts:', al);
+        console.log('Alerts:', alertss);
         
         // Ensure alerts is always an array
-        if (!al) {
-            al = []; // If `null` or `undefined`, set to an empty array
+        if (!alertss) {
+            alertss = []; // If `null` or `undefined`, set to an empty array
         }
         
-        res.render('homeadmin', { person, a:al });
+        res.render('homeadmin', { person, alertss });
     } catch (error) {
         console.error("Error fetching alerts:", error);
         res.status(500).send("An error occurred while fetching alerts");
