@@ -7,8 +7,12 @@ const bodyParser = require('body-parser');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
 require('dotenv').config();
+const mongoose = require("mongoose");
+const cron = require("node-cron");
+
 const app = express();
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
+
 
 app.use(session({
     secret: 'your-secret-key',
@@ -613,6 +617,64 @@ app.post('/cancelSlot', async (req, res) => {
     } finally {
         await client.close();
     }
+});
+// MongoDB Connection
+mongoose.connect("mongodb://localhost:27017/medications", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const MedicationSchema = new mongoose.Schema({
+  medName: String,
+  medTime: String,
+  frequency: Number,
+  email: String,
+});
+
+const Medication = mongoose.model("Medication", MedicationSchema);
+
+// Set up nodemailer
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "iit2023026@iiita.ac.in",
+    pass: "wugl cnbw ggqf puzc",
+  },
+});
+
+// Route to save medication details
+app.post("/set-reminder", async (req, res) => {
+  const { medName, medTime, frequency } = req.body;
+  const email = req.session.person.email; // Set the user's email
+
+  const medication = new Medication({ medName, medTime, frequency, email });
+  await medication.save();
+
+  res.status(200).send("Reminder set successfully!");
+});
+
+// Cron job to send email reminders
+cron.schedule("*/1 * * * *", async () => {
+  const now = new Date();
+  const currentTime = now.toTimeString().slice(0, 5);
+
+  const medications = await Medication.find({ medTime: currentTime });
+  medications.forEach((med) => {
+    const mailOptions = {
+      from: "iit2023006@iiita.ac.in",
+      to: med.email,
+      subject: "Medication Reminder",
+      text: `It's time to take your medication: ${med.medName}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  });
 });
 
 
