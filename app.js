@@ -66,17 +66,16 @@ app.post('/loginpage', async (req, res) => {
                     console.log('Alerts:', alertss);
                     
                     if (!alertss) {
-                        alertss = []; // Default to an empty array if no data is found
+                        alertss = [];
                     }
                     
-                    await client.close();  // Close connection after all queries
+                    await client.close();  
                     res.render('home1', { person: person[0],alertss });
                 } 
                 else if(person[0].login == 'Doctor') {
                     res.render('homedoc', { person:person[0] });
                 }
                 else {
-                    // Do not close the client before fetching alerts
                     let alertss = await client.db('Medi').collection('ale').find({}).toArray();
                     console.log('Alerts:', alertss);
                     
@@ -86,13 +85,9 @@ app.post('/loginpage', async (req, res) => {
                         
                         const person = req.session.person;
                         let alertss = await findall(client, 'ale');
-                        
-                        // Log alerts to check what is being fetched
                         console.log('Alerts:', alertss);
-                        
-                        // Ensure alerts is always an array
                         if (!alertss) {
-                            alertss = []; // If `null` or `undefined`, set to an empty array
+                            alertss = []; 
                         }
                         
                         res.render('homeadmin', { person: req.session.person ,alertss});
@@ -124,8 +119,6 @@ app.get('/getAlerts', async (req, res) => {
         const alerts = await client.db('Medi').collection('ale').find({}).toArray();  // Fetch all alerts
 
         await client.close();
-
-        // Send alerts to the client
         res.status(200).json(alerts);
     } catch (error) {
         console.error("Error fetching alerts:", error);
@@ -133,14 +126,12 @@ app.get('/getAlerts', async (req, res) => {
     }
 });
 
-// Add new alert
 app.post('/addAlert', async (req, res) => {
     try {
         const newAlert = req.body.alerti;
 
-        // Check if the alert is not null or empty
         if (!newAlert || newAlert.trim() === "") {
-            return res.status(400).send('Alert cannot be empty or null');  // Send an error response if the alert is invalid
+            return res.status(400).send('Alert cannot be empty or null');  
         }
 
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -148,7 +139,7 @@ app.post('/addAlert', async (req, res) => {
         await client.connect();
 
         const newAlertDoc = { alerti: newAlert };
-        await client.db('Medi').collection('ale').insertOne(newAlertDoc);  // Insert new alert
+        await client.db('Medi').collection('ale').insertOne(newAlertDoc);  
 
         await client.close();
         res.status(200).send('Alert added successfully');
@@ -159,11 +150,9 @@ app.post('/addAlert', async (req, res) => {
 });
 
 
-
-// Delete an alert
 app.delete('/deleteAlert/:id', async (req, res) => {
     try {
-        const alertId = req.params.id;  // ID of the alert to delete
+        const alertId = req.params.id; 
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
         const client = new MongoClient(uri);
         await client.connect();
@@ -190,7 +179,7 @@ app.get('/availableMedi', async (req, res) => {
         await client.close();
         console.log("Meds fetched:", meds);
         if (!meds) {
-            meds = [];  // Ensure meds is not null
+            meds = [];  
         }
 
         res.render('availableMedi', { person, meds });
@@ -235,7 +224,7 @@ app.get('/Admin_bloodDonors', async (req, res) => {
         let ppl = await client.db('Medi').collection('user').find({}).toArray();
         console.log('donors:', ppl);
         if (!ppl) {
-            ppl = []; // Default to an empty array if no data is found
+            ppl = []; 
         }
         res.render('Admin_bloodDonors', { person: req.session.person, ppl });
     } catch (error) {
@@ -245,8 +234,6 @@ app.get('/Admin_bloodDonors', async (req, res) => {
         await client.close();
     }
 });
-
-// Route to handle updating a donor
 app.post('/updatedonor', async (req, res) => {
     if (!req.session.person || req.session.person.login !== 'Admin') {
         return res.status(403).send("Access denied");
@@ -254,7 +241,7 @@ app.post('/updatedonor', async (req, res) => {
 
     const { email, last_don } = req.body;
 
-    if (!email || !last_don) { // Ensure both fields are present
+    if (!email || !last_don) {
         return res.status(400).send("All fields are required");
     }
 
@@ -267,7 +254,6 @@ app.post('/updatedonor', async (req, res) => {
         const existingDonor = await client.db('Medi').collection('user').findOne({ email });
 
         if (existingDonor) {
-            // Calculate the difference between the new date and the last_don
             const newDonDate = new Date(last_don);
             const previousDonDate = existingDonor.last_don ? new Date(existingDonor.last_don) : null;
 
@@ -276,12 +262,10 @@ app.post('/updatedonor', async (req, res) => {
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffDays < 90) {
-                    // If the difference is less than 90 days, send an error response
                     return res.status(400).send("The last donated date must be at least 90 days apart.");
                 }
             }
 
-            // Update existing donor
             await client.db('Medi').collection('user').updateOne(
                 { email },
                 { $set: { last_don } }
@@ -292,7 +276,6 @@ app.post('/updatedonor', async (req, res) => {
             return res.status(404).send("Donor not found.");
         }
 
-        // Redirect back to Admin_bloodDonors to see the updated list
         res.redirect('/Admin_bloodDonors');
 
     } catch (error) {
@@ -317,7 +300,7 @@ app.get('/Admin_avamedi', async (req, res) => {
         let medicines = await client.db('Medi').collection('meds').find({}).toArray();
         console.log('meds:',medicines);
         if (!medicines) {
-            medicines = []; // Default to an empty array if no data is found
+            medicines = []; 
         }
         res.render('Admin_avamedi', { person: req.session.person, medicines });
     } catch (error) {
@@ -344,20 +327,16 @@ app.post('/updatemedicine', async(req,res)=>{
         const existingMedicine = await client.db('Medi').collection('meds').findOne({ slno });
 
         if (existingMedicine) {
-            // Update existing medicine
             await client.db('Medi').collection('meds').updateOne(
                 { slno },
                 { $set: { name, type, use: useArray, stock } }
             );
             console.log('Medicine with S.NO ${slno} updated.');
         } else {
-            // Add new medicine
             const newMedicine = { slno, name, type, use: useArray, stock };
             await inserting(client, newMedicine, 'meds');
             console.log('New medicine with S.NO ${slno} added.');
         }
-
-        // Redirect back to homeadmin to see the updated list
         res.redirect('/Admin_avamedi');
 
     } catch (error) {
@@ -372,7 +351,6 @@ app.get('/forgotpass', (req, res) => {
     res.render('forgotpass');
 });
 
-// Function to generate OTP
 function generateOTP() {
     return Math.floor(1000 + Math.random() * 9000).toString();  // 4-digit OTP
 }
@@ -385,22 +363,20 @@ app.post('/forgotpass', async (req, res) => {
 
     try {
         await client.connect();
-        const db = client.db('Medi');  // Use your database name
+        const db = client.db('Medi');  
         const user = await db.collection('user').findOne({ username });
 
         if (!user) {
             return res.status(404).send('User Not Found');
         }
 
-        // Generate and store OTP in session or database
         const otp = generateOTP();
-        req.session.otp = otp;  // Alternatively, store in the database
+        req.session.otp = otp; 
 
-        // Send email with OTP
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'iit2023026@iiita.ac.in', // Replace with your Gmail
+                user: 'iit2023026@iiita.ac.in', 
                 pass: 'wugl cnbw ggqf puzc'
             },
         });
@@ -430,17 +406,14 @@ app.get('/resetpass', (req, res) => {
 app.post('/resetpass', async (req, res) => {
     const { otp, new_password, confirm_password } = req.body;
 
-    // Check if the OTP matches
     if (otp !== req.session.otp) {
         return res.status(400).send("Invalid OTP");
     }
 
-    // Check if passwords match
     if (new_password !== confirm_password) {
         return res.status(400).send("Passwords do not match");
     }
 
-    // Update the password in the database
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
 
@@ -448,7 +421,6 @@ app.post('/resetpass', async (req, res) => {
         await client.connect();
         const db = client.db('Medi');
 
-        // Update the user's password in the database
         await db.collection('users').updateOne(
             { username: req.session.person.username },
             { $set: { pass: confirm_password } }
@@ -496,12 +468,10 @@ app.get('/home', async (req, res) => {
 
     try {
         await client.connect();
-        
-        // Fetch `alertss` based on the role of the person
         if(person.login == "Student" || person.login == "Admin") {
             alertss = await client.db('Medi').collection('ale').find({}).toArray();
             if (!alertss) {
-                alertss = []; // Default to an empty array if no data is found
+                alertss = []; 
             }
         }
 
@@ -531,13 +501,9 @@ app.get('/homeadmin', async (req, res) => {
         
         const person = req.session.person;
         let alertss = await findall(client, 'ale');
-        
-        // Log alerts to check what is being fetched
         console.log('Alerts:', alertss);
-        
-        // Ensure alerts is always an array
         if (!alertss) {
-            alertss = []; // If `null` or `undefined`, set to an empty array
+            alertss = []; 
         }
         
         res.render('homeadmin', { person, alertss });
@@ -548,11 +514,7 @@ app.get('/homeadmin', async (req, res) => {
         await client.close();
     }
 });
-
-// MongoDB connection URI
 const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-// GET route to display the slot booking page
 app.get('/slotbooking', async (req, res) => {
     const client = new MongoClient(uri);
     try {
@@ -567,21 +529,16 @@ app.get('/slotbooking', async (req, res) => {
     }
 });
 
-// POST route to book a slot
 app.post('/bookslot', async (req, res) => {
     const { doctorName, slotTime, userName } = req.body;
     const client = new MongoClient(uri);
     try {
         await client.connect();
         const db = client.db('Medi');
-        
-        // Update doctor's appointment slot
         const doctorUpdate = await db.collection('doctors').updateOne(
             { "first_name": doctorName, [`appointments.${slotTime}`]: "" },
             { $set: { [`appointments.${slotTime}`]: userName } }
         );
-        
-        // Update user's appointment with the doctor
         const userUpdate = await db.collection('users').updateOne(
             { "username": userName },
             { $set: { [`appointments.${slotTime}`]: doctorName } }
@@ -592,22 +549,16 @@ app.post('/bookslot', async (req, res) => {
         await client.close();
     }
 });
-
-// POST route to cancel a slot
 app.post('/cancelSlot', async (req, res) => {
     const { doctorName, slotTime } = req.body;
     const client = new MongoClient(uri);
     try {
         await client.connect();
         const db = client.db('Medi');
-        
-        // Remove appointment from doctor's slot
         await db.collection('doctors').updateOne(
             { "first_name": doctorName, [`appointments.${slotTime}`]: req.session.person.username },
             { $set: { [`appointments.${slotTime}`]: "" } }
         );
-
-        // Remove appointment from user's schedule
         await db.collection('users').updateOne(
             { "username": req.session.person.username },
             { $unset: { [`appointments.${slotTime}`]: "" } }
@@ -618,7 +569,6 @@ app.post('/cancelSlot', async (req, res) => {
         await client.close();
     }
 });
-// MongoDB Connection
 mongoose.connect("mongodb://localhost:27017/medications", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -632,8 +582,6 @@ const MedicationSchema = new mongoose.Schema({
 });
 
 const Medication = mongoose.model("Medication", MedicationSchema);
-
-// Set up nodemailer
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -641,19 +589,15 @@ const transporter = nodemailer.createTransport({
     pass: "wugl cnbw ggqf puzc",
   },
 });
-
-// Route to save medication details
 app.post("/set-reminder", async (req, res) => {
   const { medName, medTime, frequency } = req.body;
-  const email = req.session.person.email; // Set the user's email
+  const email = req.session.person.email; 
 
   const medication = new Medication({ medName, medTime, frequency, email });
   await medication.save();
 
   res.status(200).send("Reminder set successfully!");
 });
-
-// Cron job to send email reminders
 cron.schedule("*/1 * * * *", async () => {
   const now = new Date();
   const currentTime = now.toTimeString().slice(0, 5);
