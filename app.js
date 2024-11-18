@@ -634,7 +634,7 @@ app.post('/cancelSlot', async (req, res) => {
         await client.close();
     }
 });
-mongoose.connect("mongodb://localhost:27017/medications", {
+mongoose.connect("mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
