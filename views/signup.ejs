@@ -9,7 +9,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* General body styling */
       body {
         font-family: Arial, sans-serif;
         background-color: rgba(83, 82, 82, 0.175);
@@ -21,21 +20,19 @@
         overflow-y: hidden;
       }
 
-      /* Container styling for the form */
       .container {
         display: flex;
         width: 100%;
-        height: 100vh; /* Full height */
+        height: 100vh;
         margin: 0 auto;
       }
 
       .register-container {
-        background-color: rgba(255, 255, 255, 0.8); /* White with opacity */
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        width: 25%; /* 1 part of the ratio */
-        backdrop-filter: blur(10px);
+        width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -47,7 +44,6 @@
         color: #333;
       }
 
-      /* Input container styling */
       .input-container {
         display: flex;
         align-items: center;
@@ -72,7 +68,13 @@
         font-size: 16px;
       }
 
-      /* Button styling */
+      .error {
+        color: red;
+        font-size: 14px;
+        margin: -10px 0 10px 0;
+        text-align: center;
+      }
+
       button {
         width: 80%;
         padding: 10px;
@@ -91,13 +93,11 @@
         background-color: #5d27ff;
       }
 
-      /* Right container with image */
       .right-container {
-        flex-grow: 3; /* 3 parts of the ratio */
+        flex-grow: 3;
         background: url("https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
           no-repeat center center;
         background-size: cover;
-        transition: transform 10s ease;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -119,9 +119,11 @@
   </head>
   <body>
     <div class="container">
-      <!-- Left container with the registration form -->
       <div class="register-container">
         <h2>Create Account</h2>
+        <% if (typeof error !== 'undefined') { %>
+          <div class="error"><%= error %></div>
+        <% } %>
         <form action="/signup" method="POST">
           <div class="input-container">
             <i class="fas fa-user"></i>
@@ -129,6 +131,7 @@
               type="text"
               name="first_name"
               placeholder="First Name"
+              value="<%= typeof first_name !== 'undefined' ? first_name : '' %>"
               required
             />
           </div>
@@ -138,12 +141,19 @@
               type="text"
               name="last_name"
               placeholder="Last Name"
+              value="<%= typeof last_name !== 'undefined' ? last_name : '' %>"
               required
             />
           </div>
           <div class="input-container">
             <i class="fas fa-envelope"></i>
-            <input type="email" name="email" placeholder="Email" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value="<%= typeof email !== 'undefined' ? email : '' %>"
+              required
+            />
           </div>
           <div class="input-container">
             <i class="fas fa-user"></i>
@@ -151,6 +161,7 @@
               type="text"
               name="username"
               placeholder="Username"
+              value="<%= typeof username !== 'undefined' ? username : '' %>"
               required
             />
           </div>
@@ -176,7 +187,6 @@
         </form>
       </div>
 
-      <!-- Right container with background image and text -->
       <div class="right-container">
         <div>
           <h1>Join Health Connect</h1>

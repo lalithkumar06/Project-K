@@ -10,6 +10,8 @@ const session = require('express-session');
 require('dotenv').config();
 const mongoose = require("mongoose");
 const cron = require("node-cron");
+const moment = require("moment-timezone");
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors);
@@ -59,7 +61,7 @@ app.post('/loginpage', async (req, res) => {
             console.log("Stored password:", person[0].pass);
             console.log("Entered password:", passwo);
 
-            if (person[0].pass === passwo) {
+            if (await bcrypt.compare(passwo, person[0].pass)) {
                 req.session.person = person[0];
                 console.log(person[0].login);
 
@@ -225,7 +227,9 @@ app.get('/getAlerts', async (req, res) => {
         res.status(500).send('Error fetching alerts');
     }
 });
-
+app.get('/conference',(req,res)=>{
+    res.render('conference')
+})
 app.post('/addAlert', async (req, res) => {
     try {
         const newAlert = req.body.alerti;
@@ -510,9 +514,15 @@ app.post('/resetpass', async (req, res) => {
         return res.status(400).send("Invalid OTP");
     }
 
+    if (new_password.length < 6 || !/[!@#$%^&*(),.?":{}|<>]/.test(new_password)) {
+        return res.status(400).send("Password must be at least 6 characters long and include at least one special character.");
+    }
+
     if (new_password !== confirm_password) {
         return res.status(400).send("Passwords do not match");
     }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
 
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
@@ -523,7 +533,7 @@ app.post('/resetpass', async (req, res) => {
 
         await db.collection('users').updateOne(
             { username: req.session.person.username },
-            { $set: { pass: confirm_password } }
+            { $set: { pass: hashedPassword } }
         );
 
         res.send('Password successfully updated');
@@ -537,19 +547,61 @@ app.post('/resetpass', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     try {
-        const { username, email, password, confirm_password ,first_name,last_name} = req.body;
+        const { username, email, password, confirm_password, first_name, last_name } = req.body;
+
+        // Password Strength Validation
+        if (password.length < 6 || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            return res.render('signup', {
+                error: 'Password must be at least 6 characters long and include at least one special character.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
+        }
 
         if (password !== confirm_password) {
-            return res.render('signup', { error: 'Passwords do not match' });
+            return res.render('signup', {
+                error: 'Passwords do not match.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
         }
 
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
         const client = new MongoClient(uri);
         await client.connect();
-        login="Student"
-        await inserting(client, { username, email, pass: password,first_name,last_name,login}, 'user');
 
-        req.session.person = { username, email, pass: password };
+        const db = client.db('Medi');
+        const usersCollection = db.collection('user');
+
+        // Check if username exists
+        const person = await usersCollection.findOne({ username });
+        if (person) {
+            await client.close();
+            return res.render('signup', {
+                error: 'Username already exists. Please choose a different username.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
+        }
+
+        // Hash the Password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const login = "Student";
+        await inserting(client, { username, email, pass: hashedPassword, first_name, last_name, login }, 'user');
+
+        req.session.person = { username, email, pass: hashedPassword, first_name, last_name, login };
+
+        alertss = await db.collection('ale').find({}).toArray();
+        if (!alertss) {
+            alertss = [];
+        }
 
         await client.close();
         res.render('home1', { person: req.session.person });
@@ -558,6 +610,8 @@ app.post('/signup', async (req, res) => {
         res.status(500).send("An error occurred");
     }
 });
+
+
 
 app.get('/home', async (req, res) => {
     const person = req.session.person;
@@ -669,58 +723,154 @@ app.post('/cancelSlot', async (req, res) => {
         await client.close();
     }
 });
-mongoose.connect("mongodb://localhost:27017/medications", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
-const MedicationSchema = new mongoose.Schema({
-  medName: String,
-  medTime: String,
-  frequency: Number,
-  email: String,
-});
+// // Connect to MongoDB
+// mongoose.connect(
+//     "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+//     {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     }
+//   );
+  
+//   // Define Medication schema and model
+//   const MedicationSchema = new mongoose.Schema({
+//     medName: String,
+//     medTime: String, // Stored in "HH:mm" format
+//     frequency: Number,
+//     email: String,
+//   });
+  
+//   const Medication = mongoose.model("Medication", MedicationSchema);
+// const transporter = nodemailer.createTransport({
+//     service: "Gmail",
+//     auth: {
+//       user: "iit2023026@iiita.ac.in", // Replace with your email
+//       pass: "wugl cnbw ggqf puzc", // Replace with your app password
+//     },
+//   });
+  
+//   // Route to set a reminder
+//   app.post("/set-reminder", async (req, res) => {
+//     try {
+//       const { medName, medTime, frequency } = req.body;
+//       const email = req.session.person.email; // Assumes a session system is in place
+  
+//       const medication = new Medication({ medName, medTime, frequency, email });
+//       await medication.save();
+  
+//       res.status(200).send("Reminder set successfully!");
+//     } catch (error) {
+//       console.error("Error setting reminder:", error);
+//       res.status(500).send("An error occurred while setting the reminder.");
+//     }
+//   });
+// cron.schedule("*/1 * * * *", async () => {
+//     try {
+//       const now = moment().tz("Asia/Kolkata").format("HH:mm"); // Adjust time zone as needed
+//       console.log("Current Time:", now);
+  
+//       // Fetch medications due at the current time
+//       const medications = await Medication.find({ medTime: now });
+//       console.log("Medications to notify:", medications);
+  
+//       // Send email reminders
+//       medications.forEach((med) => {
+//         const mailOptions = {
+//           from: "iit2023026@iiita.ac.in",
+//           to: med.email,
+//           subject: "Medication Reminder",
+//           text: `It's time to take your medication: ${med.medName}`,
+//         };
+  
+//         transporter.sendMail(mailOptions, (error, info) => {
+//           if (error) {
+//             console.error(`Error sending email to ${med.email}:`, error);
+//           } else {
+//             console.log(`Email sent to ${med.email}: ${info.response}`);
+//           }
+//         });
+//       });
+//     } catch (error) {
+//       console.error("Error in cron job:", error);
+//     }
+//   });
 
-const Medication = mongoose.model("Medication", MedicationSchema);
+
+// Setup nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "iit2023026@iiita.ac.in",
-    pass: "wugl cnbw ggqf puzc",
+    user: "iit2023026@iiita.ac.in", // Replace with your email
+    pass: "wugl cnbw ggqf puzc", // Replace with your app password
   },
 });
+
+// Route to set a reminder
 app.post("/set-reminder", async (req, res) => {
-  const { medName, medTime, frequency } = req.body;
-  const email = req.session.person.email; 
-
-  const medication = new Medication({ medName, medTime, frequency, email });
-  await medication.save();
-
-  res.status(200).send("Reminder set successfully!");
-});
-cron.schedule("*/1 * * * *", async () => {
-  const now = new Date();
-  const currentTime = now.toTimeString().slice(0, 5);
-
-  const medications = await Medication.find({ medTime: currentTime });
-  medications.forEach((med) => {
-    const mailOptions = {
-      from: "iit2023006@iiita.ac.in",
-      to: med.email,
-      subject: "Medication Reminder",
-      text: `It's time to take your medication: ${med.medName}`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    const client = new MongoClient(uri);
+  
+    try {
+      const { medName, frequency, medTimes } = req.body; // Ensure these match the frontend structure
+      const email = req.session.person.email;
+  
+      console.log("Received:", { medName, frequency, medTimes }); // Debugging
+  
+      await client.connect();
+  
+      await inserting(client, { medName, medTimes, frequency, email }, "medications");
+  
+      res.status(200).send("Reminder set successfully!");
+    } catch (error) {
+      console.error("Error setting reminder:", error);
+      res.status(500).send("An error occurred while setting the reminder.");
+    } finally {
+      await client.close();
+    }
   });
-});
 
+cron.schedule("*/1 * * * *", async () => {
+    const client = new MongoClient(uri);
+  
+    try {
+      await client.connect();
+      console.log("Connected to the database.");
+  
+      const now = moment().tz("Asia/Kolkata").format("HH:mm"); // Adjust time zone as needed
+      console.log("Current Time:", now);
+  
+      // Fetch medications due at the current time
+      const medications = await finding(client, { medTimes: { $in: [now] } }, "medications");
+      if (!medications || medications.length === 0) {
+        console.log("No medications to notify at this time.");
+        return; // Exit early if no medications to process
+      }
+  
+      console.log("Medications to notify:", medications);
+  
+      for (const med of medications) {
+        try {
+          const mailOptions = {
+            from: "iit2023026@iiita.ac.in",
+            to: med.email,
+            subject: "Medication Reminder",
+            text: `It's time to take your medication: ${med.medName}`,
+          };
+  
+          const info = await transporter.sendMail(mailOptions);
+          console.log(`Email sent to ${med.email}: ${info.response}`);
+        } catch (error) {
+          console.error(`Error sending email to ${med.email}:`, error);
+        }
+      }
+    } catch (error) {
+      console.error("Error in cron job:", error);
+    } finally {
+      // Ensure the database connection is closed
+      await client.close();
+      console.log("Database connection closed.");
+    }
+  });
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
