@@ -148,7 +148,7 @@ app.post("/bookVirtualSlot", async (req, res) => {
     await client.connect();
 
   const { doctorName, slotTime, userName, userPassword } = req.body;
-  const doctor = await Doctor.finding({ first_name: doctorName });
+  const doctor = await finding(client,{ first_name: doctorName },'user');
     const slot= {username : userName,doctor : doctorName, slottime : slotTime,userpassword : userPassword}
   if (doctor) {
     doctor.appointments[slotTime] = {
@@ -157,8 +157,8 @@ app.post("/bookVirtualSlot", async (req, res) => {
       password: userPassword,
       time: slotTime,
     };
-    await doctor.save();
-    inserting(client,slot , slots);
+    
+    inserting(client,slot , 'slots');
     res.redirect("/slots");
   } else {
     res.status(404).send("Doctor not found");
@@ -182,7 +182,7 @@ app.post("/api/getMeetingLink", async(req, res) => {
     const client = new MongoClient(uri);
      await client.connect();
   const { userName } = req.body;
-  const slot = slots.find()//find the user with userid as given userid
+  const slot = slots.finding(client,{username : userName},'slots')//find the user with userid as given userid
 //links for doctors
 //meet.google.com/hwx-fmjp-iou - subash
 // meet.google.com/nkn-bznq-zqk-shalini
@@ -197,7 +197,7 @@ app.post("/api/getMeetingLink", async(req, res) => {
   }
 });
 
-//---------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
 
 
 
