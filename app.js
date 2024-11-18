@@ -10,7 +10,7 @@ const session = require('express-session');
 require('dotenv').config();
 const mongoose = require("mongoose");
 const cron = require("node-cron");
-
+const moment = require("moment-timezone");
 const app = express();
 app.use(bodyParser.json());
 
@@ -583,58 +583,154 @@ app.post('/cancelSlot', async (req, res) => {
         await client.close();
     }
 });
-mongoose.connect("mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
-const MedicationSchema = new mongoose.Schema({
-  medName: String,
-  medTime: String,
-  frequency: Number,
-  email: String,
-});
+// // Connect to MongoDB
+// mongoose.connect(
+//     "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+//     {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     }
+//   );
+  
+//   // Define Medication schema and model
+//   const MedicationSchema = new mongoose.Schema({
+//     medName: String,
+//     medTime: String, // Stored in "HH:mm" format
+//     frequency: Number,
+//     email: String,
+//   });
+  
+//   const Medication = mongoose.model("Medication", MedicationSchema);
+// const transporter = nodemailer.createTransport({
+//     service: "Gmail",
+//     auth: {
+//       user: "iit2023026@iiita.ac.in", // Replace with your email
+//       pass: "wugl cnbw ggqf puzc", // Replace with your app password
+//     },
+//   });
+  
+//   // Route to set a reminder
+//   app.post("/set-reminder", async (req, res) => {
+//     try {
+//       const { medName, medTime, frequency } = req.body;
+//       const email = req.session.person.email; // Assumes a session system is in place
+  
+//       const medication = new Medication({ medName, medTime, frequency, email });
+//       await medication.save();
+  
+//       res.status(200).send("Reminder set successfully!");
+//     } catch (error) {
+//       console.error("Error setting reminder:", error);
+//       res.status(500).send("An error occurred while setting the reminder.");
+//     }
+//   });
+// cron.schedule("*/1 * * * *", async () => {
+//     try {
+//       const now = moment().tz("Asia/Kolkata").format("HH:mm"); // Adjust time zone as needed
+//       console.log("Current Time:", now);
+  
+//       // Fetch medications due at the current time
+//       const medications = await Medication.find({ medTime: now });
+//       console.log("Medications to notify:", medications);
+  
+//       // Send email reminders
+//       medications.forEach((med) => {
+//         const mailOptions = {
+//           from: "iit2023026@iiita.ac.in",
+//           to: med.email,
+//           subject: "Medication Reminder",
+//           text: `It's time to take your medication: ${med.medName}`,
+//         };
+  
+//         transporter.sendMail(mailOptions, (error, info) => {
+//           if (error) {
+//             console.error(`Error sending email to ${med.email}:`, error);
+//           } else {
+//             console.log(`Email sent to ${med.email}: ${info.response}`);
+//           }
+//         });
+//       });
+//     } catch (error) {
+//       console.error("Error in cron job:", error);
+//     }
+//   });
 
-const Medication = mongoose.model("Medication", MedicationSchema);
+
+// Setup nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "iit2023026@iiita.ac.in",
-    pass: "wugl cnbw ggqf puzc",
+    user: "iit2023026@iiita.ac.in", // Replace with your email
+    pass: "wugl cnbw ggqf puzc", // Replace with your app password
   },
 });
+
+// Route to set a reminder
 app.post("/set-reminder", async (req, res) => {
-  const { medName, medTime, frequency } = req.body;
-  const email = req.session.person.email; 
-
-  const medication = new Medication({ medName, medTime, frequency, email });
-  await medication.save();
-
-  res.status(200).send("Reminder set successfully!");
-});
-cron.schedule("*/1 * * * *", async () => {
-  const now = new Date();
-  const currentTime = now.toTimeString().slice(0, 5);
-
-  const medications = await Medication.find({ medTime: currentTime });
-  medications.forEach((med) => {
-    const mailOptions = {
-      from: "iit2023006@iiita.ac.in",
-      to: med.email,
-      subject: "Medication Reminder",
-      text: `It's time to take your medication: ${med.medName}`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    const client = new MongoClient(uri);
+  
+    try {
+      const { medName, frequency, medTimes } = req.body; // Ensure these match the frontend structure
+      const email = req.session.person.email;
+  
+      console.log("Received:", { medName, frequency, medTimes }); // Debugging
+  
+      await client.connect();
+  
+      await inserting(client, { medName, medTimes, frequency, email }, "medications");
+  
+      res.status(200).send("Reminder set successfully!");
+    } catch (error) {
+      console.error("Error setting reminder:", error);
+      res.status(500).send("An error occurred while setting the reminder.");
+    } finally {
+      await client.close();
+    }
   });
-});
-
+// Cron job to send reminders
+cron.schedule("*/1 * * * *", async () => {
+    const client = new MongoClient(uri);
+  
+    try {
+      await client.connect();
+      console.log("Connected to the database.");
+  
+      const now = moment().tz("Asia/Kolkata").format("HH:mm"); // Adjust time zone as needed
+      console.log("Current Time:", now);
+  
+      // Fetch medications due at the current time
+      const medications = await finding(client, { medTimes: { $in: [now] } }, "medications");
+      if (!medications || medications.length === 0) {
+        console.log("No medications to notify at this time.");
+        return; // Exit early if no medications to process
+      }
+  
+      console.log("Medications to notify:", medications);
+  
+      for (const med of medications) {
+        try {
+          const mailOptions = {
+            from: "iit2023026@iiita.ac.in",
+            to: med.email,
+            subject: "Medication Reminder",
+            text: `It's time to take your medication: ${med.medName}`,
+          };
+  
+          const info = await transporter.sendMail(mailOptions);
+          console.log(`Email sent to ${med.email}: ${info.response}`);
+        } catch (error) {
+          console.error(`Error sending email to ${med.email}:`, error);
+        }
+      }
+    } catch (error) {
+      console.error("Error in cron job:", error);
+    } finally {
+      // Ensure the database connection is closed
+      await client.close();
+      console.log("Database connection closed.");
+    }
+  });
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
