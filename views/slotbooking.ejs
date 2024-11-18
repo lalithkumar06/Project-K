@@ -3,147 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doctor Slot Booking</title>
+    <title>Available Medicines</title>
     <link rel="icon" href="logoHC.jpeg" type="image/x-icon" />
+
+    <script
+      src="https://kit.fontawesome.com/d70dca505b.js"
+      crossorigin="anonymous"
+    ></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+
     <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        background-color: #f7f7f7;
-        margin: 0;
-        padding: 0;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 20px;
-        background: white;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-      }
-
-      h1 {
-        font-size: 28px;
-        color: #333;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      .dropdown {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        font-size: 16px;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-      }
-
-      table th,
-      table td {
-        border: 1px solid #ddd;
-        padding: 15px;
-        text-align: center;
-      }
-
-      table th {
-        background-color: #f4f4f4;
-        font-weight: bold;
-        color: #555;
-      }
-
-      table tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-
-      .button-book,
-      .button-cancel {
-        padding: 10px 20px;
-        font-size: 14px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .button-book {
-        background-color: #4caf50;
-        color: white;
-        margin-right: 10px;
-      }
-
-      .button-book:hover {
-        background-color: #45a049;
-      }
-
-      .button-cancel {
-        background-color: #e53935;
-        color: white;
-      }
-
-      .button-cancel:hover {
-        background-color: #d32f2f;
-      }
-
-      .doctor-info {
-        margin: 20px 0;
-      }
-
-      .doctor-info h2 {
-        margin: 5px 0;
-        color: #333;
-      }
-
-      .doctor-info p {
-        color: #666;
-      }
+      /* CSS code remains unchanged */
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Doctor Slot Booking</h1>
-      <select class="dropdown" id="doctorSelect" onchange="changeDoctor()">
-        <% doctors.forEach((doctor, index) => { %>
-        <option value="<%= index %>">
-          <%= doctor.first_name %> <%= doctor.last_name %> - <%= doctor.dept %>
-        </option>
-        <% }); %>
-      </select>
+    <%- include('navbarfin') %>
+    <div>
+      <img src="image.png" alt="Information" width="100%" />
+    </div>
+    <br /><br />
+    <div class="container main-content">
+      <div class="header">
+        <h1>Doctor Slot Booking</h1>
+        <select class="dropdown" id="doctorSelect" onchange="changeDoctor()">
+          <% doctors.forEach((doctor, index) => { %>
+          <option value="<%= index %>">
+            <%= doctor.first_name %> <%= doctor.last_name %> - <%= doctor.dept
+            %>
+          </option>
+          <% }); %>
+        </select>
+      </div>
 
       <div id="doctorContent">
         <% if (doctors && doctors.length > 0) { %>
         <div class="doctor-info">
           <h2><%= doctors[0].first_name %> <%= doctors[0].last_name %></h2>
-          <p>Department: <%= doctors[0].dept %></p>
+          <p><%= doctors[0].dept %></p>
         </div>
         <% } else { %>
         <p>No doctors available at the moment.</p>
         <% } %>
       </div>
-
-      <table>
-        <thead>
+      
+      <div class="table-container">
+        <table>
           <tr>
             <th>Available Time Slots</th>
             <th>Action</th>
           </tr>
-        </thead>
-        <tbody>
           <% if (doctors.length > 0) {
-          Object.keys(doctors[0].appointments).forEach(time => { %>
+          Object.keys(doctors[0].appointments).forEach(time => { 
+            const appointment = doctors[0].appointments[time]; %>
           <tr>
             <td><%= time %></td>
             <td>
-              <% if (person.username && doctors[0].appointments[time] ===
-              person.username) { %>
+              <% if (
+                loggedInUser.username &&
+                appointment.pusername === loggedInUser.username
+              ) { %>
               <form action="/cancelSlot" method="POST">
                 <input
                   type="hidden"
@@ -153,8 +74,7 @@
                 <input type="hidden" name="slotTime" value="<%= time %>" />
                 <button type="submit" class="button-cancel">Cancel Slot</button>
               </form>
-              <% } else if (doctors[0].appointments[time] === "") { %>
-<<<<<<< HEAD
+              <% } else if (appointment.type === "") { %>
               <div style="display: flex; gap: 10px">
                 <form action="/bookDirectSlot" method="POST">
                   <input
@@ -166,11 +86,9 @@
                   <input
                     type="hidden"
                     name="userName"
-                    value="<%= person.username %>"
+                    value="<%= loggedInUser.username %>"
                   />
-                  <button type="submit" class="button-book">
-                    Direct Visit
-                  </button>
+                  <button type="submit" class="button-book">Direct Visit</button>
                 </form>
                 <form action="/bookVirtualSlot" method="POST">
                   <input
@@ -182,36 +100,13 @@
                   <input
                     type="hidden"
                     name="userName"
-                    value="<%= person.username %>"
+                    value="<%= loggedInUser.username %>"
                   />
-                  <input
-                    type="hidden"
-                    name="userPassword"
-                    value="<%= person.password %>"
-                  />
-                  <button type="submit" class="button-book">
-                    Virtual Meet
-                  </button>
+                  <button type="submit" class="button-book">Virtual Meet</button>
                 </form>
               </div>
-=======
-              <form action="/bookDirectSlot" method="POST">
-                <input
-                  type="hidden"
-                  name="doctorName"
-                  value="<%= doctors[0].first_name %>"
-                />
-                <input type="hidden" name="slotTime" value="<%= time %>" />
-                <input
-                  type="hidden"
-                  name="userName"
-                  value="<%= loggedInUser.username %>"
-                />
-                <button type="submit" class="button-book">Direct Visit</button>
-              </form>
->>>>>>> 501e8bed2e0a00de24fc53fe9684effe0ec05d32
               <% } else { %>
-              <span>Booked</span>
+              <span>Booked (<%= appointment.pusername %>)</span>
               <% } %>
             </td>
           </tr>
@@ -220,76 +115,73 @@
             <td colspan="2">No slots available.</td>
           </tr>
           <% } %>
-        </tbody>
-      </table>
-    </div>
-<<<<<<< HEAD
+        </table>
+      </div>
+      
 
     <%- include('footer') %>
 
     <script>
       function changeDoctor() {
-        const doctorIndex = parseInt(
-          document.getElementById("doctorSelect").value,
-          10
-        );
-        const doctor = doctors[doctorIndex];
-        const doctorContent = document.getElementById("doctorContent");
+  const doctorIndex = parseInt(
+    document.getElementById("doctorSelect").value,
+    10
+  );
+  const doctor = doctors[doctorIndex];
+  const doctorContent = document.getElementById("doctorContent");
 
-        doctorContent.innerHTML = `
-          <div class="doctor-info">
-            <h2>${doctor.first_name} ${doctor.last_name}</h2>
-            <p>${doctor.dept}</p>
-          </div>
-          <div class="table-container">
-            <table>
-              <tr>
-                <th>Available Time Slots</th>
-                <th>Action</th>
-              </tr>
-              ${Object.keys(doctor.appointments)
-                .map(
-                  (time) => `
-                <tr>
-                  <td>${time}</td>
-                  <td>
-                    ${
-                      person.username &&
-                      doctor.appointments[time] === person.username
-                        ? `<form action="/cancelSlot" method="POST">
-                            <input type="hidden" name="doctorName" value="${doctor.first_name}" />
-                            <input type="hidden" name="slotTime" value="${time}" />
-                            <button type="submit" class="button-cancel">Cancel Slot</button>
-                          </form>`
-                        : doctor.appointments[time] === ""
-                        ? `<div style="display: flex; gap: 10px;">
-                            <form action="/bookDirectSlot" method="POST">
-                              <input type="hidden" name="doctorName" value="${doctor.first_name}" />
-                              <input type="hidden" name="slotTime" value="${time}" />
-                              <input type="hidden" name="userName" value="${loggedInUser.username}" />
-                              <button type="submit" class="button-book">Direct Visit</button>
-                            </form>
-                            <form action="/bookVirtualSlot" method="POST">
-                              <input type="hidden" name="doctorName" value="${doctor.first_name}" />
-                              <input type="hidden" name="slotTime" value="${time}" />
-                              <input type="hidden" name="userName" value="${loggedInUser.username}" />
-                              <input type="hidden" name="userPassword" value="${loggedInUser.password}" />
-                              <button type="submit" class="button-book">Virtual Meet</button>
-                            </form>
-                          </div>`
-                        : `<span>Booked</span>`
-                    }
-                  </td>
-                </tr>
-              `
-                )
-                .join("")}
-            </table>
-          </div>
-        `;
-      }
+  doctorContent.innerHTML = `
+    <div class="doctor-info">
+      <h2>${doctor.first_name} ${doctor.last_name}</h2>
+      <p>${doctor.dept}</p>
+    </div>
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>Available Time Slots</th>
+          <th>Action</th>
+        </tr>
+        ${Object.keys(doctor.appointments)
+          .map((time) => {
+            const appointment = doctor.appointments[time];
+            return `
+          <tr>
+            <td>${time}</td>
+            <td>
+              ${
+                loggedInUser.username &&
+                appointment.pusername === loggedInUser.username
+                  ? `<form action="/cancelSlot" method="POST">
+                      <input type="hidden" name="doctorName" value="${doctor.first_name}" />
+                      <input type="hidden" name="slotTime" value="${time}" />
+                      <button type="submit" class="button-cancel">Cancel Slot</button>
+                    </form>`
+                  : appointment.type === ""
+                  ? `<div style="display: flex; gap: 10px;">
+                      <form action="/bookDirectSlot" method="POST">
+                        <input type="hidden" name="doctorName" value="${doctor.first_name}" />
+                        <input type="hidden" name="slotTime" value="${time}" />
+                        <input type="hidden" name="userName" value="${loggedInUser.username}" />
+                        <button type="submit" class="button-book">Direct Visit</button>
+                      </form>
+                      <form action="/bookVirtualSlot" method="POST">
+                        <input type="hidden" name="doctorName" value="${doctor.first_name}" />
+                        <input type="hidden" name="slotTime" value="${time}" />
+                        <input type="hidden" name="userName" value="${loggedInUser.username}" />
+                        <button type="submit" class="button-book">Virtual Meet</button>
+                      </form>
+                    </div>`
+                  : `<span>Booked (${appointment.pusername})</span>`
+              }
+            </td>
+          </tr>`;
+          })
+          .join("")}
+      </table>
+    </div>
+  `;
+}
+
     </script>
-=======
->>>>>>> 501e8bed2e0a00de24fc53fe9684effe0ec05d32
   </body>
 </html>

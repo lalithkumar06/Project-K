@@ -732,7 +732,6 @@ app.get("/slotbooking", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.get('/homeadmin', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
@@ -755,17 +754,15 @@ app.get('/homeadmin', async (req, res) => {
     } finally {
         await client.close();
     }
-});
-const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-app.get('/slotbooking', async (req, res) => {
+});app.get('/slotbooking', async (req, res) => {
     const client = new MongoClient(uri);
     try {
         await client.connect();
         const db = client.db('Medi');
         const doctors = await db.collection('user').find({login: "Doctor"}).toArray();
         console.log("Doctors fetched:", doctors); // Add this line
-        
-        res.render('slotbooking', { doctors, person: req.session.person });
+        const loggedInUser = req.session.person;
+        res.render('slotbooking', { doctors, loggedInUser });
     } finally {
         await client.close();
     }
@@ -790,31 +787,6 @@ app.post('/bookslot', async (req, res) => {
     } finally {
         await client.close();
     }
-=======
-app.post("/bookslot", async (req, res) => {
-  const { doctorName, slotTime, userName } = req.body;
-  const client = new MongoClient(uri);
-  try {
-    await client.connect();
-    const db = client.db("Medi");
-    const doctorUpdate = await db
-      .collection("doctors")
-      .updateOne(
-        { first_name: doctorName, [`appointments.${slotTime}`]: "" },
-        { $set: { [`appointments.${slotTime}`]: userName } }
-      );
-    const userUpdate = await db
-      .collection("users")
-      .updateOne(
-        { username: userName },
-        { $set: { [`appointments.${slotTime}`]: doctorName } }
-      );
-
-    res.redirect("/slotbooking");
-  } finally {
-    await client.close();
-  }
->>>>>>> 501e8bed2e0a00de24fc53fe9684effe0ec05d32
 });
 app.post("/cancelSlot", async (req, res) => {
   const { doctorName, slotTime } = req.body;
