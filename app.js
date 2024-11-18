@@ -126,7 +126,9 @@ app.get('/getAlerts', async (req, res) => {
         res.status(500).send('Error fetching alerts');
     }
 });
-
+app.get('/conference',(req,res)=>{
+    res.render('conference')
+})
 app.post('/addAlert', async (req, res) => {
     try {
         const newAlert = req.body.alerti;
@@ -288,14 +290,14 @@ app.post('/updatedonor', async (req, res) => {
 });
 app.post("/api/getMeetingLink", (req, res) => {
   const { userId } = req.body;
-  const slot = slots.find((slot) => slot.userId === userId);
+  const slot = slot.find((slot) => slot.userId === userId);
 
   if (slot) {
     res.json({ success: true, meetLink: slot.meetLink });
   } else {
     res
       .status(404)
-      .json({ success: false, message: "No slot found for the user." });
+      .json({ success: false, message: "No slot found for the user at this time." });
   }
 });
 app.get('/Admin_avamedi', async (req, res) => {
