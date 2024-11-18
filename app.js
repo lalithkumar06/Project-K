@@ -14,7 +14,6 @@ const moment = require("moment-timezone");
 const bcrypt = require('bcrypt');
 
 const app = express();
-app.use(cors);
 app.use(bodyParser.json());
 
 
@@ -688,8 +687,8 @@ app.get('/slotbooking', async (req, res) => {
         const db = client.db('Medi');
         const doctors = await db.collection('user').find({login: "Doctor"}).toArray();
         console.log("Doctors fetched:", doctors); // Add this line
-        const loggedInUser = req.session.person;
-        res.render('slotbooking', { doctors, loggedInUser });
+        
+        res.render('slotbooking', { doctors, person: req.session.person });
     } finally {
         await client.close();
     }
@@ -701,11 +700,11 @@ app.post('/bookslot', async (req, res) => {
     try {
         await client.connect();
         const db = client.db('Medi');
-        const doctorUpdate = await db.collection('doctors').updateOne(
+        const doctorUpdate = await db.collection('user').updateOne(
             { "first_name": doctorName, [`appointments.${slotTime}`]: "" },
             { $set: { [`appointments.${slotTime}`]: userName } }
         );
-        const userUpdate = await db.collection('users').updateOne(
+        const userUpdate = await db.collection('user').updateOne(
             { "username": userName },
             { $set: { [`appointments.${slotTime}`]: doctorName } }
         );

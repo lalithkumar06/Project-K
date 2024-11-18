@@ -60,8 +60,8 @@
           <tr>
             <td><%= time %></td>
             <td>
-              <% if (loggedInUser.username && doctors[0].appointments[time] ===
-              loggedInUser.username) { %>
+              <% if (person.username && doctors[0].appointments[time] ===
+              person.username) { %>
               <form action="/cancelSlot" method="POST">
                 <input
                   type="hidden"
@@ -83,7 +83,7 @@
                   <input
                     type="hidden"
                     name="userName"
-                    value="<%= loggedInUser.username %>"
+                    value="<%= person.username %>"
                   />
                   <button type="submit" class="button-book">
                     Direct Visit
@@ -99,12 +99,12 @@
                   <input
                     type="hidden"
                     name="userName"
-                    value="<%= loggedInUser.username %>"
+                    value="<%= person.username %>"
                   />
                   <input
                     type="hidden"
                     name="userPassword"
-                    value="<%= loggedInUser.password %>"
+                    value="<%= person.password %>"
                   />
                   <button type="submit" class="button-book">
                     Virtual Meet
@@ -154,8 +154,8 @@
                   <td>${time}</td>
                   <td>
                     ${
-                      loggedInUser.username &&
-                      doctor.appointments[time] === loggedInUser.username
+                      person.username &&
+                      doctor.appointments[time] === person.username
                         ? `<form action="/cancelSlot" method="POST">
                             <input type="hidden" name="doctorName" value="${doctor.first_name}" />
                             <input type="hidden" name="slotTime" value="${time}" />
