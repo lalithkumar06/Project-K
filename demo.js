@@ -13,14 +13,14 @@ async function main() {
         // Example of calling the finding function
         const exampleData = { username: "testuser" };
         const results = await finding(client, exampleData, 'user');
-        console.log("Results:", results);
+        
 
     } catch (e) {
         console.error("An error occurred in main:", e);
     } finally {
         // Close the connection to the Mongodb cluster
         await client.close();
-        console.log("Connection closed");
+        
     }
 }
 

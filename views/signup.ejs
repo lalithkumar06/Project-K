@@ -1,110 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-        /* Styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: rgba(83, 82, 82, 0.175);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        
-        .register-container {
-            background-color: #0f0101;
-            padding: 20px;
-            height: 600px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 500px;
-        }
+      /* General body styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: rgba(83, 82, 82, 0.175);
+        margin: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-y: hidden;
+      }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ebeeeb;
-        }
+      /* Container styling for the form */
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh; /* Full height */
+        margin: 0 auto;
+      }
 
-        .input-container {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 30px 0;
-            padding: 10px;
-        }
+      .register-container {
+        background-color: rgba(255, 255, 255, 0.8); /* White with opacity */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        width: 25%; /* 1 part of the ratio */
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 10px;
+      }
 
-        .input-container input {
-            width: 100%;
-            border: none;
-            outline: none;
-            padding: 5px;
-            font-size: 16px;
-        }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
 
-        .input-row {
-            display: flex;
-            margin: 40px 0px;
-            justify-content: space-between;
-        }
+      /* Input container styling */
+      .input-container {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 15px 0;
+        padding: 10px;
+        width: 90%;
+      }
 
-        .input-row .input-container {
-            flex: 1;
-            margin: 0 5px;
-        }
+      .input-container i {
+        margin-right: 10px;
+        color: #aaa;
+      }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 25px;
-            font-size: 16px;
-        }
+      .input-container input {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 16px;
+      }
 
-        button:hover {
-            background-color: #45a049;
-        }
+      /* Button styling */
+      button {
+        width: 80%;
+        padding: 10px;
+        background-color: #0911ffd3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        margin: 10px 0;
+        margin-left: 38px;
+      }
+
+      button:hover {
+        background-color: #5d27ff;
+      }
+
+      /* Right container with image */
+      .right-container {
+        flex-grow: 3; /* 3 parts of the ratio */
+        background: url("https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+          no-repeat center center;
+        background-size: cover;
+        transition: transform 10s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        padding: 20px;
+        height: 100%;
+      }
+
+      .right-container h1 {
+        font-size: 36px;
+        text-align: center;
+      }
+
+      .right-container p {
+        font-size: 18px;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
-
-    <div class="register-container">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left container with the registration form -->
+      <div class="register-container">
         <h2>Create Account</h2>
         <form action="/signup" method="POST">
-            <div class="input-row">
-                <div class="input-container">
-                    <input type="text" name="first_name" placeholder="First Name" required>
-                </div>
-                <div class="input-container">
-                    <input type="text" name="last_name" placeholder="Last Name" required>
-                </div>
-            </div>
-            <div class="input-container">
-                <input type="email" name="email" placeholder="Email" required>
-            </div>
-            <div class="input-container">
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
-            <div class="input-container">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="input-container">
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            </div>
-            <button type="submit">Create Account</button>
+          <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Last Name"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div class="input-container">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="confirm_password"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          <button type="submit">Create Account</button>
         </form>
-    </div>
+      </div>
 
-</body>
+      <!-- Right container with background image and text -->
+      <div class="right-container">
+        <div>
+          <h1>Join Health Connect</h1>
+          <p>
+            Experience a unified platform designed to connect you with essential
+            health services at your college.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Center Connect</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <script
+      src="https://kit.fontawesome.com/d70dca505b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="index.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" href="logoHC.jpeg" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-image {
+        background-image: url("https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80");
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        position: relative;
+      }
+
+      .bg-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(44, 62, 80, 0.6);
+      }
+
+      .bg-image * {
+        position: relative;
+      }
+
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-title {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .user-info {
+        max-height: 300px; /* Adjust the height as needed */
+        overflow-y: auto;
+        background-color: #e8f4f8;
+        border-radius: 10px;
+      }
+
+
+      .previous-visits {
+        background-color: #f0f8ff;
+      }
+
+      .medical-alerts {
+        background-color: #fff5e6;
+      }
+
+      .list-group-item {
+        background-color: transparent;
+        border: none;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      }
+      .list-group-item.available {
+        color: green;
+      }
+      .list-group-item.booked {
+        color: red;
+      }
+
+      .alert {
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      footer {
+        background-color: #f8f9fa;
+        color: #6c757d;
+      }
+
+      @media (max-width: 768px) {
+        .bg-image {
+          height: 200px;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .card,
+      .alert {
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      /* Accessibility */
+      a:focus,
+      button:focus {
+        outline: 3px solid #3498db;
+        outline-offset: 2px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .first-aid {
+        height: 4%;
+        width: 80%;
+        display: flex;
+        position: relative;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+        background-color: #fffbe0;
+        
+        border: 1px solid #f0f0f0;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        
+      }
+
+      .first-aid h2 {
+        background-color: #ffc107;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-right: 10px;
+      }
+
+      .first-aid-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        font-size: 1rem;
+        margin: 0 20px;
+      }
+      .first-aid-item i{
+        width: 10px;
+      }
+      #whychooseus {
+        color: rgb(69, 171, 206);
+        font-size: 40px;
+        margin-left: 620px;
+        font-family: "Poppins", sans-serif;
+      }
+      #whyus {
+        width: 100%;
+        align-self: center;
+      }
+      .blood-group {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        width: 48%;
+        border: 1px solid rgb(90, 95, 95);
+        margin-top: 10px;
+        display: inline;
+        margin-left: 10px;
+      }
+
+      .blood-group h2 {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .chart {
+        width: 100%;
+        height: auto;
+      }
+
+      .donation {
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        width: 60%; /* Set width to 60% */
+        margin: 20px auto; /* Center the container */
+        border: 1px solid rgb(95, 89, 89);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better appearance */
+        text-align: left; /* Ensure text aligns left */
+      }
+
+      .donation h1 {
+        font-size: 1.8rem;
+        color: #007bff;
+        margin-bottom: 10px;
+      }
+
+      .donation p {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+      }
+
+      .priority {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .priority p {
+        font-size: 1.1rem;
+      }
+
+      .priority span {
+        padding: 8px 12px;
+        border-radius: 20px;
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      .high {
+        background-color: #dc3545; /* Red for high priority */
+      }
+
+      .medium {
+        background-color: #ffc107; /* Yellow for medium priority */
+      }
+
+      .donate-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+      }
+
+      .donate-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <%-include('navbarfin_doc')%>
+
+    <header class="bg-image py-5">
+      <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <div class="col-lg-12">
+            <h1 class="display-4 text-white mt-5 mb-2">
+              Welcome to Health Connect
+            </h1>
+            <p class="lead mb-5 text-white-50">
+              Connecting college students with health resources
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <br>
+
+    <main class="container my-5">
+      <div class="row">
+        <!-- Daily Schedule (Left Column) -->
+        <div class="col-md-8 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Daily Schedule</h5>
+              <div class="list-group">
+                <% Object.keys(person.appointments).forEach((time) => { %>
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><%= time %></span>
+                    <span>
+                      <% if (person.appointments[time]) { %>
+                        <strong>Booked by: <%= person.appointments[time] %></strong>
+                      <% } else { %>
+                        <em>Available</em>
+                      <% } %>
+                    </span>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Doctor Information (Right Column) -->
+        <div class="col-md-4">
+          <div class="card user-info h-100">
+            <div class="card-body">
+              <h5 class="card-title">Doctor Information</h5>
+              <p class="card-text">
+                Name: Dr. <%= person.first_name %> <%= person.last_name %>
+              </p>
+              <p class="card-text">Department: <%= person.dept %></p>
+              <p class="card-text">Age: <%= person.age %></p>
+              <p class="card-text">Blood Group: <%= person.blood %></p>
+              <p class="card-text">
+                Current Conditions: Allergic to <%= person.allergies %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    
+
+    
+
+    <br />
+    <p id="whychooseus">Why Choose Us</p>
+    <img src="whyus.png" alt="whychooseus" id="whyus" />
+
+    <%-include('footer')%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

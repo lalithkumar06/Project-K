@@ -207,13 +207,19 @@
       .donation {
         background-color: white;
         padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-        width: 60%; /* Set width to 60% */
+        width: 100%; /* Set width to 60% */
         margin: 20px auto; /* Center the container */
-        border: 1px solid rgb(95, 89, 89);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better appearance */
         text-align: left; /* Ensure text aligns left */
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+      }
+      .d1{
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border: 1px solid rgb(95, 89, 89);
+        width: 50%;
+        padding: 1rem 1rem;
+        border-radius: 1rem;
       }
 
       .donation h1 {
@@ -266,6 +272,112 @@
 
       .donate-btn:hover {
         background-color: #0056b3;
+      }
+      .d2{
+        width:30%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border: 1px solid rgb(95, 89, 89);
+        padding: 1rem 1rem;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap:2rem;
+      }
+      #openFormButton {
+        width: 30%;
+        font-size: 20px;
+        background-color: #007bff; /* Blue */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #openFormButton:hover {
+        background-color: #0056b3; /* Darker blue */
+      }
+
+      .form-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 8px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        z-index: 10;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .form-container label {
+        margin-bottom: 8px;
+      }
+
+      .form-container input[type="text"],
+      .form-container input[type="time"],
+      .form-container input[type="number"] {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+        padding-right: 5px;
+      }
+
+      .btn {
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .submit {
+        background-color: #28a745; /* Green */
+        margin-bottom: 10px;
+        color: white;
+      }
+
+      .submit:hover {
+        background-color: #218838; /* Darker green */
+      }
+
+      .cancel {
+        background-color: #dc3545; /* Red */
+        color: white;
+      }
+
+      .cancel:hover {
+        background-color: #c82333; /* Darker red */
+      }
+
+      /* Style adjustments for time inputs */
+      .time-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns for time inputs */
+        gap: 10px;
+      }
+
+      .time-inputs input {
+        width: 100%;
       }
     </style>
   </head>
@@ -366,6 +478,7 @@
     </div>
     </main>
     <div class="donation">
+      <div class="d1">
       <h1 style="text-align-last: left">Blood Donation</h1>
       <p>We are in urgent need of the following blood groups:</p>
       <div class="priority">
@@ -377,6 +490,43 @@
         <span class="medium">Medium Priority</span>
       </div>
       <a href="#" class="donate-btn">Schedule Donation</a>
+    </div>
+    <div class="d2">
+      <h3>Set Medication Reminders</h3>
+      <button id="openFormButton">Click Here</button>
+    </div>
+    <div id="popupForm" class="form-popup">
+      <form id="medicationForm" class="form-container">
+        <h2>Set Your Medication Reminder</h2>
+
+        <label for="medName"><b>Medicine Name</b></label>
+        <input
+          type="text"
+          id="medName"
+          name="medName"
+          required
+          placeholder="Enter medicine name"
+        />
+
+        <label for="frequency"><b>Times per Day</b></label>
+        <input
+          type="number"
+          id="frequency"
+          name="frequency"
+          min="1"
+          required
+          placeholder="Enter frequency per day"
+        />
+
+        <div id="timesContainer" class="time-inputs"></div>
+        <!-- Container for dynamically added time fields -->
+
+        <button type="submit" class="btn submit">Set Reminder</button>
+        <button type="button" class="btn cancel" id="closeFormButton">
+          Close
+        </button>
+      </form>
+    </div>
     </div>
     
     <%-include('slide')%>;
@@ -391,5 +541,65 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      
+      document.getElementById("openFormButton").onclick = () => {
+        document.getElementById("popupForm").style.display = "block";
+      };
+
+      document.getElementById("closeFormButton").onclick = () => {
+        document.getElementById("popupForm").style.display = "none";
+      };
+
+      // Handle frequency change and dynamically add time inputs
+      const frequencyInput = document.getElementById("frequency");
+      const timesContainer = document.getElementById("timesContainer");
+
+      frequencyInput.addEventListener("input", () => {
+        timesContainer.innerHTML = ""; // Clear existing time inputs
+        const frequency = parseInt(frequencyInput.value);
+
+        if (frequency > 0) {
+          for (let i = 1; i <= frequency; i++) {
+            const label = document.createElement("label");
+            label.innerText = `Time ${i} (HH:MM)`;
+            label.setAttribute("for", `medTime${i}`);
+
+            const input = document.createElement("input");
+            input.type = "time";
+            input.id = `medTime${i}`;
+            input.name = "medTimes";
+            input.required = true;
+
+            timesContainer.appendChild(label);
+            timesContainer.appendChild(input);
+          }
+        }
+      });
+
+      document.getElementById("medicationForm").onsubmit = async (event) => {
+        event.preventDefault();
+
+        const medName = document.getElementById("medName").value;
+        const frequency = parseInt(document.getElementById("frequency").value);
+        const medTimes = Array.from(
+          document.querySelectorAll('input[name="medTimes"]')
+        ).map((input) => input.value);
+
+        const response = await fetch("/set-reminder", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ medName, frequency, medTimes }),
+        });
+
+        if (response.ok) {
+          alert("Reminder set!");
+          document.getElementById("popupForm").style.display = "none";
+        } else {
+          alert("Failed to set reminder.");
+        }
+      };
+
+    </script>
   </body>
 </html>

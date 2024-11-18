@@ -17,66 +17,13 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      padding-top: 20px; /* Space at the top */
+      overflow-x: hidden;
     }
 
     .container {
       display: flex;
       flex-direction: column;
-      margin: 0 20px;
     }
-
-    .nav-bar {
-      height: 10%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      background-color: #f8f8f8;
-      color: #333;
-      padding: 10px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-bar h1 {
-      font-size: 18px;
-      font-weight: normal;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      color: #333;
-      text-decoration: none;
-    }
-
-    .nav-links a:hover {
-      color: #007bff;
-      transition: all 0.3s ease;
-      transform: translateY(-2px);
-    }
-
-    .nav-links i {
-      margin-left: 5px;
-    }
-
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .nav-icons i {
-      font-size: 18px;
-      cursor: pointer;
-      color: #333;
-    }
-    
-
     .main-content {
       flex-grow: 1;
       margin-left: 20px;
@@ -139,98 +86,6 @@
     tbody tr:nth-child(even) {
       background-color: #f1f1f1;
     }
-
-    footer {
-      background-color: #1a252f;
-      color: #fff;
-      padding: 50px 0;
-      position: relative;
-      overflow: hidden; 
-      height: 20%;
-      width: 100%;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .footer-section {
-      width: 25%;
-      margin-bottom: 30px;
-    }
-
-    .footer-section h3 {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section li {
-      margin-bottom: 10px;
-    }
-
-    .footer-section a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .footer-section a:hover {
-      text-decoration: underline;
-    }
-
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background-color: #fff;
-      border-radius: 0 0 50% 50%;
-      transform: translateY(-50%);
-    }
-    
-    .footer-section ul li i {
-      padding: 4px;
-      margin-right: 10px;
-    }
-    
-    .footer-section ul li:hover {
-      scale: 1.05;
-      transition: all ease-in 0.2s;
-    }
-    
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
-    body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
-
-.navbar-brand, .nav-link {
-    color: #4a4a4a;
-    transition: color 0.3s ease;
-}
-
-.navbar-brand:hover, .nav-link:hover {
-    color: #2c3e50;
-}
 .modal {
   display: none; /* Hidden by default */
   position: fixed; 
@@ -388,20 +243,9 @@
 <body>
 
   <div class="container">
-    <div class="nav-bar">
-        <h1 style="padding-left: 50px;">Health Center Connect</h1>
-        <div class="nav-links">
-          <a href="/availableMedi">Available Medicines</a>
-          <a href="/bloodDonors">Blood Donors List</a>
-          <a href="#">Virtual Conference</a>
-          <a href="#">Slot Booking <i class="fas fa-calendar"></i></a>
-        </div>
-        <div class="nav-icons">
-          <a href="/home"><i class="fas fa-user"></i></a>
-        </div> 
-    </div>
+    <%-include('navbarfin_admin')%>
     <div>
-      <img src="./img/image.png" alt="Information" width = "1479px">
+      <img src="image.png" alt="Information" width = "100%">
     </div>
     <br>
     <br>
@@ -497,9 +341,7 @@
       </div>
     </div>
     <br><br>
-    <footer>
-      <!-- Footer content -->
-    </footer>
+    <%-include('footer')%>
   </div>
 
   <script>
