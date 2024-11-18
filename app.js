@@ -10,6 +10,7 @@ const session = require('express-session');
 require('dotenv').config();
 const mongoose = require("mongoose");
 const cron = require("node-cron");
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(bodyParser.json());
@@ -58,7 +59,7 @@ app.post('/loginpage', async (req, res) => {
             console.log("Stored password:", person[0].pass);
             console.log("Entered password:", passwo);
 
-            if (person[0].pass === passwo) {
+            if (await bcrypt.compare(passwo, person[0].pass)) {
                 req.session.person = person[0];
                 console.log(person[0].login);
 
@@ -424,9 +425,15 @@ app.post('/resetpass', async (req, res) => {
         return res.status(400).send("Invalid OTP");
     }
 
+    if (new_password.length < 6 || !/[!@#$%^&*(),.?":{}|<>]/.test(new_password)) {
+        return res.status(400).send("Password must be at least 6 characters long and include at least one special character.");
+    }
+
     if (new_password !== confirm_password) {
         return res.status(400).send("Passwords do not match");
     }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
 
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
@@ -437,7 +444,7 @@ app.post('/resetpass', async (req, res) => {
 
         await db.collection('users').updateOne(
             { username: req.session.person.username },
-            { $set: { pass: confirm_password } }
+            { $set: { pass: hashedPassword } }
         );
 
         res.send('Password successfully updated');
@@ -451,19 +458,61 @@ app.post('/resetpass', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     try {
-        const { username, email, password, confirm_password ,first_name,last_name} = req.body;
+        const { username, email, password, confirm_password, first_name, last_name } = req.body;
+
+        // Password Strength Validation
+        if (password.length < 6 || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            return res.render('signup', {
+                error: 'Password must be at least 6 characters long and include at least one special character.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
+        }
 
         if (password !== confirm_password) {
-            return res.render('signup', { error: 'Passwords do not match' });
+            return res.render('signup', {
+                error: 'Passwords do not match.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
         }
 
         const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
         const client = new MongoClient(uri);
         await client.connect();
-        login="Student"
-        await inserting(client, { username, email, pass: password,first_name,last_name,login}, 'user');
 
-        req.session.person = { username, email, pass: password };
+        const db = client.db('Medi');
+        const usersCollection = db.collection('user');
+
+        // Check if username exists
+        const person = await usersCollection.findOne({ username });
+        if (person) {
+            await client.close();
+            return res.render('signup', {
+                error: 'Username already exists. Please choose a different username.',
+                first_name,
+                last_name,
+                email,
+                username,
+            });
+        }
+
+        // Hash the Password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const login = "Student";
+        await inserting(client, { username, email, pass: hashedPassword, first_name, last_name, login }, 'user');
+
+        req.session.person = { username, email, pass: hashedPassword, first_name, last_name, login };
+
+        alertss = await db.collection('ale').find({}).toArray();
+        if (!alertss) {
+            alertss = [];
+        }
 
         await client.close();
         res.render('home1', { person: req.session.person });
@@ -472,6 +521,8 @@ app.post('/signup', async (req, res) => {
         res.status(500).send("An error occurred");
     }
 });
+
+
 
 app.get('/home', async (req, res) => {
     const person = req.session.person;
