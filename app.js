@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 
 const app = express();
+app.use(cors);
 app.use(bodyParser.json());
 
 
@@ -110,6 +111,104 @@ app.post('/loginpage', async (req, res) => {
         res.status(500).send("An error occurred");
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------
+
+
+
+app.post("/bookVirtualSlot", async (req, res) => {
+    const uri =
+      "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    await client.connect();
+
+  const { doctorName, slotTime, userName, userPassword } = req.body;
+  const doctor = await Doctor.finding({ first_name: doctorName });
+    const slot= {username : userName,doctor : doctorName, slottime : slotTime,userpassword : userPassword}
+  if (doctor) {
+    doctor.appointments[slotTime] = {
+      user: userName,
+      type: "virtual",
+      password: userPassword,
+      time: slotTime,
+    };
+    await doctor.save();
+    inserting(client,slot , slots);
+    res.redirect("/slots");
+  } else {
+    res.status(404).send("Doctor not found");
+  }
+});
+app.post("/bookDirectSlot", async (req, res) => {
+  const { doctorName, slotTime, userName } = req.body;
+  const doctor = await Doctor.finding({ first_name: doctorName });
+
+  if (doctor) {
+    doctor.appointments[slotTime] = userName;
+    await doctor.save();
+    res.redirect("/slots");
+  } else {
+    res.status(404).send("Doctor not found");
+  }
+});
+app.post("/api/getMeetingLink", async(req, res) => {
+    const uri =
+      "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+     await client.connect();
+  const { userName } = req.body;
+  const slot = slots.find()//find the user with userid as given userid
+//links for doctors
+//meet.google.com/hwx-fmjp-iou - subash
+// meet.google.com/nkn-bznq-zqk-shalini
+// meet.google.com/mke-vwwk-ivp - amit
+  if (slot) {
+    //update the meetlink in the below line according to the doctor name from the input
+    res.json({ success: true, meetLink: slot.meetLink });
+  } else {
+    res
+      .status(404)
+      .json({ success: false, message: "No slot found for the user." });
+  }
+});
+
+//---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/getAlerts', async (req, res) => {
     try {
@@ -286,18 +385,7 @@ app.post('/updatedonor', async (req, res) => {
         await client.close();
     }
 });
-app.post("/api/getMeetingLink", (req, res) => {
-  const { userId } = req.body;
-  const slot = slots.find((slot) => slot.userId === userId);
 
-  if (slot) {
-    res.json({ success: true, meetLink: slot.meetLink });
-  } else {
-    res
-      .status(404)
-      .json({ success: false, message: "No slot found for the user." });
-  }
-});
 app.get('/Admin_avamedi', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
