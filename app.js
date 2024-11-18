@@ -181,20 +181,32 @@ app.post("/api/getMeetingLink", async(req, res) => {
       "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
      await client.connect();
-  const { userName } = req.body;
-  const slot = slots.finding(client,{username : userName},'slots')//find the user with userid as given userid
-//links for doctors
-//meet.google.com/hwx-fmjp-iou - subash
-// meet.google.com/nkn-bznq-zqk-shalini
-// meet.google.com/mke-vwwk-ivp - amit
-  if (slot) {
-    //update the meetlink in the below line according to the doctor name from the input
-    res.json({ success: true, meetLink: slot.meetLink });
-  } else {
-    res
-      .status(404)
-      .json({ success: false, message: "No slot found for the user." });
-  }
+    const { passwo } = req.session.person;
+    if (await bcrypt.compare(passwo, req.session.person.password)) {
+        const slot = await finding(client,{username : req.session.person.username},'slots')//find the user with userid as given userid
+        //links for doctors
+        //meet.google.com/hwx-fmjp-iou - subash    
+        // meet.google.com/nkn-bznq-zqk-shalini
+        // meet.google.com/mke-vwwk-ivp - amit
+        if (slot) {
+            //update the meetlink in the below line according to the doctor name from the input
+            if (slot.doctor=="Subash"){
+                res.json({ success: true, meetLink: meet.google.com/hwx-fmjp-iou });
+            }else if(slot.doctor=="Shalini"){
+                res.json({ success: true, meetLink: meet.google.com/nkn-bznq-zqk });
+            }else if(slot.doctor=="Amit"){
+                res.json({ success: true, meetLink: meet.google.com/mke-vwwk-ivp });
+            }
+        } else {
+            res
+            .status(404)
+            .json({ success: false, message: "No slot found for the user." });
+        }
+    }else {
+        console.log("Password incorrect.");
+        await client.close();
+        res.status(401).send("Password incorrect.");
+    }
 });
 
 //----------------------------------------------------------------------------------------------------------------
