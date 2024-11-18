@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const path = require('path');
+const cors = require("cors");
 const bodyParser = require('body-parser');
 const { inserting, finding,findall } = require('./demo');
 const session = require('express-session');
@@ -285,7 +286,18 @@ app.post('/updatedonor', async (req, res) => {
         await client.close();
     }
 });
+app.post("/api/getMeetingLink", (req, res) => {
+  const { userId } = req.body;
+  const slot = slots.find((slot) => slot.userId === userId);
 
+  if (slot) {
+    res.json({ success: true, meetLink: slot.meetLink });
+  } else {
+    res
+      .status(404)
+      .json({ success: false, message: "No slot found for the user." });
+  }
+});
 app.get('/Admin_avamedi', async (req, res) => {
     const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     const client = new MongoClient(uri);
