@@ -3,58 +3,140 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Available Medicines</title>
+    <title>Doctor Slot Booking</title>
     <link rel="icon" href="logoHC.jpeg" type="image/x-icon" />
-
-    <script
-      src="https://kit.fontawesome.com/d70dca505b.js"
-      crossorigin="anonymous"
-    ></script>
     <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-
     <style>
-      /* CSS code remains unchanged */
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      h1 {
+        font-size: 28px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .dropdown {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        color: #555;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .button-book,
+      .button-cancel {
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .button-book {
+        background-color: #4caf50;
+        color: white;
+        margin-right: 10px;
+      }
+
+      .button-book:hover {
+        background-color: #45a049;
+      }
+
+      .button-cancel {
+        background-color: #e53935;
+        color: white;
+      }
+
+      .button-cancel:hover {
+        background-color: #d32f2f;
+      }
+
+      .doctor-info {
+        margin: 20px 0;
+      }
+
+      .doctor-info h2 {
+        margin: 5px 0;
+        color: #333;
+      }
+
+      .doctor-info p {
+        color: #666;
+      }
     </style>
   </head>
   <body>
-    <%- include('navbarfin') %>
-    <div>
-      <img src="image.png" alt="Information" width="100%" />
-    </div>
-    <br /><br />
-    <div class="container main-content">
-      <div class="header">
-        <h1>Doctor Slot Booking</h1>
-        <select class="dropdown" id="doctorSelect" onchange="changeDoctor()">
-          <% doctors.forEach((doctor, index) => { %>
-          <option value="<%= index %>">
-            <%= doctor.first_name %> <%= doctor.last_name %> - <%= doctor.dept
-            %>
-          </option>
-          <% }); %>
-        </select>
-      </div>
+    <div class="container">
+      <h1>Doctor Slot Booking</h1>
+      <select class="dropdown" id="doctorSelect" onchange="changeDoctor()">
+        <% doctors.forEach((doctor, index) => { %>
+        <option value="<%= index %>">
+          <%= doctor.first_name %> <%= doctor.last_name %> - <%= doctor.dept %>
+        </option>
+        <% }); %>
+      </select>
 
       <div id="doctorContent">
         <% if (doctors && doctors.length > 0) { %>
         <div class="doctor-info">
           <h2><%= doctors[0].first_name %> <%= doctors[0].last_name %></h2>
-          <p><%= doctors[0].dept %></p>
+          <p>Department: <%= doctors[0].dept %></p>
         </div>
         <% } else { %>
         <p>No doctors available at the moment.</p>
         <% } %>
       </div>
 
-      <div class="table-container">
-        <table>
+      <table>
+        <thead>
           <tr>
             <th>Available Time Slots</th>
             <th>Action</th>
           </tr>
+        </thead>
+        <tbody>
           <% if (doctors.length > 0) {
           Object.keys(doctors[0].appointments).forEach(time => { %>
           <tr>
@@ -72,6 +154,7 @@
                 <button type="submit" class="button-cancel">Cancel Slot</button>
               </form>
               <% } else if (doctors[0].appointments[time] === "") { %>
+<<<<<<< HEAD
               <div style="display: flex; gap: 10px">
                 <form action="/bookDirectSlot" method="POST">
                   <input
@@ -111,6 +194,22 @@
                   </button>
                 </form>
               </div>
+=======
+              <form action="/bookDirectSlot" method="POST">
+                <input
+                  type="hidden"
+                  name="doctorName"
+                  value="<%= doctors[0].first_name %>"
+                />
+                <input type="hidden" name="slotTime" value="<%= time %>" />
+                <input
+                  type="hidden"
+                  name="userName"
+                  value="<%= loggedInUser.username %>"
+                />
+                <button type="submit" class="button-book">Direct Visit</button>
+              </form>
+>>>>>>> 501e8bed2e0a00de24fc53fe9684effe0ec05d32
               <% } else { %>
               <span>Booked</span>
               <% } %>
@@ -121,9 +220,10 @@
             <td colspan="2">No slots available.</td>
           </tr>
           <% } %>
-        </table>
-      </div>
+        </tbody>
+      </table>
     </div>
+<<<<<<< HEAD
 
     <%- include('footer') %>
 
@@ -189,5 +289,7 @@
         `;
       }
     </script>
+=======
+>>>>>>> 501e8bed2e0a00de24fc53fe9684effe0ec05d32
   </body>
 </html>
