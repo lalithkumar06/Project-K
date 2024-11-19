@@ -122,47 +122,147 @@ app.post("/loginpage", async (req, res) => {
 });
 
 //---------------------------------------------------------------------------------------------------
-
 app.post("/bookVirtualSlot", async (req, res) => {
-  const uri =
-    "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-  const client = new MongoClient(uri);
-  await client.connect();
-
-  const { doctorName, slotTime, userName, userPassword } = req.body;
-  const doctor = await finding(client, { first_name: doctorName }, "user");
-  const slot = {
-    username: userName,
-    doctor: doctorName,
-    slottime: slotTime,
-    userpassword: userPassword,
-  };
-  if (doctor) {
-    doctor.appointments[slotTime] = {
-      user: userName,
-      type: "virtual",
-      password: userPassword,
-      time: slotTime,
-    };
-
-    inserting(client, slot, "slots");
-    res.redirect("/slots");
-  } else {
-    res.status(404).send("Doctor not found");
-  }
-});
-app.post("/bookDirectSlot", async (req, res) => {
-  const { doctorName, slotTime, userName } = req.body;
-  const doctor = await Doctor.finding({ first_name: doctorName });
-
-  if (doctor) {
-    doctor.appointments[slotTime] = userName;
-    await doctor.save();
-    res.redirect("/slots");
-  } else {
-    res.status(404).send("Doctor not found");
-  }
-});
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    await client.connect();
+    console.log("Request body:", req.body);
+    const { doctorName, slotTime, userName } = req.body;
+    const person= req.session.person;
+    console.log(person);
+    try {
+      console.log("Finding doctor:", doctorName);
+      const doctor = await client.db("Medi").collection("user").findOne({ first_name: doctorName });
+      console.log("Doctor found:", doctor);
+  
+      if (doctor) {
+        console.log("Updating slot for:", slotTime, "with user:", userName);
+        const updateResult = await client
+          .db("Medi")
+          .collection("user")
+          .updateOne(
+            { first_name: doctorName },
+            { $set: { [`appointments.${slotTime}`]: { type: "virtual", pusername: userName } } }
+          );
+          let slottime= slotTime;
+          let starttimemin = slottime.slice(-2);
+          starttimemin = parseInt(starttimemin,10);
+           let starttimehours= slottime.slice(0,2);
+           starttimehours= parseInt(starttimehours);
+           if(starttimemin=== 30){
+            starttimehours=(starttimehours+1)%12;
+           }
+           starttimemin=(starttimemin+30)%60;
+          let startTime= slottime;
+           
+           let endtime;
+           if(starttimehours<=9){
+            endtime= "0"+starttimehours+":";
+           }else{
+            endtime= ""+starttimehours+":";
+           }
+           if(starttimemin===0){
+                endtime+="00";
+            }else{
+                endtime+="30";
+            }
+           console.log(endtime);
+        const data={username:person.username,password:person.pass,starttime:startTime,endtime:endtime,doctor:doctorName};
+        console.log(data);
+        await inserting(client,data,'slots');
+        console.log("Update result:", updateResult);
+        if (updateResult.modifiedCount > 0) {
+          res.redirect("/slotbooking");
+        } else {
+          res.status(400).send("Failed to book virtual slot");
+        }
+      } else {
+        res.status(404).send("Doctor not found");
+      }
+    } catch (error) {
+      console.error("Error booking virtual slot:", error);
+      res.status(500).send("Internal Server Error");
+    } finally {
+      await client.close();
+    }
+  });
+  
+  app.post("/bookDirectSlot", async (req, res) => {
+    
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    await client.connect();
+    console.log("Request body:", req.body);
+    const { doctorName, slotTime, userName } = req.body;
+  
+    try {
+      console.log("Finding doctor:", doctorName);
+      const doctor = await client.db("Medi").collection("user").findOne({ first_name: doctorName });
+      console.log("Doctor found:", doctor);
+  
+      if (doctor) {
+        console.log("Updating slot for:", slotTime, "with user:", userName);
+        const updateResult = await client
+          .db("Medi")
+          .collection("user")
+          .updateOne(
+            { first_name: doctorName },
+            { $set: { [`appointments.${slotTime}`]: { type: "offline", pusername: userName } } }
+          );
+  
+        console.log("Update result:", updateResult);
+        if (updateResult.modifiedCount > 0) {
+          res.redirect("/slotbooking");
+        } else {
+          res.status(400).send("Failed to book offline slot");
+        }
+      } else {
+        res.status(404).send("Doctor not found");
+      }
+    } catch (error) {
+      console.error("Error booking direct slot:", error);
+      res.status(500).send("Internal Server Error");
+    } finally {
+      await client.close();
+    }
+  });
+  app.post("/cancelSlot", async (req, res) => {
+    const uri = "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const client = new MongoClient(uri);
+    await client.connect();
+  
+    const { doctorName, slotTime } = req.body;
+  
+    try {
+      // Find the doctor
+      const doctor = await client.db("Medi").collection("user").findOne({ first_name: doctorName });
+  
+      if (doctor) {
+        // Clear the specific appointment slot
+        const updateResult = await client
+          .db("Medi")
+          .collection("user")
+          .updateOne(
+            { first_name: doctorName },
+            { $set: { [`appointments.${slotTime}`]: { type: "", pusername: "" } } }
+          );
+  
+        if (updateResult.modifiedCount > 0) {
+          res.redirect("/slotbooking");
+        } else {
+          res.status(400).send("Failed to cancel slot");
+        }
+      } else {
+        res.status(404).send("Doctor not found");
+      }
+    } catch (error) {
+      console.error("Error canceling slot:", error);
+      res.status(500).send("Internal Server Error");
+    } finally {
+      await client.close();
+    }
+  });
+  
 app.post("/api/getMeetingLink", async (req, res) => {
   const uri =
     "mongodb+srv://handicrafts:test123@cluster0.uohcfax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -768,53 +868,53 @@ app.get('/homeadmin', async (req, res) => {
     }
 });
 
-app.post('/bookslot', async (req, res) => {
-    const { doctorName, slotTime, userName } = req.body;
-    const client = new MongoClient(uri);
-    try {
-        await client.connect();
-        const db = client.db('Medi');
-        const doctorUpdate = await db.collection('user').updateOne(
-            { "first_name": doctorName, [`appointments.${slotTime}`]: "" },
-            { $set: { [`appointments.${slotTime}`]: userName } }
-        );
-        const userUpdate = await db.collection('user').updateOne(
-            { "username": userName },
-            { $set: { [`appointments.${slotTime}`]: doctorName } }
-        );
+// app.post('/bookslot', async (req, res) => {
+//     const { doctorName, slotTime, userName } = req.body;
+//     const client = new MongoClient(uri);
+//     try {
+//         await client.connect();
+//         const db = client.db('Medi');
+//         const doctorUpdate = await db.collection('user').updateOne(
+//             { "first_name": doctorName, [`appointments.${slotTime}`]: "" },
+//             { $set: { [`appointments.${slotTime}`]: userName } }
+//         );
+//         const userUpdate = await db.collection('user').updateOne(
+//             { "username": userName },
+//             { $set: { [`appointments.${slotTime}`]: doctorName } }
+//         );
 
-        res.redirect('/slotbooking');
-    } finally {
-        await client.close();
-    }
-});
-app.post("/cancelSlot", async (req, res) => {
-  const { doctorName, slotTime } = req.body;
-  const client = new MongoClient(uri);
-  try {
-    await client.connect();
-    const db = client.db("Medi");
-    await db
-      .collection("doctors")
-      .updateOne(
-        {
-          first_name: doctorName,
-          [`appointments.${slotTime}`]: req.session.person.username,
-        },
-        { $set: { [`appointments.${slotTime}`]: "" } }
-      );
-    await db
-      .collection("users")
-      .updateOne(
-        { username: req.session.person.username },
-        { $unset: { [`appointments.${slotTime}`]: "" } }
-      );
+//         res.redirect('/slotbooking');
+//     } finally {
+//         await client.close();
+//     }
+// });
+// app.post("/cancelSlot", async (req, res) => {
+//   const { doctorName, slotTime } = req.body;
+//   const client = new MongoClient(uri);
+//   try {
+//     await client.connect();
+//     const db = client.db("Medi");
+//     await db
+//       .collection("doctors")
+//       .updateOne(
+//         {
+//           first_name: doctorName,
+//           [`appointments.${slotTime}`]: req.session.person.username,
+//         },
+//         { $set: { [`appointments.${slotTime}`]: "" } }
+//       );
+//     await db
+//       .collection("users")
+//       .updateOne(
+//         { username: req.session.person.username },
+//         { $unset: { [`appointments.${slotTime}`]: "" } }
+//       );
 
-    res.redirect("/slotbooking");
-  } finally {
-    await client.close();
-  }
-});
+//     res.redirect("/slotbooking");
+//   } finally {
+//     await client.close();
+//   }
+// });
 
 // // Connect to MongoDB
 // mongoose.connect(
