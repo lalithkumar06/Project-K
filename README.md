@@ -27,14 +27,16 @@ License
 Contact
 
 Features
-Virtual Consultations: Connect with doctors via Google Meet for non-critical issues.
-Slot Booking System: Schedule appointments effortlessly.
 Medication Reminders: Get timely alerts for your prescribed medications.
 User Authentication: Secure login and session management.
 Mobile-Friendly Design: Fully responsive for access on any device.
 Dynamic Content: Rendered with EJS templates for interactive interfaces.
 Task Automation: Periodic tasks handled by Node-Cron.
 Scalable Backend: Built on a lightweight and flexible Node.js framework.
+Virtual Consultations: Connect with doctors via Google Meet for non-critical issues.
+Slot Booking System: Schedule appointments effortlessly.
+
+
 Prerequisites
 Ensure the following are installed on your system:
 
