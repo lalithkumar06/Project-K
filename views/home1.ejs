@@ -586,6 +586,8 @@
           document.querySelectorAll('input[name="medTimes"]')
         ).map((input) => input.value);
 
+        console.log({ medName, frequency, medTimes }); // Debugging
+
         const response = await fetch("/set-reminder", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -599,6 +601,7 @@
           alert("Failed to set reminder.");
         }
       };
+
 
     </script>
   </body>
