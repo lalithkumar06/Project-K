@@ -1,7 +1,7 @@
 {
   "name": "project-k",
   "version": "1.0.0",
-  "description": "",
+  "description": "HealthConnect HealthConnect is an innovative web platform that bridges the gap between college students and health center services. Designed to streamline health-related interactions, it offers features like virtual consultations, appointment booking, and medication reminders. The application is built with a modern tech stack to ensure performance, scalability, and user satisfaction.",
   "main": "index.js",
   "dependencies": {
     "accepts": "^1.3.8",
@@ -88,5 +88,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beast-codez/Project-K.git"
+  },
+  "bugs": {
+    "url": "https://github.com/beast-codez/Project-K/issues"
+  },
+  "homepage": "https://github.com/beast-codez/Project-K#readme"
 }
